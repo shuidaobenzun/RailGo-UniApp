@@ -1,0 +1,19 @@
+{
+    "id": "xtshadow-axios",
+    "name": "axios-ts",
+    "version": "1.0.4",
+    "description": "uniapp 环境下的axios的实现，建议使用cli模式安装",
+    "keywords": [
+        "axios",
+        "request",
+        "typescript",
+        "cli",
+        "vscode"
+    ],
+    "dcloudext": {
+        "category": [
+            "JS SDK",
+            "通用 SDK"
+        ]
+    }
+}

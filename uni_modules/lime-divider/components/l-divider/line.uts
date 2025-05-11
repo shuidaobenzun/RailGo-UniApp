@@ -1,0 +1,168 @@
+// @ts-nocheck
+function getSize(dividerElement: UniElement):number[] {
+	const rect = dividerElement.getBoundingClientRect();
+	let width = rect.width;
+	let height = rect.height;
+	
+	if (width == 0) {
+		width = 1;
+		dividerElement.style.setProperty('width', '1px');
+	}
+	if (height == 0) {
+		height = 1;
+		dividerElement.style.setProperty('height', '1px');
+	}
+	
+	return [width, height]
+}
+
+function setOffset(dividerElement: UniElement, vertical: boolean, offset: number) {
+	const paddingKey = `padding-${vertical ? 'top' : 'left'}`
+	const paddingValue = dividerElement.style.getPropertyValue(paddingKey)
+	const paddingStr = `${offset}px`
+	if (paddingValue != paddingStr) {
+		dividerElement.style.setProperty(`padding-${vertical ? 'top' : 'left'}`, `${offset}px`);
+	}
+}
+
+export function drawLine(dividerElement : UniElement | null, contentElement : UniElement | null, hasContent:boolean, color : string|null, align : string, dashed : boolean, vertical : boolean) {
+	
+	if (dividerElement == null) return;
+	const innerRect = contentElement?.getBoundingClientRect();
+	const [width, height] = getSize(dividerElement)
+	const ctx = dividerElement.getDrawableContext()!;
+	const margin = 10;
+	const maxSize = 60;
+	const outerSize = vertical ? height : width;
+	const innerSize = (vertical ? (innerRect?.height ?? 0) : (innerRect?.width ?? 0)) + (innerRect != null ? margin * 2 : 0);
+	const remainingSize = outerSize - innerSize;
+	let leftOffset = ['left', 'right'].includes(align)
+		? remainingSize / 2 > maxSize
+			? maxSize
+			: remainingSize / 2
+		: remainingSize / 2;
+	let rightOffset = remainingSize - leftOffset;
+	if (align == 'right') {
+		leftOffset = leftOffset + rightOffset; // leftOffset 现在包含两者之和
+		rightOffset = leftOffset - rightOffset; // rightOffset 现在等于原来的 leftOffset
+		leftOffset = leftOffset - rightOffset; // leftOffset 现在等于原来的 rightOffset
+	}
+	setOffset(dividerElement, vertical, leftOffset + margin);
+	ctx.reset();
+	ctx.strokeStyle = color ?? dividerElement.style.getPropertyValue('border-left-color') ?? '#e7e7e7';
+	ctx.lineWidth = 0.7;
+	if (dashed) {
+		ctx.setLineDash([8, 4])
+	}
+	// 左
+	let x1 = vertical ? width / 2 : 0;
+	let y1 = vertical ? 0 : height / 2;
+	let x2 = vertical ? x1 : leftOffset;
+	let y2 = vertical ? leftOffset : y1;
+	// 右
+	let x3 = vertical ? x1 : x1 + leftOffset + innerSize;
+	let y3 = vertical ? y1 + leftOffset + innerSize : y1;
+	let x4 = vertical ? x1 : outerSize;
+	let y4 = vertical ? outerSize : y1;
+	// console.log('x1', x1)
+	// console.log('y1', y1)
+	// console.log('x2', x2)
+	// console.log('y2', y2)
+	// console.log('x3', x3)
+	// console.log('y3', y3)
+	// console.log('x4', x4)
+	// console.log('y4', y4)
+	ctx.beginPath()
+	if (hasContent) {
+		ctx.moveTo(x1, y1)
+		ctx.lineTo(x2, y2)
+		ctx.stroke()
+		ctx.beginPath()
+		ctx.moveTo(x3, y3)
+		ctx.lineTo(x4, y4)
+	} else {
+		ctx.moveTo(x1, y1)
+		ctx.lineTo(x4, y4)
+	}
+	ctx.stroke()
+	ctx.update()
+
+}
+
+// const drawLine = (dividerElement: UniElement|null, contentElement: UniElement|null, color: string, align: string, dashed: boolean, vertical: boolean)=>{
+	// 	if(resizeRef.value == null) return;
+	// 	const rect = resizeRef.value!.getBoundingClientRect();
+	// 	const innerRect = resizeInnerRef.value?.getBoundingClientRect();
+		
+	// 	let width = rect.width;
+	// 	let height = rect.height;
+		
+	// 	if(width == 0) {
+	// 		width = 1;
+	// 		resizeRef.value!.style.setProperty('width', '1px');
+	// 	}
+	// 	if(height == 0) {
+	// 		height = 1;
+	// 		resizeRef.value!.style.setProperty('height', '1px');
+	// 	}
+		
+	// 	const ctx = resizeRef.value!.getDrawableContext()!;
+	// 	const margin = 10;
+	// 	const align = props.align;
+	// 	const color = props.color;
+	// 	const maxSize = 60;
+	// 	const outerSize = props.vertical ? height : width;
+	// 	const innerSize  = (props.vertical ? (innerRect?.height ?? 0) : (innerRect?.width ?? 0)) + (innerRect != null ? margin * 2 : 0);
+	// 	const remainingSize  = outerSize - innerSize ;
+	// 	let leftOffset  =  ['left', 'right'].includes(props.align)
+	// 		? remainingSize  / 2 > maxSize 
+	// 			? maxSize 
+	// 			: remainingSize  / 2
+	// 		: remainingSize  / 2;
+	// 	let rightOffset = remainingSize - leftOffset;
+	// 	if(props.align == 'right') {
+	// 		leftOffset = leftOffset + rightOffset; // leftOffset 现在包含两者之和
+	// 		rightOffset = leftOffset - rightOffset; // rightOffset 现在等于原来的 leftOffset
+	// 		leftOffset = leftOffset - rightOffset; // leftOffset 现在等于原来的 rightOffset
+	// 	}
+		
+	// 	ctx.reset();
+	// 	ctx.strokeStyle = props.color
+	// 	ctx.lineWidth = 0.7;
+	// 	if(props.dashed) {
+	// 		ctx.setLineDash([8, 4])
+	// 	}
+	// 	// 左
+	// 	let x1 = props.vertical ? width / 2 : 0;
+	// 	let y1 = props.vertical ? 0 : height / 2;
+	// 	let x2 = props.vertical ? x1 : leftOffset ;
+	// 	let y2 = props.vertical ? leftOffset  : y1;
+	// 	// 右
+	// 	let x3 = props.vertical ? x1 : x1 + leftOffset  + innerSize ;
+	// 	let y3 = props.vertical ? y1 + leftOffset  + innerSize  : y1;
+	// 	let x4 = props.vertical ? x1 : outerSize;
+	// 	let y4 = props.vertical ? outerSize : y1;
+		
+
+	// 	const paddingKey = `padding-${ props.vertical ? 'top': 'left'}`
+	// 	const paddingValue = resizeRef.value!.style.getPropertyValue(paddingKey)
+	// 	const paddingStr = `${leftOffset + margin}px`
+	// 	if(paddingValue != paddingStr) {
+	// 		resizeRef.value!.style.setProperty(`padding-${ props.vertical ? 'top': 'left'}`, `${leftOffset + margin }px`);
+	// 	}
+	// 	ctx.beginPath()
+	// 	if(hasContent.value) {
+	// 		ctx.moveTo(x1, y1)
+	// 		ctx.lineTo(x2, y2)
+	// 		ctx.stroke()
+	// 		ctx.beginPath()
+	// 		ctx.moveTo(x3, y3)
+	// 		ctx.lineTo(x4, y4)
+	// 	} else {
+	// 		ctx.moveTo(x1, y1)
+	// 		ctx.lineTo(x4, y4)
+	// 	}
+	// 	ctx.stroke()
+	// 	ctx.update()
+		
+	// }

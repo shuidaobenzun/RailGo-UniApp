@@ -1,0 +1,92 @@
+<template>
+	<scroll-view 
+	style="padding:0 20rpx;"
+	class="ux-flex1 ux-relative" 
+	:scroll-y="true" 
+	:show-scrollbar="false" 
+	:scroll-into-view="scrollIntoViewId">
+		<view 
+		v-for="(item, idx) in AZData">
+			<text class="ux-city-AZ" 
+			:id="'AZ-'+item">{{item}}</text>
+			<text 
+			v-for="(city, _) in cities[idx]" 
+			class="ux-city-item" 
+			:id="'city'+city.code"
+			@tap="chooseCity(city)">
+				{{city.name}}
+			</text>
+		</view>
+		<view class="ux-city-AZ-right">
+			<text 
+			v-for="(char, index) in AZData" 
+			:class="['ux-city-AZ-right-item', char == changAZLetter?'ux-AZ-active':'']" 
+			:key="index" 
+			:data-char="char" 
+			@tap="changAZ(char)">{{char}}</text>
+		</view>
+	</scroll-view>
+</template>
+<script lang="uts">
+import {AZ, cityData, CityItem} from '@/uni_modules/unix-ui/data/cityData.uts';
+export default {
+	data() {
+		return {
+			AZData:AZ as string[],
+			cities:cityData as CityItem[][],
+			scrollIntoViewId : "",
+			changAZLetter : "A",
+			searchTimer :-1
+		}
+	},
+	methods: {
+		// 选择
+		chooseCity : function(city:CityItem){
+			this.$emit("choose",[city.name, city.code, city.pinyin]);
+		},
+		changAZ: function(letter:string){
+			this.changAZLetter = letter;
+			this.scrollIntoViewId = "AZ-"+letter;
+		},
+		search : function(kwd:string){
+			kwd = kwd.toLowerCase();
+			if(kwd == ''){
+				this.scrollIntoViewId = "AZ-A";
+				return
+			}
+			if(this.searchTimer >= 0){
+				clearTimeout(this.searchTimer);
+			}
+			this.searchTimer = setTimeout(()=>{
+				this.searchBase(kwd);
+			}, 200);
+		},
+		searchBase : function(kwd:string){
+			var searchCode = "";
+			for(var i = 0; i < this.cities.length; i++){
+				var cities = this.cities[i];
+				for(var ii = 0; ii < cities.length; ii++){
+					var city = cities[ii];
+					if(city.name.indexOf(kwd) == 0 || city.pinyin.indexOf(kwd) == 0){
+						searchCode = city.code;
+						break;
+					}
+				}
+				if(searchCode != ""){break ;}
+			}
+			if(searchCode != ""){
+				this.scrollIntoViewId = 'city'+searchCode;
+			}
+		}
+	},
+	emits:['choose']
+}
+</script>
+<style scoped>
+.ux-h6{line-height:80rpx; font-size:28rpx;}
+.ux-city-AZ{font-weight:bold; line-height:88rpx; font-size:30rpx;}
+.ux-city-AZ-right{width:50rpx; position:fixed; right:30rpx; top:80px; z-index:2;}
+.ux-city-AZ-right-item{line-height:38rpx; height:38rpx; width:38rpx; border-radius:40rpx; font-size:22rpx; text-align:center; color:#353535;}
+.ux-AZ-active{background-color:#F7F8F9;}
+.ux-city-item{line-height:82rpx; height:82rpx; font-size:26rpx;}
+</style>

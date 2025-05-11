@@ -1,0 +1,82 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index"
+		},
+		{
+			"path" : "pages/emu/query"
+		},
+		{
+			"path" : "pages/emu/result"
+		},
+		{
+			"path" : "pages/about/about",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/about/member",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/station/query",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/station/result",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/train/query",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/train/result",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/train/trainResult",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/about/egg",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "RailGo",
+		"navigationBarBackgroundColor": "#114598",
+		"backgroundColor": "#F8F8F8",
+		"enablePullDownRefresh" : false,
+		"app-plus": {
+			"titleNView": false,
+			"animationType": "pop-in",
+			"animationDuration": 100
+		}
+	},
+	"uniIdRouter": {}
+}

@@ -1,0 +1,137 @@
+@import '@/uni_modules/lime-style/index.scss';
+
+$divider: l-divider;
+$divider-color: create-var(divider-color, $gray-3) !default;
+$divider-text-color: create-var(divider-text-color, $text-color-3) !default;
+$divider-font-size: create-var(divider-font-size, 12px) !default;
+$divider-line-height: create-var(divider-line-height, 20px) !default;
+$divider-line-style: create-var(divider-line-style, solid);
+$divider-margin: create-var(divider-margin, 10px);
+
+
+/* #ifdef MP */
+:host {
+	align-self: stretch;
+	display: flex;
+}
+/* #endif*/
+
+
+.#{$divider} {
+	flex-direction: row;
+	// transition: padding 100ms;
+	/* #ifdef MP */
+	flex:1;
+	/* #endif*/
+	/* #ifdef APP-ANDROID || APP-IOS || APP-HARMONY  */
+	// 用于给APP获取颜色
+	border-left-color:$divider-color;
+	border-left-width: 0;
+	/* #endif*/
+	/* #ifndef APP-ANDROID || APP-IOS || APP-HARMONY  */
+	display: flex;
+	
+	color: $divider-text-color;
+	border-color: $divider-color;
+	border-style: $divider-line-style;
+	border-width: 0;
+	/* #ifdef APP-NVUE */
+	&__before,
+	&__after,
+	/* #endif */
+	/* #ifndef APP-NVUE */
+	&::before,
+	&::after
+	/* #endif */
+	{
+		content: '';
+		display: block;
+		flex: 1;
+		box-sizing: border-box;
+		border: inherit;
+		border-color: inherit;
+		border-style: inherit;
+	}
+	&--horizontal {
+		align-items: center;
+		margin-top: $divider-margin;
+		margin-bottom: $divider-margin;
+		/* #ifdef APP-NVUE */
+		.l-divider__before,
+		.l-divider__after,
+		/* #endif */
+		/* #ifndef APP-NVUE */
+		&::before,
+		&::after 
+		/* #endif */
+		{
+			border-top-width: 1px;
+			transform: scaleY(0.5);
+		}
+		
+		.l-divider__content:not(:empty) {
+			margin: 0 24rpx;
+		}
+	}
+	&--vertical {
+		align-self: stretch;
+		flex-direction: column;
+		// height: 1em;
+		// width: 1em;
+		// line-height: 1.2;
+		margin: 0 $divider-margin;
+		/* #ifdef APP-NVUE */
+		.l-divider__before,
+		.l-divider__after,
+		/* #endif */
+		/* #ifndef APP-NVUE */
+		&::before,
+		&::after 
+		/* #endif */
+		{
+			border-left-width: 1px;
+			transform: scaleX(0.5);
+		}
+	
+		&-center {
+			align-items: center;
+			height: 100%;
+		}
+		.#{$divider}  {
+			&__content {
+				line-height: 1.2;
+				/* #ifndef APP-ANDROID || APP-IOS || APP-HARMONY */
+				width: 1em;
+				/* #endif */
+			}
+		}
+	}
+	&--dashed {
+		border-style: dashed;
+	}
+	&--left::before,
+	&--right::after {
+		max-width: 60rpx;
+	}
+	/* #endif */
+	
+	&__content {
+		font-size: $divider-font-size;
+		line-height: $divider-line-height;
+		color: $divider-text-color;
+	}
+	/* #ifdef APP-ANDROID || APP-IOS || APP-HARMONY */
+	&__inner {
+		align-self: flex-start;
+	}
+	&--vertical {
+		align-self: stretch;
+		width: $divider-font-size;
+		.#{$divider}  {
+			&__content {
+				line-height: 1.2;
+			}
+		}
+	}
+	/* #endif */
+}
