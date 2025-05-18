@@ -1,19 +1,19 @@
 {
-  "hash": "f4c15cee",
-  "configHash": "b2f9f66d",
+  "hash": "603ba767",
+  "configHash": "61d27010",
   "lockfileHash": "e72a8ab5",
-  "browserHash": "59cea50c",
+  "browserHash": "9cd503e3",
   "optimized": {
     "axios": {
       "src": "../../../../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "60e990b7",
+      "fileHash": "945c43ef",
       "needsInterop": false
     },
     "@vue/reactivity": {
       "src": "../../../../../node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js",
       "file": "@vue_reactivity.js",
-      "fileHash": "54198b3b",
+      "fileHash": "f975aa03",
       "needsInterop": false
     }
   },

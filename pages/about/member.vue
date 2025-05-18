@@ -6,29 +6,51 @@
 				<uni-icons class="va" color="white" type="arrow-left" size="25"></uni-icons>
 			</view>
 			&nbsp;&nbsp;
-			<text class="ux-h4 ux-color-white va">开发人员</text>
+			<text class="ux-h4 ux-color-white va">特别鸣谢</text>
 		</view>
 
 		<!-- Main content -->
-		<view class="content">
-			<text class="ux-text-center ux-h3 thanks-text">Thanks</text>
-			<view class="developer-list">
-				<text class="ux-h5 developer-name">@XHG78999</text>
-				<text class="ux-h5 developer-name">@zlk-sys（辰墨）</text>
-				<text class="ux-h5 developer-name">@mstouk57g</text>
-			</view>
+		<view style=" margin-left: 15rpx;"><br/>
+		<uni-section title="开发者" type="line" style="background-color: transparent;" title-font-size="35rpx"></uni-section>
+		<fui-avatar src="https://q1.qlogo.cn/g?b=qq&s=100&nk=1316280182"></fui-avatar>&nbsp;
+		<fui-avatar src="https://q1.qlogo.cn/g?b=qq&s=100&nk=572747232"></fui-avatar>&nbsp;
+		<fui-avatar src="https://q1.qlogo.cn/g?b=qq&s=100&nk=1219439938"></fui-avatar>&nbsp;
+		<fui-avatar src="https://q1.qlogo.cn/g?b=qq&s=100&nk=3776473661"></fui-avatar>&nbsp;
 		</view>
+		
+		<view style=" margin-left: 15rpx;"><br/>
+		<uni-section title="反馈" type="line" style="background-color: transparent;" title-font-size="35rpx"></uni-section>
+		    <fui-avatar v-for="(nk, index) in items" :src="`https://q1.qlogo.cn/g?b=qq&s=100&nk=${nk}`"></fui-avatar>
+		</view>
+		
 	</view>
 </template>
 
 <script>
+	import axios from "axios";
+
 	export default {
+		// Railgo Code
+		data() {
+			return {
+				items: []
+			};
+		},
+		mounted() {
+			this.fetchData();
+		},
 		methods: {
-			back: function() {
-				uni.navigateBack()
+			async fetchData() {
+				try {
+					const Response = await axios.get("https://feedback.azteam.cn/api/get_users");
+					this.items = Response.data.users;
+				} catch (error) {
+					console.error('Error fetching data:', error);
+					this.items = [];
+				}
 			}
 		}
-	}
+	};
 </script>
 
 <style>

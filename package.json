@@ -1,7 +1,20 @@
 {
-  "dependencies": {
-    "ant-design-vue": "^4.2.6",
-    "uniapp-axios-adapter": "^0.3.2",
-    "vue-axios": "^3.5.2"
-  }
+    "id": "fui-avatar",
+    "name": "Avatar 头像",
+    "version": "v2.3.0",
+    "description": "FirstUI Avatar 头像，用图标、图片或者字符的形式展示用户或事物信息。",
+    "keywords": [
+        "Avatar",
+        "头像",
+        "FirstUI",
+        "Nvue",
+        "组件"
+    ],
+    "dcloudext": {
+        "category": [
+            "前端组件",
+            "通用组件"
+        ]
+    },
+    "displayName": "Avatar 头像"
 }
