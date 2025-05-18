@@ -4,6 +4,31 @@
 	let firstBackTime = 0;
 	export default {
 		onLaunch: function () {
+		  const value = uni.getStorageSync('launchFlag');
+		  if (value) {
+			// 不做操作
+		  } else {
+			uni.setStorage({
+			  key: 'launchFlag',
+			  data: true
+			});
+			uni.setStorage({
+			  key: 'version',
+			  data: 1
+			});
+			uni.setStorage({
+			  key: 'versionText',
+			  data: "1.0.0 Pre 1"
+			});
+			uni.setStorage({
+			  key: 'offlineDataVersion',
+			  data: 0
+			});
+			uni.setStorage({
+			  key: 'offlineDataVersionText',
+			  data: ""
+			});
+		  }
 		},
 		onShow: function () { },
 		onHide: function () { },

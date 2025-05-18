@@ -40,6 +40,9 @@
 			this.fetchData();
 		},
 		methods: {
+			back: function() {
+				uni.navigateBack()
+			},
 			async fetchData() {
 				try {
 					const Response = await axios.get("https://feedback.azteam.cn/api/get_users");
