@@ -14,7 +14,8 @@
 			<br/>
 			<image src="~@/static/logo.png" style="width: 140rpx; height: 140rpx;" @click="add"></image><br/>
 			<text class="ux-bold ux-h4">RailGo</text><br/>
-			<text style="font-size: 12px; color: grey;">Version 1.0 Pre</text>
+			<text style="font-size: 12px; color: grey;">Version {{version}}</text><br>
+			<text style="font-size: 12px; color: grey;">离线数据 {{offline}}</text>
 		</view>
 
 		<view class="ux-padding ux-bg-grey5">
@@ -34,7 +35,7 @@
 			</navigator>
 			<navigator url="/pages/about/update/db" class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small ux-padding ux-mt-small">
 				<view class="ux-flex ux-space-between">
-					<text class="ux-text-small">更新离线数据</text>
+					<text class="ux-text-small">更新</text>
 					<text class="ux-text-small ux-color-grey1"><text class="icon">&#xe5c8;</text></text>
 				</view>
 			</navigator>
@@ -55,7 +56,9 @@
 	export default {
 		data() {
 			return {
-				count: 0
+				count: 0,
+				version: uni.getStorageSync("versionText"),
+				offline: uni.getStorageSync("offlineDataVersionText")
 			};
 		},
 		methods: {
