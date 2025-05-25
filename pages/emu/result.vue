@@ -66,6 +66,9 @@
 				title:"加载中"
 			});
 		},
+		onShow() {
+			plus.navigator.setStatusBarBackground('#eeeeee');
+		},
 		methods: {
 			back: function() {
 				uni.navigateBack()

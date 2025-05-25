@@ -278,8 +278,8 @@
 					this.carData = toRaw(await queryMainKey("trains", this.title)).at(0);
 					this.cardColor = this.colorMap[this.carData.numberKind];
 					//console.log(this.carData);
-					
 				} catch (error) {
+					
 					console.error("数据加载失败", error);
 				}
 			},

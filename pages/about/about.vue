@@ -29,7 +29,7 @@
 			</view>
 			<navigator url="/pages/about/member" class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small ux-padding ux-mt-small">
 				<view class="ux-flex ux-space-between">
-					<text class="ux-text-small">特别鸣谢</text>
+					<text class="ux-text-small">贡献</text>
 					<text class="ux-text-small ux-color-grey1"><text class="icon">&#xe5c8;</text></text>
 				</view>
 			</navigator>
@@ -60,6 +60,9 @@
 				version: uni.getStorageSync("versionText"),
 				offline: uni.getStorageSync("offlineDataVersionText")
 			};
+		},
+		onShow() {
+			plus.navigator.setStatusBarBackground('#114598');
 		},
 		methods: {
 			back: function() {

@@ -46,6 +46,9 @@
 				"future": true
 			}
 		},
+		onShow() {
+			plus.navigator.setStatusBarBackground('#eeeeee');
+		},
 		methods: {
 			back: function() {
 				uni.navigateBack()

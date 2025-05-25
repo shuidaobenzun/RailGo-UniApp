@@ -2,10 +2,18 @@
 
 let db = {};
 let isLoaded = false;
+let isLoading = false;
 
 // 加载数据库的私有方法
-async function loadDB() {
+export async function loadDB() {
 	return new Promise((resolve, reject) => {
+		if(isLoading){
+			while(isLoading){
+				;
+			}
+			return;
+		}
+		isLoading = true;
 		// #ifdef APP-PLUS
 		// APP端使用plus.io读取本地文件
 		plus.io.requestFileSystem(plus.io.PRIVATE_DOC, (fs) => {
@@ -18,6 +26,7 @@ async function loadDB() {
 						try {
 							db = JSON.parse(evt.target.result);
 							isLoaded = true;
+							isLoading = false;
 							resolve();
 						} catch (e) {
 							reject(new Error('解析JSON失败'));
@@ -25,9 +34,11 @@ async function loadDB() {
 					};
 					reader.readAsText(file);
 				}, (e) => {
+					isLoading = false;
 					reject(new Error('读取文件失败'));
 				});
 			}, (e) => {
+				isLoading = false;
 				reject(new Error('文件不存在'));
 			});
 		});
@@ -41,12 +52,15 @@ async function loadDB() {
 				try {
 					db = res.data;
 					isLoaded = true;
+					isLoading = false;
 					resolve();
 				} catch (e) {
+					isLoading = false;
 					reject(new Error('解析JSON失败'));
 				}
 			},
 			fail: () => {
+				isLoading = false;
 				reject(new Error('获得JSON失败'));
 			}
 		});

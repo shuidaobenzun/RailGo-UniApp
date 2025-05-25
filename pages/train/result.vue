@@ -2,7 +2,7 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-flex ux-align-items-start ux-bg-primary ux-padding">
+		<view class="ux-flex ux-align-items-center ux-bg-primary ux-padding">
 			<view style="border-radius:50%;" hover-class="ux-tap" @click="back">
 				<uni-icons class="va" color="white" type="arrow-left" size="25"></uni-icons>
 			</view>
@@ -50,6 +50,9 @@
 	import {
 		toRaw
 	} from "@vue/reactivity";
+	import {
+		TRAIN_KIND_COLOR_MAP
+	} from "@/scripts/config.js";
 	export default {
 		data() {
 			return {
@@ -57,26 +60,7 @@
 				"date": "",
 				"data": [],
 				"title": "",
-				"colorMap": {
-					"": "#a9dfbf", // 普慢
-					"1": "#a9dfbf", // 普慢
-					"2": "#a9dfbf", // 普慢
-					"3": "#a9dfbf", // 普慢
-					"4": "#a9dfbf", // 普慢
-					"5": "#a9dfbf", // 普慢
-					"6": "#a9dfbf", // 普慢
-					"7": "#a9dfbf", // 普慢
-					"8": "#a9dfbf", // 普慢
-					"K": "#f39c12", // 快速
-					"T": "#114514", // 特快
-					"Z": "#114598", // 直特
-					"G": "#c0392b", // 高动
-					"D": "#5499c7", // 动车+城际
-					"C": "#98c0da",
-					"S": "#8e44ad", // 市域
-					"L": "#a9dfbf", // 临客
-					"Y": "#f39c12" // 旅游
-				}
+				"colorMap": TRAIN_KIND_COLOR_MAP
 			}
 		},
 		onLoad(options) {
@@ -84,6 +68,9 @@
 			this.title = this.keyword
 			this.date = options.date;
 			this.fillInData();
+		},
+		onShow() {
+			plus.navigator.setStatusBarBackground('#114598');
 		},
 		methods: {
 			back: function() {
@@ -100,6 +87,9 @@
 						});
 					});
 					this.data = response.data;*/
+					uni.showLoading({
+						title:"加载中"
+					});
 					this.data = toRaw(await query("trains", (item) => {
 						if (this.keyword[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
 							for (var i = 0; i < item.numberFull.length; i++) {
@@ -118,10 +108,32 @@
 						return false;
 					})).sort((a, b) => parseInt(a.numberFull.join("/").match(/\d+/)[0]) - parseInt(b.numberFull
 						.join("/").match(/\d+/)[0]));
-					console.log(this.data)
+					if(this.data.length==0){
+						uni.showModal({
+							title: '提示',
+							content: '未查询到与条件相符的数据',
+							showCancel: false,
+							success: function (res) {
+								this.back();
+							}
+						});
+						return;
+					}else if(this.data.length==1){
+						uni.navigateTo({
+							url: '/pages/train/trainResult?keyword='+this.data[0].number
+						});
+					}
 				} catch (error) {
 					console.error("数据加载失败", error);
+					uni.showToast({
+						title:"加载失败",
+						duration:1000
+					});
 				}
+				uni.hideLoading();
+			},
+			runsToday: function(item){
+				
 			}
 		}
 	}

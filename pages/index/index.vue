@@ -1,8 +1,8 @@
 <template>
 	<view class="ux-padding ux-bg-grey5" style="height: 100vh;">
-		<scroll-view class="main">
-			<view class="ux-flex ux-space-between">
-				<image src="/static/index-logo.png" mode="widthFix" style="width:20vh;"></image>
+		<scroll-view>
+			<view class="ux-flex ux-space-between ux-align-items-center">
+				<image src="/static/index-logo.png" mode="widthFix" style="width:250rpx;"></image>
 				<view style="border-radius:50%;" hover-class="ux-tap">
 					<navigator url="/pages/about/about">
 						<text class="icon section-icon ux-pt-small">&#xe5d4;</text>
@@ -18,7 +18,7 @@
 				</view>
 				<view class="center">
 					<swiper vertical autoplay interval="2500" duration="300" circular>
-						<swiper-item v-for="(item, index) in items" :key="index" style="font-size: 12px;"
+						<swiper-item v-for="(item, index) in items" :key="index" style="font-size: 12rpx;"
 							class="ux-pl-small ux-opacity-8">
 							{{ item }}
 						</swiper-item>
@@ -105,6 +105,11 @@
 		},
 		mounted() {
 			this.fetchData();
+		},
+		onShow() {
+			// #ifdef APP
+			plus.navigator.setStatusBarBackground('#eeeeee');
+			// #endif
 		},
 		methods: {
 			async fetchData() {

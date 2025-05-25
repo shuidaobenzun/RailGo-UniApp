@@ -38,6 +38,13 @@
 			}
 		},
 		{
+			"path" : "pages/station/commonSelect",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
 			"path" : "pages/train/query",
 			"style" : 
 			{
@@ -67,6 +74,13 @@
 		},
 		{
 			"path" : "pages/update/db",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/oobe/protocol",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""

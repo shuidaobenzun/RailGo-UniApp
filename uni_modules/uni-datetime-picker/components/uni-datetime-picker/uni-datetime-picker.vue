@@ -861,7 +861,7 @@
 		flex: 1;
 
 		.icon-calendar {
-			padding-left: 3px;
+			padding-left: 0.2rem;
 		}
 
 		.range-separator {
@@ -896,14 +896,16 @@
 
 	.uni-date__x-input {
 		width: auto;
-		height: 35px;
+		/*height: 1.25rem;*/
+		padding-top:0.5rem;
+		padding-bottom:0.5rem;
 		/* #ifndef MP */
 		padding-left: 5px;
 		/* #endif */
 		position: relative;
 		flex: 1;
-		line-height: 35px;
-		font-size: 14px;
+		/*line-height: 35px;*/
+		font-size: 0.875rem;
 		overflow: hidden;
 	}
 
