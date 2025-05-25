@@ -10,7 +10,7 @@
 		</view>
 		<!-- headers end -->
 		<view class="ux-flex ux-justify-content-start">
-			<image src="~@/static/emu-overlay.png" style="width: 100vh" mode="left"></image>
+			<image src="~@/static/overlay/train_query.png" style="width: 100vw" mode="widthFix"></image>
 		</view>
 		<view class="ux-padding ux-bg-grey5">
 			<text class="ux-h6">车次</text>

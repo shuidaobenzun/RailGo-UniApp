@@ -1,9 +1,11 @@
 <script>
 	// UXUI INIT
-	
+	import {
+		loadDB
+	} from "@/scripts/jsonDB.js";
 	let firstBackTime = 0;
 	export default {
-		onLaunch: function () {
+		onLaunch: async function () {
 		  const value = uni.getStorageSync('launchFlag');
 		  if (value) {
 			// 不做操作
@@ -29,6 +31,7 @@
 			  data: ""
 			});
 		  }
+		  loadDB();
 		},
 		onShow: function () { },
 		onHide: function () { },

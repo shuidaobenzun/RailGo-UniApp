@@ -21,7 +21,7 @@
 					<view>
 						<text class="ux-bold consolas" style="font-size:60rpx;"
 							:style="'color:'+this.cardColor">{{this.carData.numberKind}}</text>
-						<text class="ux-bold consolas"
+						<text class="consolas"
 							style="font-size:50rpx;padding-left:5rpx;">{{this.carData.numberFull.join("/").replace(this.carData.numberKind, "").replace(this.carData.numberKind, "")}}</text>
 					</view>
 					<text class="ux-badge ux-text-small ux-color-white ux-bold"
@@ -31,8 +31,7 @@
 				<view class="ux-flex ux-space-between ux-mt-small ux-pb-small ux-pl ux-pr ux-pt-small ux-color-white"
 					:style="'background-color:'+this.cardColor">
 					<text class="ux-text-small">{{this.carData.timetable[0].station}} ⋙
-						{{this.carData.timetable[this.carData.timetable.length-1].station}} |
-						{{Math.floor(this.carData.spend/60)}}h{{this.carData.spend%60}}m</text>
+						{{this.carData.timetable[this.carData.timetable.length-1].station}}</text>
 					<text class="ux-text-small">{{this.carData.bureauName}}{{this.carData.runner}}&nbsp;&nbsp;</text>
 				</view>
 				<view style="position: absolute;z-index: -1;width:100%;bottom:-0.5vh;" class="ux-border-radius"
@@ -61,13 +60,13 @@
 							<image style="width:1px;height:1px;transform:translateY(10px) scale(40);" mode="aspectFit"
 								src="@/static/station-mark-th.png"></image>
 						</uni-th>
-						<uni-th width="100">车站名</uni-th>
+						<uni-th>车站名</uni-th>
 						<uni-th width="80">车次</uni-th>
 						<uni-th width="60">到达</uni-th>
 						<uni-th width="60">出发</uni-th>
-						<uni-th width="75">停车</uni-th>
-						<uni-th width="85">里程</uni-th>
-						<uni-th width="90">区间均速</uni-th>
+						<uni-th width="20">停车</uni-th>
+						<uni-th width="80">里程</uni-th>
+						<uni-th width="100">区间均速</uni-th>
 						<uni-th width="50">日期</uni-th>
 					</uni-tr>
 					<uni-tr v-for="(item,index) in this.carData.timetable" :key="index" style="border:none"
@@ -80,9 +79,9 @@
 						<uni-td style="border:none">{{item.trainCode}}</uni-td>
 						<uni-td style="border:none">{{item.arrive}}</uni-td>
 						<uni-td style="border:none">{{item.depart}}</uni-td>
-						<uni-td style="border:none">{{item.stopTime}} 分</uni-td>
+						<uni-td style="border:none">{{item.stopTime}}'</uni-td>
 						<uni-td style="border:none">{{item.distance}} km</uni-td>
-						<uni-td style="border:none">{{item.speed}} km/h</uni-td>
+						<uni-td style="border:none">{{item.speed.toFixed(1)}} km/h</uni-td>
 						<uni-td style="border:none">{{item.day}} 天</uni-td>
 					</uni-tr>
 				</uni-table>
@@ -112,10 +111,72 @@
 			</view>
 
 			<view v-if="selectIndex==1">
+				<uni-section title="担当" type="line" style="background-color: transparent;"
+					title-font-size="25rpx"></uni-section>
+				<view class="ux-bg-white ux-border-radius ux-padding">
+					<view class="ux-flex ux-space-between">
+						<view class="ux-flex ux-align-items-center">
+							<view class="ux-pt-small">
+								<text class="ux-color-primary icon" style="font-size:60rpx;">&#xe7fd;</text>
+							</view>
+							<view class="ux-pl-small">
+								<text class="ux-text-small ux-opacity-5">
+									值乘单位
+								</text>
+								<br>
+								<text>
+									{{this.carData.runner}}
+								</text>
+							</view>
+						</view>
+						<view class="ux-flex ux-align-items-center">
+							<view class="ux-pt-small">
+								<text class="ux-color-primary icon" style="font-size:60rpx;">&#xe570;</text>
+							</view>
+							<view class="ux-pl-small">
+								<text class="ux-text-small ux-opacity-5">
+									车辆归属
+								</text>
+								<br>
+								<text>
+									{{this.carData.carOwner}}
+								</text>
+							</view>
+						</view>
+					</view>
+					<l-divider />
+					<view class="ux-flex ux-space-between">
+						<text class="ux-text-small ux-opacity-5">车型</text>
+						<text>{{this.carData.car}}</text>
+					</view>
+					<view class="ux-flex ux-space-between ux-align-items-center">
+						<view>
+							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
+								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe915;</text>
+								<view class="ux-pl-small">
+									<text>{{this.carMap[this.carData.car.replace("重联","")][0]}}节编组</text>
+								</view>
+							</view>
+							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
+								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe5c3;</text>
+								<view class="ux-pl-small">
+									<text>{{this.carMap[this.carData.car.replace("重联","")][1]}}</text>
+								</view>
+							</view>
+							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
+								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe556;</text>
+								<view class="ux-pl-small">
+									<text>{{this.carMap[this.carData.car.replace("重联","")][2]}}</text>
+								</view>
+							</view>
+						</view>
+						<view class="">
+							<image src="@/static/trainHead/missing.png" style="width:164rpx;height:196rpx;"></image>
+						</view>
+					</view>
+				</view>
 				<uni-section title="交路" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
-
-
 				<navigator v-for="(item,index) in carData.diagram" :key="index"
 					:url="'/pages/train/trainResult?keyword='+item.train_num">
 					<view class="ux-bg-white ux-border-radius ux-mt-small ux-flex">
@@ -135,6 +196,9 @@
 						</view>
 					</view>
 				</navigator>
+				<view v-if="carData.diagram.length==0" class="ux-padding-large ux-text-center">
+					暂无交路
+				</view>
 				<uni-section title="开行日" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
 				<calendar class="ux-bg-white ux-border-radius"
@@ -146,6 +210,10 @@
 						<text>&nbsp;当日开行</text>
 					</view>
 				</view>
+			</view>
+			
+			<view class="ux-padding ux-text-center" v-if="selectIndex==2">
+				<text>暂未开放，敬请期待</text>
 			</view>
 
 			<br>
@@ -164,6 +232,9 @@
 	import {
 		toRaw
 	} from "@vue/reactivity";
+	import {
+		TRAIN_KIND_COLOR_MAP, CAR_PERFORMANCE
+	} from "@/scripts/config.js";
 	export default {
 		components: {
 			calendar
@@ -171,26 +242,8 @@
 		data() {
 			return {
 				"carData": {},
-				"colorMap": {
-					"": "#a9dfbf", // 普慢
-					"1": "#a9dfbf", // 普慢
-					"2": "#a9dfbf", // 普慢
-					"3": "#a9dfbf", // 普慢
-					"4": "#a9dfbf", // 普慢
-					"5": "#a9dfbf", // 普慢
-					"6": "#a9dfbf", // 普慢
-					"7": "#a9dfbf", // 普慢
-					"8": "#a9dfbf", // 普慢
-					"K": "#f39c12", // 快速
-					"T": "#114514", // 特快
-					"Z": "#114598", // 直特
-					"G": "#c0392b", // 高动
-					"D": "#5499c7", // 动车+城际
-					"C": "#98c0da",
-					"S": "#8e44ad", // 市域
-					"L": "#a9dfbf", // 临客
-					"Y": "#f39c12" // 旅游
-				},
+				"colorMap": TRAIN_KIND_COLOR_MAP,
+				"carMap": CAR_PERFORMANCE,
 				"delay": [],
 				"title": this.keyword,
 				"train": "",
@@ -207,9 +260,14 @@
 			}
 		},
 		onLoad(options) {
-			this.train = options.keyword;
+			this.train = options.keyword.split("/")[0];
 			this.title = this.train;
 			this.fillInData(); // 调用数据填充方法
+		},
+		onShow() {
+			// #ifdef APP
+			plus.navigator.setStatusBarBackground('#114598');
+			// #endif
 		},
 		methods: {
 			back: function() {
@@ -219,7 +277,8 @@
 				try {
 					this.carData = toRaw(await queryMainKey("trains", this.title)).at(0);
 					this.cardColor = this.colorMap[this.carData.numberKind];
-					console.log(this.carData);
+					//console.log(this.carData);
+					
 				} catch (error) {
 					console.error("数据加载失败", error);
 				}
