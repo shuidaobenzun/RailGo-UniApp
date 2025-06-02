@@ -26,7 +26,7 @@
 			});
 			uni.setStorage({
 			  key: 'offlineDataVersionText',
-			  data: ""
+			  data: "未下载"
 			});
 		  }
 		},
@@ -62,6 +62,14 @@
 		font-family: "DIN1451";
 		src: url("/static/fonts/din1451.ttf");
 	}
+	@font-face {
+		font-family: "misans";
+		src: url("/static/fonts/misans.ttf");
+	}
+	@font-face {
+		font-family: "hmsans";
+		src: url("/static/fonts/hmsans.ttf");
+	}
 	
 	.consolas {
 		font-family: "DIN1451";
@@ -75,7 +83,10 @@
 	.va{
 		vertical-align: middle;
 	}
-	
+
+	.hm {
+		font-family: "hmsans";
+	}
 	/* UXUI */
 	
 	/* 主体结构 */

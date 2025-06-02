@@ -1,9 +1,6 @@
 <template>
 	<view class="welcome-container">
-		<uni-breadcrumb separator="/">
-		    <uni-breadcrumb-item to="/pages/oobe/welcome">欢迎</uni-breadcrumb-item>
-			<uni-breadcrumb-item to="/pages/oobe/protocol">用户协议与隐私政策</uni-breadcrumb-item>
-		</uni-breadcrumb>
+		<br>
 		<view>
 			<image src="/static/1f4c4.svg" class="emoji"></image>
 		</view>
@@ -70,7 +67,7 @@
 	background-color: gray; 
 	color: #fff;
 	margin-top: 80rpx; 
-	box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); 
+/* 	box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); */ 
 }
 
 .icon {
@@ -99,7 +96,6 @@
 			check: function(e) {
 			    const button = document.getElementById('next');
 			    const navigatorControl = document.getElementById('navigator1'); // 假设navigator控件是这个元素
-				console.log(e.detail.value.length)
 			    if (e.detail.value.length == 0) {
 			        button.style.backgroundColor = 'gray'; // 设置背景色为灰色
 			        this.url = ''; // 禁用navigator控件
