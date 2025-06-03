@@ -6,7 +6,7 @@
 		onLaunch: function () {
 		  const value = uni.getStorageSync('launchFlag');
 		  if (value) {
-			// 不做操作
+			// 启动时公测鉴权
 		  } else {
 			uni.setStorage({
 			  key: 'launchFlag',

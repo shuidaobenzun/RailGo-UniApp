@@ -1,5 +1,8 @@
 <template>
 	<view class="welcome-container">
+		<uni-popup ref="message" type="message">
+			<uni-popup-message :duration="3000" :type="msgType" :message="messageText"></uni-popup-message>
+		</uni-popup>
 		<br>
 		<view>
 			<image src="/static/1f511.svg" class="emoji"></image>
@@ -15,14 +18,11 @@
 			<view class="ux-flex hm" style="align-items: center;">
 			  <text style="width: 80px; text-align: right;">QQ号：</text>
 			  <uni-easyinput placeholder="请输入QQ号" @input="inputQQ" style="min-width: 200px; flex-grow: 1;"></uni-easyinput>
-			</view><br>
-			<button type="primary" size="mini"  @click="check" :loading="load">验证</button>
+			</view>
 		</view>
-		<navigator id="navigator1"  >
-		<button id="next" class="primary-button">
+		<button id="next" class="primary-button" @click="check" :loading="load">
 			<text class="icon">&#xe5c8;</text>
 		</button>
-		</navigator>
 	</view>
 </template>
 
@@ -68,10 +68,10 @@
 	border-radius: 50%;
 	text-align: center;
 	line-height: 100rpx;
-	background-color: gray; 
+	background-color: #007aff; 
 	color: #fff;
 	margin-top: 80rpx; 
-/* 	box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); */ 
+	box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); 
 }
 
 .icon {
@@ -88,8 +88,10 @@
 				"code": "",
 				"qq": "",
 				"load": false,
-				"ver": String(uni.getStorageInfoSync("version")),
-				"valid": false
+				"ver": uni.getStorageSync("version"),
+				"valid": false,
+				"msgType": "success",
+				"messageText": ""
 			}
 		},
 		methods: {
@@ -99,26 +101,32 @@
 			inputQQ(e){
 				this.qq = e
 			},
+				
 			async check(){
 				this.load=true;
 				try {
-					const Response = await axios.get("https://auth.railgo.zenglingkun.cn/api/check/1?userid=" + this.qq + "&code=" + this.code);
+					const Response = await axios.get("https://auth.railgo.zenglingkun.cn/api/check/" + this.ver + "?userid=" + this.qq + "&key=" + this.code);
 					this.valid = Response.data.valid;
-					console.log(this.valid)
 					const button = document.getElementById('next');
 					const navigatorControl = document.getElementById('navigator1'); 
 					if (this.valid) {
-					    button.style.backgroundColor = 'gray'; // 设置背景色为灰色
-					    this.url = ''; // 禁用navigator控件
+						this.msgType = "success"
+						this.messageText = "验证成功！3秒后自动跳转下一页"
+						this.$refs.message.open()
+						setTimeout("uni.navigateTo({url: '/pages/oobe/yhxy', success: function () {console.log('跳转成功')}})", 3000 )
+						
 					} else {
-					    button.style.backgroundColor = '#007aff'; // 设置背景色为007aff
-					    this.url = "/"; // 启用navigator控件
+						this.msgType = "error"
+						this.messageText = "请检查公测码与QQ号是否正确"
+						this.$refs.message.open()
 					}
 					this.load=false;
 				} catch (error) {
 					console.error('Error fetching data:', error);
 					this.load=false;
-					console.log(this.valid)
+					this.msgType = "error"
+					this.messageText = "请求错误"
+					this.$refs.message.open()
 				}
 			}
 		}
