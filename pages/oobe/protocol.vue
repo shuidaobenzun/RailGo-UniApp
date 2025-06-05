@@ -5,12 +5,12 @@
 			<image src="/static/1f4c4.svg" class="emoji"></image>
 		</view>
 		<view class="text-container">
-			<text class=" hm title">用户协议与隐私政策</text><br><br>
-			<text class=" hm subtitle">在使用我们的软件之前，请阅读我们的<text class="ux-color-blue2" @click="Toyhxy">用户协议</text>和<text class="ux-color-blue2" @click="Toyhxy">隐私政策</text></text><br><br>
+			<text class=" hm title">用户协议</text><br><br>
+			<text class=" hm subtitle">在使用我们的软件之前，请阅读我们的<text class="ux-color-blue2" @click="Toyhxy">用户协议</text>的有关内容。</text><br><br>
 			<text class="hm subtitle"></text>
 			<checkbox-group @change="check">
-			<label class="hm">
-				<checkbox value="c" class="ux-color-blue2" style="transform:scale(0.8)" />我已认真阅读并同意用户协议与隐私政策的有关内容
+			<label class="hm" style="font-size: 27rpx;">
+				<checkbox value="c" class="ux-color-blue2" style="transform:scale(0.8)" />我已认真阅读并同意用户协议的有关内容
 			</label>
 			</checkbox-group>
 		</view>
@@ -101,7 +101,7 @@
 			        this.url = ''; // 禁用navigator控件
 			    } else {
 			        button.style.backgroundColor = '#007aff'; // 设置背景色为007aff
-			        this.url = "/"; // 启用navigator控件
+			        this.url = "/pages/oobe/auth"; // 启用navigator控件
 			    }
 			}
 		}

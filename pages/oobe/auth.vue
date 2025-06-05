@@ -12,11 +12,11 @@
 			<text class=" hm subtitle">本版本为测试版本，不代表最终品质。为避免出现不可预料的后果，需要进行鉴权。</text><br><br>
 			<text class="hm subtitle"></text>
 			<view class="ux-flex hm" style="align-items: center; margin-bottom: 10px;">
-			  <text style="width: 80px; text-align: right;">公测码：</text>
+			  <text style="width: 80px; text-align: right;" class="hm">公测码：</text>
 			  <uni-easyinput placeholder="请输入公测码" @input="inputCode" style="min-width: 200px; flex-grow: 1;"></uni-easyinput>
 			</view>
 			<view class="ux-flex hm" style="align-items: center;">
-			  <text style="width: 80px; text-align: right;">QQ号：</text>
+			  <text style="width: 80px; text-align: right;" class="hm">QQ号：</text>
 			  <uni-easyinput placeholder="请输入QQ号" @input="inputQQ" style="min-width: 200px; flex-grow: 1;"></uni-easyinput>
 			</view>
 		</view>
@@ -103,6 +103,12 @@
 			},
 				
 			async check(){
+				if (this.code == "" || this.qq == ""){
+					this.msgType = "error"
+					this.messageText = "值不能为空"
+					this.$refs.message.open()
+					return
+				}
 				this.load=true;
 				try {
 					const Response = await axios.get("https://auth.railgo.zenglingkun.cn/api/check/" + this.ver + "?userid=" + this.qq + "&key=" + this.code);
@@ -111,9 +117,9 @@
 					const navigatorControl = document.getElementById('navigator1'); 
 					if (this.valid) {
 						this.msgType = "success"
-						this.messageText = "验证成功！3秒后自动跳转下一页"
+						this.messageText = "验证成功！1秒后自动跳转下一页"
 						this.$refs.message.open()
-						setTimeout("uni.navigateTo({url: '/pages/oobe/yhxy', success: function () {console.log('跳转成功')}})", 3000 )
+						setTimeout("uni.navigateTo({url: '/pages/oobe/mode', success: function () {console.log('跳转成功')}})", 1000 )
 						
 					} else {
 						this.msgType = "error"

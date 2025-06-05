@@ -6,19 +6,21 @@
 		onLaunch: function () {
 		  const value = uni.getStorageSync('launchFlag');
 		  if (value) {
+			  uni.setStorage({
+			    key: 'version',
+			    data: 1
+			  });
+			  uni.setStorage({
+			    key: 'versionText',
+			    data: "1.0.0 Pre 1"
+			  });
 			// 启动时公测鉴权
+			
+			
 		  } else {
 			uni.setStorage({
 			  key: 'launchFlag',
 			  data: true
-			});
-			uni.setStorage({
-			  key: 'version',
-			  data: 1
-			});
-			uni.setStorage({
-			  key: 'versionText',
-			  data: "1.0.0 Pre 1"
 			});
 			uni.setStorage({
 			  key: 'offlineDataVersion',

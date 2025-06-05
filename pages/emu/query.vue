@@ -10,7 +10,7 @@
 		</view>
 		<!-- headers end -->
 		<view class="ux-flex ux-justify-content-start">
-			<image src="/static/emu-overlay.png" mode="widthFix" style="width:100vh;"></image>
+			<image src="/static/emu-overlay.png" mode="left" style="width:100vh;"></image>
 		</view>
 		<view class="ux-padding ux-bg-grey5">
 			<text class="ux-h6">车次/车组号</text>

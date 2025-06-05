@@ -10,7 +10,7 @@
 		</view>
 		<!-- headers end -->
 		<view class="ux-flex ux-justify-content-start">
-			<image src="~@/static/station.png" style="width: 100vh" mode="left"></image>
+			<image src="~@/static/station-overlay.png" style="width: 100vh" mode="left"></image>
 		</view>
 		<view class="ux-padding ux-bg-grey5">
 			<text class="ux-h6">查询关键词</text>
