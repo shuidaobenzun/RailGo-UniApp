@@ -87,10 +87,7 @@
 		methods: {
 			Toyhxy() {
 				uni.navigateTo({
-					url: '/pages/oobe/yhxy',
-					success: function () {
-						console.log('跳转成功')
-					}
+					url: '/pages/oobe/yhxy'
 				})
 			},
 			check: function(e) {

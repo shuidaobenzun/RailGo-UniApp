@@ -1,6 +1,44 @@
 <script>
 	// UXUI INIT
-	
+	import axios from "axios";
+	function checkTime(timestamp1, timestamp2) {
+		const interval = 72 * 60 * 60 * 1000; 
+		const difference = Math.abs(timestamp1 - timestamp2); 
+		return difference > interval; 
+	}
+	async function check() {
+		try{
+			const Response = await axios.get("https://auth.railgo.zenglingkun.cn/api/check/" + uni.getStorageSync('version') + "?userid=" + uni.getStorageSync('qq') + "&key=" + uni.getStorageSync('key'));
+			if (Response.data.valid){
+				uni.setStorageSync("AuthTime", new Date().getTime())
+				console.log("鉴权成功")
+				
+			} else{
+				uni.showToast({
+					title: '鉴权无效',
+					position: 'bottom',
+				})
+				uni.setStorageSync("oobe", false)
+				uni.navigateTo({
+					url:'/pages/oobe/welcome'
+				})
+			}
+			
+		} catch (error){
+			if (checkTime(uni.getStorageSync("AuthTime"), new Date().getTime())) {
+				uni.showToast({
+					title: '鉴权超时，请重新鉴权',
+					position: 'bottom',
+				})
+				uni.setStorageSync("oobe", false)
+				uni.navigateTo({
+					url:'/pages/oobe/welcome'
+				})
+			} else{
+				console.log("无网络但未超时")
+			}
+		}
+	}
 	let firstBackTime = 0;
 	export default {
 		onLaunch: function () {
@@ -13,10 +51,7 @@
 			  uni.setStorage({
 			    key: 'versionText',
 			    data: "1.0.0 Pre 1"
-			  });
-			// 启动时公测鉴权
-			
-			
+			  });			
 		  } else {
 			uni.setStorage({
 			  key: 'launchFlag',
@@ -31,6 +66,19 @@
 			  data: "未下载"
 			});
 		  }
+		  
+		  if (uni.getStorageSync('oobe')){
+		  	//* 不操作 */
+		  } else {
+		  	uni.navigateTo({
+		  		url:'/pages/oobe/welcome'
+		  	})
+		  }
+		  
+		  // 鉴权
+		  check()
+		  
+		  
 		},
 		onShow: function () { },
 		onHide: function () { },

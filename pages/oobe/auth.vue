@@ -116,10 +116,13 @@
 					const button = document.getElementById('next');
 					const navigatorControl = document.getElementById('navigator1'); 
 					if (this.valid) {
+						uni.setStorageSync("qq", this.qq)
+						uni.setStorageSync("key", this.code)
+						uni.setStorageSync("AuthTime", new Date().getTime())
 						this.msgType = "success"
 						this.messageText = "验证成功！1秒后自动跳转下一页"
 						this.$refs.message.open()
-						setTimeout("uni.navigateTo({url: '/pages/oobe/mode', success: function () {console.log('跳转成功')}})", 1000 )
+						setTimeout("uni.navigateTo({url: '/pages/oobe/mode'})", 1000 )
 						
 					} else {
 						this.msgType = "error"

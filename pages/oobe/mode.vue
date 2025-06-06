@@ -8,7 +8,7 @@
 			<text class=" hm title">使用模式</text><br><br>
 			<text class=" hm subtitle">请选择您的使用模式</text><br><br>
 			<text class="hm subtitle">无需担心，该设置可以在设置中随时修改</text><br><br>
-			<uni-data-checkbox mode="button" v-model="checked" :localdata="ld"></uni-data-checkbox>
+			<uni-data-checkbox style="margin-left: 60rpx;" class="hm" mode="button" v-model="checked" :localdata="ld"></uni-data-checkbox>
 		</view>
 		<button class="primary-button" @click="finish">
 			<text class="icon">&#xe5c8;</text>
@@ -35,6 +35,7 @@
 		methods: {
 			finish: function() {
 				uni.setStorageSync("mode", this.checked)
+				uni.setStorageSync("oobe", true)
 				uni.navigateTo({
 					url: '/'
 				})
