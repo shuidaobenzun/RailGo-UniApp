@@ -1,17 +1,15 @@
 <template>
 	<view class="ux-bg-grey5" style="height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-flex ux-align-items-start ux-bg-primary ux-padding">
-			<view style="border-radius:50%;" hover-class="ux-tap" @click="back">
-				<uni-icons class="va" color="white" type="arrow-left" size="25"></uni-icons>
+		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-padding">
+			<view hover-class="ux-bg-grey8" @click="back">
+				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
 			</view>
-			&nbsp;&nbsp;
-			<text class="ux-h4 ux-color-white va">动车组担当查询</text>
+			<br>
+			<text class="ux-h2">动车组担当查询</text>
 		</view>
 		<!-- headers end -->
-		<view class="ux-flex ux-justify-content-start">
-			<image src="/static/emu-overlay.png" mode="widthFix" style="width:100vh;"></image>
-		</view>
 		<view class="ux-padding ux-bg-grey5">
 			<text class="ux-h6">车次/车组号</text>
 			<view class="ux-bg-white ux-border-radius-small">
@@ -25,10 +23,10 @@
 			<button type="primary" style="background-color:#114598;color:#ffffff;" hover-class="ux-tap"
 				@click="jumpToResult()">查询</button>
 			<br>
-			<view class="ux-padding-small ux-mb ux-h6"
-				style="background-color:#e3edff;border:1px solid #114598;border-radius:10rpx;color:#114598;">
-				<text>本功能支持车组模糊查询及未来7天车次查询功能，支持重连车组合并展示。<br></text>
-				<text class="ux-bold">信息仅供参考，可能与实际不符，请以铁路运营企业实际运用为准。</text>
+			<view class="ux-padding-small ux-mb ux-h6 ux-text-center"
+				style="background-color:#e9eef5;border:1px solid #114598;border-radius:10rpx;color:#114598;">
+				<text>本功能支持车组模糊查询及未来车次查询功能<br>支持重连车组合并展示<br></text>
+				<text class="ux-bold">信息仅供参考，请以铁路运营企业实际运用为准</text>
 			</view>
 			<br>
 			<view class="ux-flex ux-row ux-justify-content-center">

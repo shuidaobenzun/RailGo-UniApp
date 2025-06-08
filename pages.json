@@ -80,7 +80,28 @@
 			}
 		},
 		{
+			"path" : "pages/oobe/welcome",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
 			"path" : "pages/oobe/protocol",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/oobe/_dev_warn",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/oobe/mode",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""

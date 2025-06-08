@@ -1,28 +1,71 @@
 <template>
 	<view class="ux-bg-grey5" style="height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-flex ux-align-items-start ux-bg-primary ux-padding">
-			<view style="border-radius:50%;" hover-class="ux-tap" @click="back">
-				<uni-icons class="va" color="white" type="arrow-left" size="25"></uni-icons>
+		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-padding">
+			<view hover-class="ux-bg-grey8" @click="back">
+				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
 			</view>
-			&nbsp;&nbsp;
-			<text class="ux-h4 ux-color-white va">特别鸣谢</text>
+			<br>
+			<text class="ux-h2">贡献</text>
 		</view>
+		<!-- headers end -->
 
 		<!-- Main content -->
-		<view style=" margin-left: 15rpx;"><br/>
-		<uni-section title="开发者" type="line" style="background-color: transparent;" title-font-size="35rpx"></uni-section>
-		<fui-avatar src="https://q1.qlogo.cn/g?b=qq&s=100&nk=1316280182"></fui-avatar>&nbsp;
-		<fui-avatar src="https://q1.qlogo.cn/g?b=qq&s=100&nk=572747232"></fui-avatar>&nbsp;
-		<fui-avatar src="https://q1.qlogo.cn/g?b=qq&s=100&nk=1219439938"></fui-avatar>&nbsp;
-		<fui-avatar src="https://q1.qlogo.cn/g?b=qq&s=100&nk=3776473661"></fui-avatar>&nbsp;
+		<view class="ux-pl ux-pr">
+			<uni-section title="开发" type="line" style="background-color: transparent;"
+				title-font-size="35rpx"></uni-section>
+			<view class="ux-flex ux-space-around ux-justify-content-center">
+				<view class="ux-text-center ux-pl ux-pr">
+					<image mode="scaleToFill" src="https://q1.qlogo.cn/g?b=qq&s=100&nk=1316280182"
+						style="width:100rpx;height:100rpx;border-radius:50%;"></image>
+					<br>
+					<text class="ux-text-small">辰墨</text>
+				</view>
+				<view class="ux-text-center ux-pl ux-pr">
+					<image mode="scaleToFill" src="https://q1.qlogo.cn/g?b=qq&s=100&nk=572747232"
+						style="width:100rpx;height:100rpx;border-radius:50%;"></image>
+					<br>
+					<text class="ux-text-small">TKP30</text>
+				</view>
+				<view class="ux-text-center ux-pl ux-pr">
+					<image mode="scaleToFill" src="https://q1.qlogo.cn/g?b=qq&s=100&nk=1219439938"
+						style="width:100rpx;height:100rpx;border-radius:50%;"></image>
+					<br>
+					<text class="ux-text-small">姜胤</text>
+				</view>
+				<view class="ux-text-center ux-pl ux-pr">
+					<image mode="scaleToFill" src="https://q1.qlogo.cn/g?b=qq&s=100&nk=3776473661"
+						style="width:100rpx;height:100rpx;border-radius:50%;"></image>
+					<br>
+					<text class="ux-text-small">mstouk57g</text>
+				</view>
+			</view>
 		</view>
-		
-		<view style=" margin-left: 15rpx;"><br/>
-		<uni-section title="反馈" type="line" style="background-color: transparent;" title-font-size="35rpx"></uni-section>
-		    <fui-avatar v-for="(nk, index) in items" :src="`https://q1.qlogo.cn/g?b=qq&s=100&nk=${nk}`"></fui-avatar>
+		<view class="ux-pl ux-pr">
+			<uni-section title="特别鸣谢" type="line" style="background-color: transparent;"
+				title-font-size="35rpx"></uni-section>
+			<view class="ux-flex ux-space-around ux-justify-content-center">
+				<view class="ux-text-center ux-pl ux-pr">
+					<image mode="scaleToFill" src="https://q1.qlogo.cn/g?b=qq&s=100&nk=3068342155"
+						style="width:100rpx;height:100rpx;border-radius:50%;"></image>
+					<br>
+					<text class="ux-text-small">XieXiLin</text>
+				</view>
+				<view class="ux-text-center ux-pl ux-pr">
+					<image mode="scaleToFill" src="https://q1.qlogo.cn/g?b=qq&s=100&nk=2396807944"
+						style="width:100rpx;height:100rpx;border-radius:50%;"></image>
+					<br>
+					<text class="ux-text-small">bcdt</text>
+				</view>
+			</view>
 		</view>
-		
+		<view class="ux-pl ux-pr">
+			<uni-section title="反馈" type="line" style="background-color: transparent;"
+				title-font-size="35rpx"></uni-section>
+			<image mode="scaleToFill" v-for="(nk, index) in items" :src="`https://q1.qlogo.cn/g?b=qq&s=100&nk=${nk}`"
+				style="width:80rpx;height:80rpx;border-radius:50%;" class="ux-ml-small ux-pr-small"></image>
+		</view>
 	</view>
 </template>
 
@@ -79,5 +122,4 @@
 		color: #555;
 		margin: 5px 0;
 	}
-
 </style>

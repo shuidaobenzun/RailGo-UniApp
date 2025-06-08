@@ -1,43 +1,42 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-flex ux-align-items-start ux-bg-primary ux-padding">
-			<view style="border-radius:50%;" hover-class="ux-tap" @click="back">
-				<uni-icons class="va" color="white" type="arrow-left" size="25"></uni-icons>
+		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-padding">
+			<view hover-class="ux-bg-grey8" @click="back">
+				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
 			</view>
-			&nbsp;&nbsp;
-			<text class="ux-h4 ux-color-white va">{{title}}</text>
 		</view>
 		<!-- headers end -->
-		<view class="ux-padding">
-			<view class="ux-padding-small ux-mb ux-h6 ux-text-center"
-				style="background-color:#e3edff;border:1px solid #114598;border-radius:10rpx;color:#114598;">
-				<text class="ux-bold">信息仅供参考 请以铁路运营企业实际运用为准</text>
-			</view>
+		<view class="ux-pl ux-pr ux-pb">
 
 			<!-- 车次小卡片 -->
-			<view class="ux-bg-white ux-border-radius ux-box-shadow" style="position: relative;z-index:0;">
-				<view class="ux-flex ux-space-between ux-pt ux-pl ux-pr">
+			<view class="ux-bg-white ux-border-radius">
+				<view class="ux-flex ux-space-between ux-pt ux-pl ux-pr ux-align-items-center">
 					<view>
 						<text class="ux-bold consolas" style="font-size:60rpx;"
 							:style="'color:'+this.cardColor">{{this.carData.numberKind}}</text>
 						<text class="consolas"
 							style="font-size:50rpx;padding-left:5rpx;">{{this.carData.numberFull.join("/").replace(this.carData.numberKind, "").replace(this.carData.numberKind, "")}}</text>
 					</view>
-					<text class="ux-badge ux-text-small ux-color-white ux-bold"
-						style="padding-top:0.3vh;margin-top:1vh;"
+					<text class="ux-badge ux-text-small ux-color-white"
+						style="padding:5rpx 15rpx;"
 						:style="'background-color:'+this.cardColor">{{this.carData.type}}</text>
 				</view>
-				<view class="ux-flex ux-space-between ux-mt-small ux-pb-small ux-pl ux-pr ux-pt-small ux-color-white"
+				<view class="ux-flex ux-space-between ux-mt-small ux-pl ux-pr ux-pt-small ux-color-white"
 					:style="'background-color:'+this.cardColor">
 					<text class="ux-text-small">{{this.carData.timetable[0].station}} ⋙
 						{{this.carData.timetable[this.carData.timetable.length-1].station}}</text>
 					<text class="ux-text-small">{{this.carData.bureauName}}{{this.carData.runner}}&nbsp;&nbsp;</text>
 				</view>
-				<view style="position: absolute;z-index: -1;width:100%;bottom:-0.5vh;" class="ux-border-radius"
+				<view class="ux-pb-small" style="border-bottom-left-radius:10rpx; border-bottom-right-radius:10rpx;"
 					:style="'background-color:'+this.cardColor">
-					&nbsp;
 				</view>
+			</view>
+			<br>
+			<view class="ux-padding-small ux-h6 ux-text-center"
+				style="background-color:#e9eef5;border:1px solid #114598;border-radius:10rpx;color:#114598;">
+				<text class="ux-bold">信息仅供参考 请以铁路运营企业实际运用为准</text>
 			</view>
 			<view class="ux-flex ux-justify-content-center">
 				<uv-tabs :list="topTabList" lineWidth="60" lineColor="#114598" :activeStyle="{
@@ -61,10 +60,10 @@
 								src="@/static/station-mark-th.png"></image>
 						</uni-th>
 						<uni-th>车站名</uni-th>
-						<uni-th width="80">车次</uni-th>
+						<uni-th width="70">车次</uni-th>
 						<uni-th width="60">到达</uni-th>
 						<uni-th width="60">出发</uni-th>
-						<uni-th width="20">停车</uni-th>
+						<uni-th width="50">停车</uni-th>
 						<uni-th width="80">里程</uni-th>
 						<uni-th width="100">区间均速</uni-th>
 						<uni-th width="50">日期</uni-th>
@@ -86,7 +85,7 @@
 					</uni-tr>
 				</uni-table>
 
-				<uni-section title="正晚点信息" type="line" style="background-color: transparent;"
+				<uni-section title="正晚点" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
 				<uni-table border stripe>
 					<uni-tr>
@@ -99,10 +98,7 @@
 					</uni-tr>
 					<uni-tr v-for="(item,index) in delay" :key="index">
 						<uni-td>{{item.stationName}}</uni-td>
-						<uni-td>{{item.trainNumber}}<uni-badge v-if="crType === 'CR400'" text="复"
-								type="error"></uni-badge>
-							<uni-badge v-if="crType === 'CR300'" text="复" type="warning"></uni-badge>
-							<uni-badge v-if="crType === 'CR200'" text="复" type="success"></uni-badge></uni-td>
+						<uni-td>{{item.trainNumber}}</uni-td>
 						<uni-td>{{item.arrivalTime}}<br>{{item.departureTime}}</uni-td>
 						<uni-td>{{item.arrivalDate}}</uni-td>
 						<uni-td>{{item.status}}</uni-td>
@@ -153,19 +149,19 @@
 						<view>
 							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe915;</text>
-								<view class="ux-pl-small">
+								<view class="ux-pl-small ux-text-small">
 									<text>{{this.carMap[this.carData.car.replace("重联","")][0]}}节编组</text>
 								</view>
 							</view>
 							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe5c3;</text>
-								<view class="ux-pl-small">
+								<view class="ux-pl-small ux-text-small">
 									<text>{{this.carMap[this.carData.car.replace("重联","")][1]}}</text>
 								</view>
 							</view>
 							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe556;</text>
-								<view class="ux-pl-small">
+								<view class="ux-pl-small ux-text-small">
 									<text>{{this.carMap[this.carData.car.replace("重联","")][2]}}</text>
 								</view>
 							</view>
@@ -180,7 +176,7 @@
 				<navigator v-for="(item,index) in carData.diagram" :key="index"
 					:url="'/pages/train/trainResult?keyword='+item.train_num">
 					<view class="ux-bg-white ux-border-radius ux-mt-small ux-flex">
-						<view :style="'background-color:'+this.colorMap[item.train_num[0]]">
+						<view style="border-bottom-left-radius: 10rpx; border-top-left-radius:10rpx;" :style="'background-color:'+this.colorMap[item.train_num[0]]">
 							&nbsp;&nbsp;
 						</view>
 						<view class="ux-flex ux-align-items-center ux-space-between ux-pr ux-pt ux-pb ux-pl-small"
@@ -211,7 +207,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="ux-padding ux-text-center" v-if="selectIndex==2">
 				<text>暂未开放，敬请期待</text>
 			</view>
@@ -233,7 +229,8 @@
 		toRaw
 	} from "@vue/reactivity";
 	import {
-		TRAIN_KIND_COLOR_MAP, CAR_PERFORMANCE
+		TRAIN_KIND_COLOR_MAP,
+		CAR_PERFORMANCE
 	} from "@/scripts/config.js";
 	export default {
 		components: {
@@ -248,7 +245,6 @@
 				"title": this.keyword,
 				"train": "",
 				"cardColor": "#114598",
-				"cardBureau": "Q",
 				"topTabList": [{
 					name: '时刻',
 				}, {
@@ -279,7 +275,7 @@
 					this.cardColor = this.colorMap[this.carData.numberKind];
 					//console.log(this.carData);
 				} catch (error) {
-					
+
 					console.error("数据加载失败", error);
 				}
 			},

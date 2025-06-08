@@ -8,15 +8,15 @@ export const TRAIN_KIND_COLOR_MAP = {
 	"6": "#a9dfbf", // 普慢
 	"7": "#a9dfbf", // 普慢
 	"8": "#a9dfbf", // 普慢
-	"K": "#f39c12", // 快速
-	"T": "#114514", // 特快
+	"K": "#eeba67", // 快速
+	"T": "#459811", // 特快
 	"Z": "#114598", // 直特
 	"G": "#c0392b", // 高动
 	"D": "#5499c7", // 动车+城际
 	"C": "#2e9f9c",
 	"S": "#8e44ad", // 市域
 	"L": "#a9dfbf", // 临客
-	"Y": "#f39c12" // 旅游
+	"Y": "#eeba67" // 旅游
 };
 
 export const CAR_PERFORMANCE = {

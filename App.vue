@@ -3,24 +3,63 @@
 	import {
 		loadDB
 	} from "@/scripts/jsonDB.js";
+	import axios from "axios";
+	function checkTime(timestamp1, timestamp2) {
+		const interval = 72 * 60 * 60 * 1000; 
+		const difference = Math.abs(timestamp1 - timestamp2); 
+		return difference > interval; 
+	}
+	async function check() {
+		return;
+		try{
+			const Response = await axios.get("https://auth.railgo.zenglingkun.cn/api/check/" + uni.getStorageSync('version') + "?userid=" + uni.getStorageSync('qq') + "&key=" + uni.getStorageSync('key'));
+			if (Response.data.valid){
+				uni.setStorageSync("AuthTime", new Date().getTime())
+				console.log("鉴权成功")
+				
+			} else{
+				uni.showToast({
+					title: '鉴权无效',
+					position: 'bottom',
+				})
+				uni.setStorageSync("oobe", false)
+				uni.navigateTo({
+					url:'/pages/oobe/welcome'
+				})
+			}
+			
+		} catch (error){
+			if (checkTime(uni.getStorageSync("AuthTime"), new Date().getTime())) {
+				uni.showToast({
+					title: '鉴权超时，请重新鉴权',
+					position: 'bottom',
+				})
+				uni.setStorageSync("oobe", false)
+				uni.navigateTo({
+					url:'/pages/oobe/welcome'
+				})
+			} else{
+				console.log("无网络但未超时")
+			}
+		}
+	}
 	let firstBackTime = 0;
 	export default {
 		onLaunch: async function () {
 		  const value = uni.getStorageSync('launchFlag');
 		  if (value) {
-			// 不做操作
+			  uni.setStorage({
+			    key: 'version',
+			    data: 1
+			  });
+			  uni.setStorage({
+			    key: 'versionText',
+			    data: "1.0.0 Pre 1"
+			  });			
 		  } else {
 			uni.setStorage({
 			  key: 'launchFlag',
 			  data: true
-			});
-			uni.setStorage({
-			  key: 'version',
-			  data: 1
-			});
-			uni.setStorage({
-			  key: 'versionText',
-			  data: "1.0.0 Pre 1"
 			});
 			uni.setStorage({
 			  key: 'offlineDataVersion',
@@ -28,10 +67,22 @@
 			});
 			uni.setStorage({
 			  key: 'offlineDataVersionText',
-			  data: ""
+			  data: "未下载"
 			});
 		  }
+
 		  loadDB();
+		  
+		  if (uni.getStorageSync('oobe')){
+		  	//* 不操作 */
+		  } else {
+		  	uni.navigateTo({
+		  		url:'/pages/oobe/welcome'
+		  	})
+		  }
+		  
+		  // 鉴权
+		  check()
 		},
 		onShow: function () { },
 		onHide: function () { },
@@ -66,6 +117,15 @@
 		src: url("/static/fonts/din1451.ttf");
 	}
 	
+	@font-face {
+		font-family: "HMSans";
+		src: url("/static/fonts/hmsans.ttf");
+	}
+	
+	page {
+		font-family: "HMSans";
+	}
+	
 	.consolas {
 		font-family: "DIN1451";
 	}
@@ -78,7 +138,6 @@
 	.va{
 		vertical-align: middle;
 	}
-	
 	/* UXUI */
 	
 	/* 主体结构 */

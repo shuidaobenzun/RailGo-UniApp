@@ -1,92 +1,91 @@
 <template>
-	<view class="ux-padding ux-bg-grey5" style="height: 100vh;">
-		<scroll-view>
-			<view class="ux-flex ux-space-between ux-align-items-center">
-				<image src="/static/index-logo.png" mode="widthFix" style="width:250rpx;"></image>
-				<view style="border-radius:50%;" hover-class="ux-tap">
-					<navigator url="/pages/about/about">
-						<text class="icon section-icon ux-pt-small">&#xe5d4;</text>
-					</navigator>
+	<view class="ux-padding ux-bg-grey5" style="min-height: 100vh;">
+		<view class="ux-flex ux-space-between ux-align-items-center">
+			<view>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</view>
+			<image class="ux-mb-small" src="/static/index-logo.png" mode="widthFix" style="width:250rpx;"></image>
+			<view hover-class="ux-tap">
+				<navigator class="ux-border-radius" url="/pages/about/about">
+					<text class="icon section-icon ux-pt-small">&#xe5d4;</text>
+				</navigator>
+			</view>
+		</view>
+		<br>
+		<text class="ux-pl-small ux-opacity-6 ux-text-small">{{this.title}}</text>
+		<view class="ux-border-radius-large notice">
+			<view class="left">
+				<text class="icon ux-color-primary">&#xe0b9;</text>
+				<text class="text">&nbsp;公告</text>
+			</view>
+			<view class="center">
+				<swiper vertical autoplay interval="2500" duration="300" circular>
+					<swiper-item v-for="(item, index) in items" :key="index" style="font-size: 12rpx;"
+						class="ux-pl-small ux-opacity-8">
+						{{ item }}
+					</swiper-item>
+				</swiper>
+			</view>
+		</view>
+
+		<view class="ux-mt-small ux-flex1">
+			<view class="ux-flex ux-rows ux-wrap ux-space-between">
+				<navigator class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-mr-small"
+					style="flex:auto;width:1rpx;" hover-class="ux-tap" url="/pages/train/query">
+					<text class="icon section-icon ux-color-purple">&#xe192;</text>
+					<br>
+					<text class="ux-text">车次</text>
+					<br>
+					<text class="ux-text-small ux-opacity-8">查询时刻、开行日等信息。</text>
+					<br>
+					<br>
+					<view class="ux-text-right ux-mr-small">
+						<text class="icon">&#xe5c8;</text>
+					</view>
+				</navigator>
+				<view class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small"
+					style="flex:auto;width:1rpx;" hover-class="ux-tap">
+					<text class="icon section-icon ux-color-cyan1">&#xe88a;</text>
+					<br>
+					<text class="ux-text">车站</text>
+					<br>
+					<text class="ux-text-small ux-opacity-8">查询通过车次、线路等信息。</text>
+					<br>
+					<br>
+					<view class="ux-text-right ux-mr-small">
+						<text class="icon">&#xe5c8;</text>
+					</view>
 				</view>
 			</view>
 			<br>
-			<text class="ux-pl-small ux-opacity-6 ux-text-small">{{this.title}}</text>
-			<view class="ux-border-radius-large notice">
-				<view class="left">
-					<text class="icon ux-color-primary">&#xe0b9;</text>
-					<text class="text">&nbsp;公告</text>
-				</view>
-				<view class="center">
-					<swiper vertical autoplay interval="2500" duration="300" circular>
-						<swiper-item v-for="(item, index) in items" :key="index" style="font-size: 12rpx;"
-							class="ux-pl-small ux-opacity-8">
-							{{ item }}
-						</swiper-item>
-					</swiper>
+			<view class="ux-flex ux-rows ux-wrap ux-space-between">
+				<navigator class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-mr-small"
+					style="flex:auto;width:1rpx;" hover-class="ux-tap" url="/pages/emu/query">
+					<text class="icon section-icon ux-color-orange1">&#xe570;</text>
+					<br>
+					<text class="ux-text">动车组</text>
+					<br>
+					<text class="ux-text-small ux-opacity-8">查询动车组配属和运行交路。</text>
+					<br>
+					<br>
+					<view class="ux-text-right ux-mr-small">
+						<text class="icon">&#xe5c8;</text>
+					</view>
+				</navigator>
+				<view class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small"
+					style="flex:auto;width:1rpx;">
+					<text class="icon section-icon ux-color-blue">&#xe1b7;</text>
+					<br>
+					<text class="ux-text">雷达</text>
+					<br>
+					<text class="ux-text-small ux-opacity-8">实时预测附近经过的列车。</text>
+					<br>
+					<br>
+					<view class="ux-text-right ux-mr-small">
+						<!-- <text class="icon">&#xe5c8;</text>-->
+					</view>
+					<text class="ux-text-small">施工中 请静候佳音</text>
 				</view>
 			</view>
-
-			<view class="ux-mt-small ux-flex1">
-				<view class="ux-flex ux-rows ux-wrap ux-space-between">
-					<navigator class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-mr-small"
-						style="flex:auto;width:1rpx;" hover-class="ux-tap" url="/pages/train/query">
-						<text class="icon section-icon ux-color-purple">&#xe192;</text>
-						<br>
-						<text class="ux-text">车次</text>
-						<br>
-						<text class="ux-text-small ux-opacity-8">查询时刻、开行日等信息。</text>
-						<br>
-						<br>
-						<view class="ux-text-right ux-mr-small">
-							<text class="icon">&#xe5c8;</text>
-						</view>
-					</navigator>
-					<view class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small"
-						style="flex:auto;width:1rpx;" hover-class="ux-tap">
-						<text class="icon section-icon ux-color-cyan1">&#xe88a;</text>
-						<br>
-						<text class="ux-text">车站</text>
-						<br>
-						<text class="ux-text-small ux-opacity-8">查询通过车次、线路等信息。</text>
-						<br>
-						<br>
-						<view class="ux-text-right ux-mr-small">
-							<text class="icon">&#xe5c8;</text>
-						</view>
-					</view>
-				</view>
-				<br>
-				<view class="ux-flex ux-rows ux-wrap ux-space-between">
-					<navigator class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-mr-small"
-						style="flex:auto;width:1rpx;" hover-class="ux-tap" url="/pages/emu/query">
-						<text class="icon section-icon ux-color-orange1">&#xe570;</text>
-						<br>
-						<text class="ux-text">动车组</text>
-						<br>
-						<text class="ux-text-small ux-opacity-8">查询动车组配属和运行交路。</text>
-						<br>
-						<br>
-						<view class="ux-text-right ux-mr-small">
-							<text class="icon">&#xe5c8;</text>
-						</view>
-					</navigator>
-					<view class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small"
-						style="flex:auto;width:1rpx;">
-						<text class="icon section-icon ux-color-blue">&#xe1b7;</text>
-						<br>
-						<text class="ux-text">雷达</text>
-						<br>
-						<text class="ux-text-small ux-opacity-8">实时预测附近经过的列车。</text>
-						<br>
-						<br>
-						<view class="ux-text-right ux-mr-small">
-							<!-- <text class="icon">&#xe5c8;</text>-->
-						</view>
-						<text class="ux-text-small">施工中 请静候佳音</text>
-					</view>
-				</view>
-			</view>
-		</scroll-view>
+		</view>
 	</view>
 </template>
 
@@ -174,22 +173,6 @@
 				margin-top: 13px;
 				color: gray
 			}
-		}
-
-		.yiyan {
-			font-family: "钉钉进步体";
-		}
-
-		.slogan-text {
-			font-family: "钉钉进步体";
-			font-size: 47px;
-			color: white;
-		}
-
-		.info {
-			text-align: right;
-			font-family: "钉钉进步体";
-			color: white;
 		}
 	}
 
