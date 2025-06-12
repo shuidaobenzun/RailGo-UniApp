@@ -28,7 +28,7 @@
 				<view
 					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-flex ux-space-between ux-padding ux-mt-small">
 					<text class="ux-text-left ux-text-small">QQ交流群</text>
-					<text class="ux-text-right ux-text-small ux-color-grey1">929571596</text>
+					<text class="ux-text-right ux-text-small ux-color-grey1">1043389650</text>
 				</view>
 				<view
 					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-flex ux-space-between ux-padding ux-mt-small">
