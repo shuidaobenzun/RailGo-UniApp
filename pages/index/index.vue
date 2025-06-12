@@ -41,8 +41,8 @@
 						<text class="icon">&#xe5c8;</text>
 					</view>
 				</navigator>
-				<view class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small"
-					style="flex:auto;width:1rpx;" hover-class="ux-tap">
+				<navigator class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small"
+					style="flex:auto;width:1rpx;" hover-class="ux-tap" url="/pages/station/query">
 					<text class="icon section-icon ux-color-cyan1">&#xe88a;</text>
 					<br>
 					<text class="ux-text">车站</text>
@@ -53,7 +53,7 @@
 					<view class="ux-text-right ux-mr-small">
 						<text class="icon">&#xe5c8;</text>
 					</view>
-				</view>
+				</navigator>
 			</view>
 			<br>
 			<view class="ux-flex ux-rows ux-wrap ux-space-between">
