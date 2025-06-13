@@ -20,7 +20,7 @@
 						<text style="font-size: 12px; color: grey;">Version {{version}}</text><br>
 					</view>
 				</view>
-				<l-divider></l-divider>
+				<uv-divider></uv-divider>
 				<text style="font-size: 12px; color: grey;">离线数据版本 {{offline}}</text>
 			</view>
 

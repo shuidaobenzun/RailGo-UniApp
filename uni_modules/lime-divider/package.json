@@ -1,7 +1,7 @@
 {
   "id": "lime-divider",
   "displayName": "lime-divider 分割线",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "lime-divider 用于分割、组织、细化有一定逻辑的组织元素内容和页面结构。兼容uniapp/uniappx",
   "keywords": [
     "lime-divider",

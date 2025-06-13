@@ -1,19 +1,16 @@
 <template>
-	<view class="ux-bg-grey5" style="height:100vh;">
+	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-flex ux-align-items-start ux-bg-primary ux-padding">
-			<view style="border-radius:50%;" hover-class="ux-tap" @click="back">
-				<uni-icons class="va" color="white" type="arrow-left" size="25"></uni-icons>
+		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-padding">
+			<view hover-class="ux-bg-grey8" @click="back">
+				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
 			</view>
-			&nbsp;&nbsp;
-			<text class="ux-h4 ux-color-white va">{{title}}</text>
+			<br>
+			<text class="ux-h2">{{keyword}}</text>
 		</view>
 		<!-- headers end -->
 		<view class="ux-padding">
-			<view class="ux-padding-small ux-mb ux-h6"
-				style="background-color:#e3edff;border:1px solid #114598;border-radius:10rpx;color:#114598;">
-				<text class="ux-bold">信息仅供参考，可能与实际不符。</text>
-			</view>
 			<uni-table border stripe>
 				<uni-tr>
 						<uni-th align="center">车站名</uni-th>
@@ -33,15 +30,19 @@
 					</uni-tr>
 			</uni-table>
 			<br>
+			<view class="ux-text-center ux-padding-small ux-mb ux-h6"
+				style="background-color:#e9eef5;border:1px solid #114598;border-radius:10rpx;color:#114598;">
+				<text class="ux-bold">信息仅供参考，可能与实际不符</text>
+			</view>
 			<view class="ux-flex ux-row ux-justify-content-center">
-				<text class="ux-text-small ux-opacity-4">—— 数据来源: 铁路12306 ——</text>
+				<text class="ux-text-small ux-opacity-4 ux-text-center">—— 数据来源: RailGo.Parser ——</text>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import json from '~@/static/stations.json'
+	import json from '~@/static/offline/stations.json'
 	export default {
 		data() {
 			return {

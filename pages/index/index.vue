@@ -137,10 +137,6 @@
 </script>
 
 <style lang="scss">
-	@font-face {
-		font-family: "钉钉进步体";
-		src: url("/static/DingTalk JinBuTi.ttf");
-	}
 
 	.section-icon {
 		font-size: 25px;

@@ -37,7 +37,7 @@
 			</navigator>
 			<br>
 			<view class="ux-flex ux-row ux-justify-content-center">
-				<text class="ux-text-small ux-opacity-4">—— 数据来源: MoeFactory ——</text>
+				<text class="ux-text-small ux-opacity-4">—— 数据来源: RailGo.Parser ——</text>
 			</view>
 		</view>
 	</view>

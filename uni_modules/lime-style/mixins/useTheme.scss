@@ -32,6 +32,29 @@ $theme: light;
 	
 }
 
+@mixin theme-dark {
+	/* #ifndef APP-ANDROID || APP-IOS || APP-NVUE || APP-HARMONY */
+	@media (prefers-color-scheme: dark) {
+		page {
+			@content;
+		}
+	}
+	/* #endif */
+	/* #ifdef APP-ANDROID || APP-IOS || APP-NVUE || APP-HARMONY */
+	.dark {
+		@content;
+	}
+	/* #endif */
+	/* #ifdef WEB */
+	:root[data-lime-theme='dark'] page {
+		@content;
+	}
+	/* #endif */
+}
+
+
 @function get-var($themes, $key) {
 	@return map-get($themes, $key)
 }
+
+

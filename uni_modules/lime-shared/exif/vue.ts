@@ -2,7 +2,7 @@
 import { base64ToArrayBuffer } from '../base64ToArrayBuffer';
 import { pathToBase64 } from '../pathToBase64';
 // import { isBase64 } from '../isBase64';
-import { isBase64DataUri } from '../isBase64';
+import { isDataURI } from '../isBase64';
 import { isString } from '../isString';
 
 interface File {
@@ -336,7 +336,7 @@ class EXIF {
 			iptcdata: null,
 			xmpdata: null,
 		}
-		if (isBase64(img)) {
+		if (isDataURI(img)) {
 			file.src = img
 		} else if (img.path) {
 			file.src = img.path

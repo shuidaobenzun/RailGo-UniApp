@@ -140,7 +140,7 @@
 							</view>
 						</view>
 					</view>
-					<l-divider />
+					<uv-divider></uv-divider>
 					<view class="ux-flex ux-space-between">
 						<text class="ux-text-small ux-opacity-5">车型</text>
 						<text>{{this.carData.car}}</text>

@@ -210,3 +210,27 @@ $darkColorMap: (
 		getValue(nth($hsv, 3), $i, $isLight)
 	);
 }
+
+@function getSolidColor($base-color, $brightness) {
+  // 验证输入参数
+  @if type-of($base-color) != 'color' {
+    @error "Expected color for $base-color, but got #{type-of($base-color)}: #{$base-color}";
+  }
+  
+  @if type-of($brightness) != 'number' {
+    @error "Expected number for $brightness, but got #{type-of($brightness)}: #{$brightness}";
+  }
+  
+  // 获取基础颜色的HSL值
+  $hue: hue($base-color);
+  $saturation: saturation($base-color);
+  $lightness: lightness($base-color);
+  
+  // 计算新的亮度值 (限制在0-100%范围内)
+  $new-lightness: clamp(0%, $lightness + $brightness, 100%);
+  
+  // 使用HSL函数创建新颜色
+  $new-color: hsl($hue, $saturation, $new-lightness);
+  
+  @return $new-color;
+}

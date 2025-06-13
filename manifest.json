@@ -41,7 +41,9 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
             "sdkConfigs" : {}
         }
@@ -77,5 +79,18 @@
             "bundleName" : "com.azstudio.railgo"
         }
     },
-    "locale" : "zh-Hans"
+    "locale" : "zh-Hans",
+    "h5" : {
+        "devServer" : {
+            "proxy" : {
+                "/api" : {
+                    "target" : "https://auth.railgo.zenglingkun.cn/",
+                    "changeOrigin" : true,
+                    "pathRewrite" : {
+                        "^/auth/" : ""
+                    }
+                }
+            }
+        }
+    }
 }

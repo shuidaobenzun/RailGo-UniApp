@@ -38,10 +38,12 @@ import {getRect} from '@/uni_modules/lime-shared/getRect'
 + [kebabCase](#api_kebabCase): 将字符串转换为指定连接符的命名约定
 + [closest](#api_closest): 在给定数组中找到最接近目标数字的元素
 + [shuffle](#api_shuffle): 将给定的数组打乱
++ [merge](#api_merge): 深度合并两个对象
 + [isBase64](#api_isBase64): 判断字符串是否为base64
 + [isNumber](#api_isNumber): 检查一个值是否为数字类型
 + [isNumeric](#api_isNumeric): 检查一个值是否为数字类型或表示数字的字符串
 + [isString](#api_isString): 检查一个值是否为字符串类型
++ [isIP](#api_isIP): 检查一个值是否为IP地址格式
 + [composition-api](#api_composition-api): 为兼容vue2
 
 ## Utils
@@ -390,6 +392,33 @@ shuffle([1, 3, 5, 7, 9])
 | √     | √                 | 
 
 
+### merge <a id="api_merge"></a>
+- 深度合并两个对象
+
+```js
+const original = { color: 'red' };
+const merged = merge({ ...original }, { color: 'blue', size: 'M' });
+
+console.log('original', original);    // 输出: { color: 'red' } (保持不变)
+console.log('merged', merged);      // 输出: { color: 'red', size: 'M' }
+
+
+type ColorType = {
+	color?: string,
+	size?: string,
+}
+
+const merged2 = merge({ color: 'red' } as ColorType, { color: 'blue', size: 'M' } as ColorType);
+console.log('merged2', merged2)
+```
+
+##### 兼容性
+| uni-app      | uni-app x                      | 
+|------------|----------------------------------|
+| √     | √                 | 
+
+
+
 
 ### isBase64 <a id="api_isBase64"></a>
 - 判断字符串是否为base64
@@ -434,6 +463,26 @@ isNumeric(0) // true
 ```js
 isString('0') // true
 isString(0) // false
+```
+##### 兼容性
+| uni-app      | uni-app x                      | 
+|------------|----------------------------------|
+| √     | √                 | 
+
+### isIP <a id="api_isIP"></a>
+-  检查一个值是否为IP地址格式，可以检测ipv4,ipv6
+
+```js
+console.log(isIP('192.168.1.1'));             // true
+console.log(isIP('2001:0db8:85a3:0000:0000:8a2e:0370:7334')); // true
+
+console.log(isIP('192.168.1.1', 4));             // true
+console.log(isIP('255.255.255.255', { version: 4 })); // true
+
+// 标准IPv6格式
+console.log(isIP('2001:0db8:85a3:0000:0000:8a2e:0370:7334', 6)); // true
+console.log(isIP('fe80::1%eth0', { version: 6 }));               // true（带区域标识）
+
 ```
 ##### 兼容性
 | uni-app      | uni-app x                      | 

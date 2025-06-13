@@ -19,7 +19,7 @@ function toBoolean(value : any | null) : boolean {
 	// if (typeof value == 'boolean') {
 	// 	return value as boolean;
 	// }
-	// #ifdef APP-IOS
+	// #ifdef APP-IOS || APP-HARMONY
 	return value != null && value != undefined
 	// #endif
 	// #ifdef APP-ANDROID
