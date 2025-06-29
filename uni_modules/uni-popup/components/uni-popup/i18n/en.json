@@ -1,0 +1,13 @@
+<<<<<<< HEAD
+{
+	"uni-popup.cancel": "cancel",
+	"uni-popup.ok": "ok",
+=======
+{
+	"uni-popup.cancel": "cancel",
+	"uni-popup.ok": "ok",
+>>>>>>> ce7d720ee640acdb2851c1f5a0b1c048322fdd2b
+	"uni-popup.placeholder": "pleace enter",
+	"uni-popup.title": "Hint",
+	"uni-popup.shareTitle": "Share to"
+}

@@ -17,7 +17,7 @@ export function isBase64(str: string): boolean {
  * @param {string} str - 要检查的字符串。
  * @returns {boolean} 如果字符串是Base64编码的data URI，返回true，否则返回false。
  */
-export function isBase64DataUri(str: string): boolean {
+export function isDataURI(str: string): boolean {
     const dataUriRegex = /^data:([a-zA-Z]+\/[a-zA-Z0-9-+.]+)(;base64)?,([a-zA-Z0-9+/]+={0,2})$/;
     return dataUriRegex.test(str);
 }

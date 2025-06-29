@@ -18,7 +18,8 @@
 	/**
 	 * LimeDivider 分割线
 	 * @description 分割线
-	 * @tutorial https://ext.dcloud.net.cn/plugin?id=xxxx
+	 * <br> 插件类型：LDividerComponentPublicInstance 
+	 * @tutorial https://ext.dcloud.net.cn/plugin?name=lime-divider
 	 * @property {Boolean} dashed 是否使用虚线
 	 * @property {String} content 文本
 	 * @property {Boolean} align = [left|right|center] 内容位置

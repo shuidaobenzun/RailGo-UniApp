@@ -19,8 +19,7 @@
 						<text class="consolas"
 							style="font-size:50rpx;padding-left:5rpx;">{{this.carData.numberFull.join("/").replace(this.carData.numberKind, "").replace(this.carData.numberKind, "")}}</text>
 					</view>
-					<text class="ux-badge ux-text-small ux-color-white"
-						style="padding:5rpx 15rpx;"
+					<text class="ux-badge ux-text-small ux-color-white" style="padding:5rpx 15rpx;"
 						:style="'background-color:'+this.cardColor">{{this.carData.type}}</text>
 				</view>
 				<view class="ux-flex ux-space-between ux-mt-small ux-pl ux-pr ux-pt-small ux-color-white"
@@ -37,6 +36,12 @@
 			<view class="ux-padding-small ux-h6 ux-text-center"
 				style="background-color:#e9eef5;border:1px solid #114598;border-radius:10rpx;color:#114598;">
 				<text class="ux-bold">信息仅供参考 请以铁路运营企业实际运用为准</text>
+			</view>
+			<view v-if="!this.carData.rundays.includes(this.date)">
+				<view class="ux-padding-small ux-h6 ux-text-center ux-mt-small"
+					style="background-color:#f8eceb;border:1px solid #c0392b;border-radius:10rpx;color:#c0392b;">
+					<text class="ux-bold">此车次在选定日期计划不开行 请注意核对信息</text>
+				</view>
 			</view>
 			<view class="ux-flex ux-justify-content-center">
 				<uv-tabs :list="topTabList" lineWidth="60" lineColor="#114598" :activeStyle="{
@@ -74,7 +79,11 @@
 							<image style="width:1px;height:1px;transform:translateY(-5px) scale(40)" mode="aspectFit"
 								src="@/static/station-mark-unpass.png"></image>
 						</uni-td>
-						<uni-td style="border:none">{{item.station}}</uni-td>
+						<uni-td style="border:none">
+							<navigator :url="'/pages/station/result?keyword='+item.stationTelecode+'&vague=false'">
+								{{item.station}}
+							</navigator>
+						</uni-td>
 						<uni-td style="border:none">{{item.trainCode}}</uni-td>
 						<uni-td style="border:none">{{item.arrive}}</uni-td>
 						<uni-td style="border:none">{{item.depart}}</uni-td>
@@ -109,9 +118,10 @@
 			<view v-if="selectIndex==1">
 				<uni-section title="担当" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
-				<view class="ux-bg-white ux-border-radius ux-padding">
+				<view class="ux-bg-white ux-border-radius ux-padding"
+					v-if="this.carData.carOwner+this.carData.runner+this.carData.car!=''">
 					<view class="ux-flex ux-space-between">
-						<view class="ux-flex ux-align-items-center">
+						<view class="ux-flex ux-align-items-center" v-if="this.carData.carOwner!=''">
 							<view class="ux-pt-small">
 								<text class="ux-color-primary icon" style="font-size:60rpx;">&#xe7fd;</text>
 							</view>
@@ -125,7 +135,7 @@
 								</text>
 							</view>
 						</view>
-						<view class="ux-flex ux-align-items-center">
+						<view class="ux-flex ux-align-items-center" v-if="this.carData.carOwner!=''">
 							<view class="ux-pt-small">
 								<text class="ux-color-primary icon" style="font-size:60rpx;">&#xe570;</text>
 							</view>
@@ -140,7 +150,20 @@
 							</view>
 						</view>
 					</view>
-					<l-divider />
+					<l-divider v-if="this.carData.carOwner+this.carData.runner!=''" />
+					<view v-if="this.carData.car!=''">
+						<view class="ux-flex ux-space-between">
+							<text class="ux-text-small ux-opacity-5">车型</text>
+							<text>{{this.carData.car}}</text>
+						</view>
+						<view class="ux-flex ux-space-between ux-align-items-center">
+							<view>
+								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
+									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe642;</text>
+									<view class="ux-pl-small ux-text-small">
+										<text>{{this.carMap[this.carData.car.replace("重联","")][0]}}节编组</text>
+									</view>
+					<uv-divider></uv-divider>
 					<view class="ux-flex ux-space-between">
 						<text class="ux-text-small ux-opacity-5">车型</text>
 						<text>{{this.carData.car}}</text>
@@ -152,31 +175,55 @@
 								<view class="ux-pl-small ux-text-small">
 									<text>{{this.carMap[this.carData.car.replace("重联","")][0]}}节编组</text>
 								</view>
-							</view>
-							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
-								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe5c3;</text>
-								<view class="ux-pl-small ux-text-small">
-									<text>{{this.carMap[this.carData.car.replace("重联","")][1]}}</text>
+								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
+									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe569;</text>
+									<view class="ux-pl-small ux-text-small">
+										<text>{{this.carMap[this.carData.car.replace("重联","")][3]}}km/h</text>
+									</view>
+								</view>
+								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
+									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe5c3;</text>
+									<view class="ux-pl-small ux-text-small">
+										<text>{{this.carMap[this.carData.car.replace("重联","")][1]}}</text>
+									</view>
+								</view>
+								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
+									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe556;</text>
+									<view class="ux-pl-small ux-text-small">
+										<text>{{this.carMap[this.carData.car.replace("重联","")][2]}}</text>
+									</view>
 								</view>
 							</view>
-							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
-								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe556;</text>
-								<view class="ux-pl-small ux-text-small">
-									<text>{{this.carMap[this.carData.car.replace("重联","")][2]}}</text>
-								</view>
+							<view class="ux-mt-small">
+								<image :src="this.carMap[this.carData.car.replace('重联','')][4]" mode="aspectFit"
+									style="max-width:220rpx;height:220rpx;"></image>
 							</view>
 						</view>
-						<view class="">
-							<image src="@/static/trainHead/missing.png" style="width:164rpx;height:196rpx;"></image>
+						<view v-if="['G','D','C'].includes(this.carData.numberKind)">
+							<br>
+							<navigator :url="'/pages/emu/result?keyword='+this.train">
+								<button class="ux-color-white ux-bg-primary" size="mini"
+									style="margin:none;width:100%;">
+									<view class="ux-flex ux-align-items-center ux-justify-content-center">
+										<text class="icon">&#xe570;</text>
+										&nbsp;查询具体担当信息
+									</view>
+								</button>
+							</navigator>
 						</view>
 					</view>
+				</view>
+				<view v-if="this.carData.carOwner+this.carData.runner+this.carData.car==''"
+					class="ux-padding ux-text-center">
+					暂无担当
 				</view>
 				<uni-section title="交路" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
 				<navigator v-for="(item,index) in carData.diagram" :key="index"
-					:url="'/pages/train/trainResult?keyword='+item.train_num">
+					:url="'/pages/train/trainResult?keyword='+item.train_num+'&date='+this.date">
 					<view class="ux-bg-white ux-border-radius ux-mt-small ux-flex">
-						<view style="border-bottom-left-radius: 10rpx; border-top-left-radius:10rpx;" :style="'background-color:'+this.colorMap[item.train_num[0]]">
+						<view style="border-bottom-left-radius: 10rpx; border-top-left-radius:10rpx;"
+							:style="'background-color:'+this.colorMap[item.train_num[0]]">
 							&nbsp;&nbsp;
 						</view>
 						<view class="ux-flex ux-align-items-center ux-space-between ux-pr ux-pt ux-pb ux-pl-small"
@@ -243,6 +290,7 @@
 				"carMap": CAR_PERFORMANCE,
 				"delay": [],
 				"title": this.keyword,
+				"date": "",
 				"train": "",
 				"cardColor": "#114598",
 				"topTabList": [{
@@ -258,6 +306,7 @@
 		onLoad(options) {
 			this.train = options.keyword.split("/")[0];
 			this.title = this.train;
+			this.date = options.date;
 			this.fillInData(); // 调用数据填充方法
 		},
 		onShow() {
@@ -275,7 +324,6 @@
 					this.cardColor = this.colorMap[this.carData.numberKind];
 					//console.log(this.carData);
 				} catch (error) {
-
 					console.error("数据加载失败", error);
 				}
 			},

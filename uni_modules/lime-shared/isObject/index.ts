@@ -5,15 +5,15 @@
  * @returns 如果值的类型是对象类型，则返回 true；否则返回 false
  */
 
-// #ifndef UNI-APP-X && APP
+// #ifndef APP-ANDROID
 export const isObject = (val : unknown) : val is Record<any, any> =>
 	val !== null && typeof val === 'object';
 	
 // #endif
 
 
-// #ifdef UNI-APP-X && APP
+// #ifdef APP-ANDROID
 export const isObject = (val : any | null) : boolean =>{
-	return val !== null && typeof val === 'object';
+	return val != null && typeof val == 'object';
 }
 // #endif

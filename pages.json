@@ -52,7 +52,7 @@
 			}
 		},
 		{
-			"path" : "pages/train/result",
+			"path" : "pages/train/stsResult",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""
@@ -94,7 +94,14 @@
 			}
 		},
 		{
-			"path" : "pages/oobe/_dev_warn",
+			"path" : "pages/oobe/auth",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/oobe/download",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""

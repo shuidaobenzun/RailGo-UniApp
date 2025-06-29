@@ -1,6 +1,9 @@
 # lime-divider 分割线
 - 用于将内容分隔为多个区域。
 
+## 文档
+[divider](https://limex.qcoon.cn/components/divider.html)
+
 ## 安装
 在插件市场导入即可，首次导入可能需要重新编译
 

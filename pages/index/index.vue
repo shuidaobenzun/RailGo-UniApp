@@ -41,8 +41,8 @@
 						<text class="icon">&#xe5c8;</text>
 					</view>
 				</navigator>
-				<view class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small"
-					style="flex:auto;width:1rpx;" hover-class="ux-tap">
+				<navigator class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-ml-small"
+					style="flex:auto;width:1rpx;" hover-class="ux-tap" url="/pages/station/query">
 					<text class="icon section-icon ux-color-cyan1">&#xe88a;</text>
 					<br>
 					<text class="ux-text">车站</text>
@@ -53,7 +53,7 @@
 					<view class="ux-text-right ux-mr-small">
 						<text class="icon">&#xe5c8;</text>
 					</view>
-				</view>
+				</navigator>
 			</view>
 			<br>
 			<view class="ux-flex ux-rows ux-wrap ux-space-between">
@@ -86,6 +86,8 @@
 				</view>
 			</view>
 		</view>
+		<br>
+		<image class="ux-border-radius-large" src="/static/overlay/index_banner_1.png" style="width:100%;" mode="widthFix"></image>
 	</view>
 </template>
 
@@ -137,13 +139,9 @@
 </script>
 
 <style lang="scss">
-	@font-face {
-		font-family: "钉钉进步体";
-		src: url("/static/DingTalk JinBuTi.ttf");
-	}
 
 	.section-icon {
-		font-size: 25px;
+		font-size: 50rpx;
 	}
 
 	.main {

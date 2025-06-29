@@ -30,7 +30,6 @@ export function isEmpty(value : any | null) : boolean {
 	if(isNumber(value)){
 		return false
 	}
-
 	if(typeof value == 'object'){
 		// 数组
 		if(Array.isArray(value)){
@@ -49,8 +48,7 @@ export function isEmpty(value : any | null) : boolean {
 		}
 		return JSON.stringify(value) == '{}'
 	}
-	
-	return true
+	return false
 }
 // #endif
 
@@ -58,7 +56,7 @@ export function isEmpty(value : any | null) : boolean {
 // #ifndef UNI-APP-X && APP
 export function isEmpty(value: any): boolean {
     // 检查是否为null或undefined
-    if (value == null) {
+    if (value == null || value == undefined || value == '') {
         return true;
     }
 

@@ -95,7 +95,7 @@
 					this.url = '';
 				} else {
 					this.bgc = '#114598';
-					this.url = "/pages/oobe/_dev_warn"; // 测试版
+					this.url = "/pages/oobe/auth"; // 测试版
 					//this.url = "/pages/oobe/mode";
 				}
 			}

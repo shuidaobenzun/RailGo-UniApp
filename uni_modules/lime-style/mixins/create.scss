@@ -1,6 +1,9 @@
 // #ifdef VUE3 || VUE2 && uniVersion >= 4.56
 @use "sass:math";
 // #endif
+
+$use-css-var: false !default; 
+
 @function div($dividend, $divisor) {
 	// #ifdef VUE3 || VUE2 && uniVersion >= 4.56
 	@return math.div($dividend, $divisor);
@@ -116,12 +119,27 @@
 	@return $result + $rpx-string;
 }
 
+
+
 @function create-var($name, $values...) {
 	// 将不定数量的参数转换为列表
+	// $use-css-var: false; 
+	// $use-css-var: nth($values, -1) == false;
 	$value-list: $values;
 	$css-value: null;
+	
+	// @if type-of(nth($values, -1)) == bool {
+	// 	$use-css-var: nth($values, -1); // 获取布尔值
+	// 	// 移除最后一个元素（布尔值）
+	// 	$value-list: ();
+	// 	@for $i from 1 through (length($values) - 1) {
+	// 	    $value-list: append($value-list, nth($values, $i));
+	// 	}
+	// }
+	
 	@if length($value-list) == 0 {
-		@warn "The list must have at least 1 values.";
+		// @warn "The list must have at least 1 values.";
+		@return '';
 	} @else {
 		// 初始化CSS变量的值为列表中的第一个值
 		/* #ifndef VUE2 */
@@ -143,6 +161,14 @@
 			/* #endif */
 	    }
 	}
+	
+	/* #ifdef UNI-APP-X && APP && uniVersion >= 4.71*/
+	@if $use-css-var {
+		@return var(--l-#{$name}, #{$css-value});
+	} @else {
+		@return $css-value;
+	}
+	/* #endif */
 	
 	/* #ifndef APP-NVUE || APP-ANDROID || APP-IOS || APP-HARMONY */
 	@return var(--l-#{$name}, #{$css-value});

@@ -22,13 +22,10 @@
 </template>
 <script lang="ts">
 	// @ts-nocheck
-	import {defineComponent} from '@/uni_modules/lime-shared/vue';
-	import DividerProps from './props'
-	const name = 'l-divider'
 	/**
 	 * LimeDivider 分割线
 	 * @description 分割线
-	 * @tutorial https://ext.dcloud.net.cn/plugin?id=xxxx
+	 * @tutorial https://ext.dcloud.net.cn/plugin?name=lime-divider
 	 * @property {Boolean} dashed 是否使用虚线
 	 * @property {String} content 文本
 	 * @property {Boolean} align = [left|right|center] 内容位置
@@ -36,6 +33,10 @@
 	 * @value right	 align 靠右
 	 * @value center align 居中
 	 */
+	import {defineComponent} from '@/uni_modules/lime-shared/vue';
+	import DividerProps from './props'
+	const name = 'l-divider'
+	
 	export default defineComponent({
 		name,
 		props: DividerProps,

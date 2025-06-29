@@ -14,3 +14,4 @@ export function getAllRect(selector : string, context: ComponentPublicInstance):
 		}).exec();
 	})
 }
+

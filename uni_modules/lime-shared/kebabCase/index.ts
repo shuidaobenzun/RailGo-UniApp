@@ -12,10 +12,10 @@
 export function kebabCase(str : string, separator : string = "-") : string {
 	return str
 		
-		// #ifdef UNI-APP-X && APP
+		// #ifdef APP-ANDROID
 		.replace(/[A-Z]/g, (match : string, _ : number, _ : string) : string => `${separator}${match.toLowerCase()}`) // 将大写字母替换为连接符加小写字母
 		// #endif
-		// #ifndef UNI-APP-X && APP
+		// #ifndef APP-ANDROID
 		.replace(/[A-Z]/g, (match : string) : string => `${separator}${match.toLowerCase()}`) // 将大写字母替换为连接符加小写字母
 		// #endif
 		.replace(/[\s_-]+/g, separator) // 将空格、下划线和短横线替换为指定连接符

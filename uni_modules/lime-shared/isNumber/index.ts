@@ -19,7 +19,7 @@ export function isNumber(value: any|null): boolean {
 	// #ifdef APP-IOS
 	return ['Int8', 'UInt8','Int16','UInt16','Int32','UInt32','Int64','UInt64','Int','UInt','Float','Float16','Float32','Float64','Double', 'number'].includes(typeof value)
 	// #endif
-	// #ifndef UNI-APP-X && APP
+	// #ifndef APP-ANDROID || APP-IOS
 	return typeof value === 'number' && !isNaN(value);
 	// #endif
 }

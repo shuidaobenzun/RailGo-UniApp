@@ -13,14 +13,14 @@
 		<view class="ux-padding">
 			<view class="ux-bg-white ux-border-radius-large ux-padding">
 				<view class="ux-flex ux-align-items-center">
-					<image src="~@/static/logo.png" style="width: 140rpx; height: 140rpx;" @click="add"></image><br />
+					<image class="ux-box-shadow ux-border-radius-large" src="~@/static/logo.png" style="width: 140rpx; height: 140rpx;" @click="add"></image><br />
 					<view class="ux-pl">
 						<text class="ux-bold ux-h4">RailGo</text>
 						<br>
 						<text style="font-size: 12px; color: grey;">Version {{version}}</text><br>
 					</view>
 				</view>
-				<l-divider></l-divider>
+				<uv-divider></uv-divider>
 				<text style="font-size: 12px; color: grey;">离线数据版本 {{offline}}</text>
 			</view>
 
@@ -28,7 +28,7 @@
 				<view
 					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-flex ux-space-between ux-padding ux-mt-small">
 					<text class="ux-text-left ux-text-small">QQ交流群</text>
-					<text class="ux-text-right ux-text-small ux-color-grey1">929571596</text>
+					<text class="ux-text-right ux-text-small ux-color-grey1">1043389650</text>
 				</view>
 				<view
 					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-flex ux-space-between ux-padding ux-mt-small">

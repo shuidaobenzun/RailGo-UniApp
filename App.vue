@@ -10,13 +10,11 @@
 		return difference > interval; 
 	}
 	async function check() {
-		return;
 		try{
 			const Response = await axios.get("https://auth.railgo.zenglingkun.cn/api/check/" + uni.getStorageSync('version') + "?userid=" + uni.getStorageSync('qq') + "&key=" + uni.getStorageSync('key'));
 			if (Response.data.valid){
 				uni.setStorageSync("AuthTime", new Date().getTime())
 				console.log("鉴权成功")
-				
 			} else{
 				uni.showToast({
 					title: '鉴权无效',
@@ -70,9 +68,12 @@
 			  data: "未下载"
 			});
 		  }
-
-		  loadDB();
-		  
+		  await loadDB();
+		 // #ifdef APP-PLUS
+		 if (uni.getStorageSync("mode") == "local"){
+			 loadDB();
+		 }
+		 // #endif
 		  if (uni.getStorageSync('oobe')){
 		  	//* 不操作 */
 		  } else {
@@ -83,6 +84,7 @@
 		  
 		  // 鉴权
 		  check()
+		  
 		},
 		onShow: function () { },
 		onHide: function () { },
