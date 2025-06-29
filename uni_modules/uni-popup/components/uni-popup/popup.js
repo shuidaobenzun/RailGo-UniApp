@@ -1,17 +1,9 @@
 
-<<<<<<< HEAD
 export default {
 	data() {
 		return {
 			
 		}
-=======
-export default {
-	data() {
-		return {
-			
-		}
->>>>>>> ce7d720ee640acdb2851c1f5a0b1c048322fdd2b
 	},
 	created(){
 		this.popup = this.getParent()
@@ -30,10 +22,5 @@ export default {
 			}
 			return parent;
 		},
-<<<<<<< HEAD
 	}
 }
-=======
-	}
-}
->>>>>>> ce7d720ee640acdb2851c1f5a0b1c048322fdd2b
