@@ -50,7 +50,7 @@
 </template>
 
 <script>
-	import axios from "axios";
+	import uniGet from "@/scripts/req.js";
 	export default {
 		data() {
 			return {
@@ -76,7 +76,7 @@
 			},
 			fillInData: async function() {
 				try {
-					const response = await axios.get("https://crtracker.azteam.cn/api/query?keyword=" + this.keyword +
+					const response = await uniGet("https://crtracker.azteam.cn/api/query?keyword=" + this.keyword +
 						"&future=" + this.future);
 					this.data=response.data.data;
 					uni.hideLoading();

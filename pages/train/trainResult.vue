@@ -15,21 +15,21 @@
 				<view class="ux-flex ux-space-between ux-pt ux-pl ux-pr ux-align-items-center">
 					<view>
 						<text class="ux-bold consolas" style="font-size:60rpx;"
-							:style="'color:'+this.cardColor">{{this.carData.numberKind}}</text>
+							:style="'color:'+cardColor">{{carData.numberKind || ''}}</text>
 						<text class="consolas"
-							style="font-size:50rpx;padding-left:5rpx;">{{this.carData.numberFull.join("/").replace(this.carData.numberKind, "").replace(this.carData.numberKind, "")}}</text>
+							style="font-size:50rpx;padding-left:5rpx;">{{(carData.numberFull || []).join("/").replace(carData.numberKind, "").replace(carData.numberKind, "")}}</text>
 					</view>
 					<text class="ux-badge ux-text-small ux-color-white" style="padding:5rpx 15rpx;"
-						:style="'background-color:'+this.cardColor">{{this.carData.type}}</text>
+						:style="'background-color:'+cardColor">{{carData.type || ''}}</text>
 				</view>
 				<view class="ux-flex ux-space-between ux-mt-small ux-pl ux-pr ux-pt-small ux-color-white"
-					:style="'background-color:'+this.cardColor">
-					<text class="ux-text-small">{{this.carData.timetable[0].station}} ⋙
-						{{this.carData.timetable[this.carData.timetable.length-1].station}}</text>
-					<text class="ux-text-small">{{this.carData.bureauName}}{{this.carData.runner}}&nbsp;&nbsp;</text>
+					:style="'background-color:'+cardColor">
+					<text class="ux-text-small">{{(carData.timetable && carData.timetable[0] ? carData.timetable[0].station : '')}} ⋙
+						{{(carData.timetable && carData.timetable.length > 0 ? carData.timetable[carData.timetable.length-1].station : '')}}</text>
+					<text class="ux-text-small">{{carData.bureauName || ''}}{{carData.runner || ''}}&nbsp;&nbsp;</text>
 				</view>
 				<view class="ux-pb-small" style="border-bottom-left-radius:10rpx; border-bottom-right-radius:10rpx;"
-					:style="'background-color:'+this.cardColor">
+					:style="'background-color:'+cardColor">
 				</view>
 			</view>
 			<br>
@@ -37,7 +37,7 @@
 				style="background-color:#e9eef5;border:1px solid #114598;border-radius:10rpx;color:#114598;">
 				<text class="ux-bold">信息仅供参考 请以铁路运营企业实际运用为准</text>
 			</view>
-			<view v-if="!this.carData.rundays.includes(this.date)">
+			<view v-if="carData.rundays && !carData.rundays.includes(date)">
 				<view class="ux-padding-small ux-h6 ux-text-center ux-mt-small"
 					style="background-color:#f8eceb;border:1px solid #c0392b;border-radius:10rpx;color:#c0392b;">
 					<text class="ux-bold">此车次在选定日期计划不开行 请注意核对信息</text>
@@ -73,24 +73,24 @@
 						<uni-th width="100">区间均速</uni-th>
 						<uni-th width="50">日期</uni-th>
 					</uni-tr>
-					<uni-tr v-for="(item,index) in this.carData.timetable" :key="index" style="border:none"
+					<uni-tr v-for="(item,index) in (carData.timetable || [])" :key="index" style="border:none"
 						hover-class="ux-bg-grey5">
 						<uni-td style="border:none">
 							<image style="width:1px;height:1px;transform:translateY(-5px) scale(40)" mode="aspectFit"
 								src="@/static/station-mark-unpass.png"></image>
 						</uni-td>
 						<uni-td style="border:none">
-							<navigator :url="'/pages/station/result?keyword='+item.stationTelecode+'&vague=false'">
-								{{item.station}}
+							<navigator :url="'/pages/station/result?keyword='+(item.stationTelecode || '')+'&vague=false'">
+								{{item.station || ''}}
 							</navigator>
 						</uni-td>
-						<uni-td style="border:none">{{item.trainCode}}</uni-td>
-						<uni-td style="border:none">{{item.arrive}}</uni-td>
-						<uni-td style="border:none">{{item.depart}}</uni-td>
-						<uni-td style="border:none">{{item.stopTime}}'</uni-td>
-						<uni-td style="border:none">{{item.distance}} km</uni-td>
-						<uni-td style="border:none">{{item.speed.toFixed(1)}} km/h</uni-td>
-						<uni-td style="border:none">{{item.day}} 天</uni-td>
+						<uni-td style="border:none">{{item.trainCode || ''}}</uni-td>
+						<uni-td style="border:none">{{item.arrive || ''}}</uni-td>
+						<uni-td style="border:none">{{item.depart || ''}}</uni-td>
+						<uni-td style="border:none">{{item.stopTime || '-'}}'</uni-td>
+						<uni-td style="border:none">{{item.distance || '-'}} km</uni-td>
+						<uni-td style="border:none">{{item.speed ? item.speed.toFixed(1) : '-'}} km/h</uni-td>
+						<uni-td style="border:none">{{item.day || '-'}} 天</uni-td>
 					</uni-tr>
 				</uni-table>
 
@@ -106,11 +106,11 @@
 						<uni-th align="center">状态</uni-th>
 					</uni-tr>
 					<uni-tr v-for="(item,index) in delay" :key="index">
-						<uni-td>{{item.stationName}}</uni-td>
-						<uni-td>{{item.trainNumber}}</uni-td>
-						<uni-td>{{item.arrivalTime}}<br>{{item.departureTime}}</uni-td>
-						<uni-td>{{item.arrivalDate}}</uni-td>
-						<uni-td>{{item.status}}</uni-td>
+						<uni-td>{{item.stationName || ''}}</uni-td>
+						<uni-td>{{item.trainNumber || ''}}</uni-td>
+						<uni-td>{{item.arrivalTime || ''}}<br>{{item.departureTime || ''}}</uni-td>
+						<uni-td>{{item.arrivalDate || ''}}</uni-td>
+						<uni-td>{{item.status || ''}}</uni-td>
 					</uni-tr>
 				</uni-table>
 			</view>
@@ -119,9 +119,9 @@
 				<uni-section title="担当" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
 				<view class="ux-bg-white ux-border-radius ux-padding"
-					v-if="this.carData.carOwner+this.carData.runner+this.carData.car!=''">
+					v-if="(carData.carOwner || '')+(carData.runner || '')+(carData.car || '')!=''">
 					<view class="ux-flex ux-space-between">
-						<view class="ux-flex ux-align-items-center" v-if="this.carData.carOwner!=''">
+						<view class="ux-flex ux-align-items-center" v-if="carData.carOwner">
 							<view class="ux-pt-small">
 								<text class="ux-color-primary icon" style="font-size:60rpx;">&#xe7fd;</text>
 							</view>
@@ -131,11 +131,11 @@
 								</text>
 								<br>
 								<text>
-									{{this.carData.runner}}
+									{{carData.runner || ''}}
 								</text>
 							</view>
 						</view>
-						<view class="ux-flex ux-align-items-center" v-if="this.carData.carOwner!=''">
+						<view class="ux-flex ux-align-items-center" v-if="carData.carOwner">
 							<view class="ux-pt-small">
 								<text class="ux-color-primary icon" style="font-size:60rpx;">&#xe570;</text>
 							</view>
@@ -145,107 +145,97 @@
 								</text>
 								<br>
 								<text>
-									{{this.carData.carOwner}}
+									{{carData.carOwner || ''}}
 								</text>
 							</view>
 						</view>
 					</view>
-					<l-divider v-if="this.carData.carOwner+this.carData.runner!=''" />
-					<view v-if="this.carData.car!=''">
+					<l-divider v-if="(carData.carOwner || '')+(carData.runner || '')!=''" />
+					<view v-if="carData.car">
 						<view class="ux-flex ux-space-between">
 							<text class="ux-text-small ux-opacity-5">车型</text>
-							<text>{{this.carData.car}}</text>
+							<text>{{carData.car || ''}}</text>
 						</view>
 						<view class="ux-flex ux-space-between ux-align-items-center">
 							<view>
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe642;</text>
 									<view class="ux-pl-small ux-text-small">
-										<text>{{this.carMap[this.carData.car.replace("重联","")][0]}}节编组</text>
+										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][0] : ''}}节编组</text>
 									</view>
-					<uv-divider></uv-divider>
-					<view class="ux-flex ux-space-between">
-						<text class="ux-text-small ux-opacity-5">车型</text>
-						<text>{{this.carData.car}}</text>
-					</view>
-					<view class="ux-flex ux-space-between ux-align-items-center">
-						<view>
-							<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
-								<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe915;</text>
-								<view class="ux-pl-small ux-text-small">
-									<text>{{this.carMap[this.carData.car.replace("重联","")][0]}}节编组</text>
 								</view>
+								<uv-divider></uv-divider>
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe569;</text>
 									<view class="ux-pl-small ux-text-small">
-										<text>{{this.carMap[this.carData.car.replace("重联","")][3]}}km/h</text>
+										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][3] : ''}}km/h</text>
 									</view>
 								</view>
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe5c3;</text>
 									<view class="ux-pl-small ux-text-small">
-										<text>{{this.carMap[this.carData.car.replace("重联","")][1]}}</text>
+										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][1] : ''}}</text>
 									</view>
 								</view>
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe556;</text>
 									<view class="ux-pl-small ux-text-small">
-										<text>{{this.carMap[this.carData.car.replace("重联","")][2]}}</text>
+										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][2] : ''}}</text>
 									</view>
 								</view>
+								<view class="ux-mt-small">
+									<image v-if="carMap[carData.car.replace('重联','')]" :src="carMap[carData.car.replace('重联','')][4]" mode="aspectFit"
+										style="max-width:220rpx;height:220rpx;"></image>
+								</view>
 							</view>
-							<view class="ux-mt-small">
-								<image :src="this.carMap[this.carData.car.replace('重联','')][4]" mode="aspectFit"
-									style="max-width:220rpx;height:220rpx;"></image>
+							<view v-if="['G','D','C'].includes(carData.numberKind)">
+								<br>
+								<navigator :url="'/pages/emu/result?keyword='+train">
+									<button class="ux-color-white ux-bg-primary" size="mini"
+										style="margin:none;width:100%;">
+										<view class="ux-flex ux-align-items-center ux-justify-content-center">
+											<text class="icon">&#xe570;</text>
+											&nbsp;查询具体担当信息
+										</view>
+									</button>
+								</navigator>
 							</view>
-						</view>
-						<view v-if="['G','D','C'].includes(this.carData.numberKind)">
-							<br>
-							<navigator :url="'/pages/emu/result?keyword='+this.train">
-								<button class="ux-color-white ux-bg-primary" size="mini"
-									style="margin:none;width:100%;">
-									<view class="ux-flex ux-align-items-center ux-justify-content-center">
-										<text class="icon">&#xe570;</text>
-										&nbsp;查询具体担当信息
-									</view>
-								</button>
-							</navigator>
 						</view>
 					</view>
 				</view>
-				<view v-if="this.carData.carOwner+this.carData.runner+this.carData.car==''"
+				<view v-if="(carData.carOwner || '')+(carData.runner || '')+(carData.car || '')==''"
 					class="ux-padding ux-text-center">
 					暂无担当
 				</view>
 				<uni-section title="交路" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
-				<navigator v-for="(item,index) in carData.diagram" :key="index"
-					:url="'/pages/train/trainResult?keyword='+item.train_num+'&date='+this.date">
+				<navigator v-for="(item,index) in (carData.diagram || [])" :key="index"
+					:url="'/pages/train/trainResult?keyword='+item.train_num+'&date='+date">
 					<view class="ux-bg-white ux-border-radius ux-mt-small ux-flex">
 						<view style="border-bottom-left-radius: 10rpx; border-top-left-radius:10rpx;"
-							:style="'background-color:'+this.colorMap[item.train_num[0]]">
+							:style="'background-color:'+colorMap[item.train_num[0]]">
 							&nbsp;&nbsp;
 						</view>
 						<view class="ux-flex ux-align-items-center ux-space-between ux-pr ux-pt ux-pb ux-pl-small"
 							style="width:100%;">
 							<view style="width:calc(100% - 70px);">
 								<view class="ux-flex ux-align-items-center">
-									<text class="consolas" style="font-size:40rpx;">{{item.train_num}}</text>
+									<text class="consolas" style="font-size:40rpx;">{{item.train_num || ''}}</text>
 								</view>
-								<text class="ux-text-small">{{item.from[0]}} {{item.from[1]}} ⋙ {{item.to[0]}}
-									{{item.to[1]}}</text>
+								<text class="ux-text-small">{{item.from ? item.from[0] : ''}} {{item.from ? item.from[1] : ''}} ⋙ {{item.to ? item.to[0] : ''}}
+									{{item.to ? item.to[1] : ''}}</text>
 							</view>
 							<text class="ux-text"><text class="icon">&#xe5c8;</text></text>
 						</view>
 					</view>
 				</navigator>
-				<view v-if="carData.diagram.length==0" class="ux-padding-large ux-text-center">
+				<view v-if="(carData.diagram || []).length==0" class="ux-padding-large ux-text-center">
 					暂无交路
 				</view>
 				<uni-section title="开行日" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
 				<calendar class="ux-bg-white ux-border-radius"
-					:highlighted-dates="(()=>{var l=[]; this.carData.rundays.forEach((i)=>{l.push({date: i.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3'), bgColor: '#114598'});});return l;})()" />
+					:highlighted-dates="(()=>{var l=[]; (carData.rundays || []).forEach((i)=>{l.push({date: i.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3'), bgColor: '#114598'});});return l;})()"></calendar>
 				<view class="ux-flex ux-space-between ux-pt-small">
 					<text class="ux-text-small ux-opacity-4">*实际开行请以站车公告为准</text>
 					<view class="ux-flex ux-align-items-center ux-nowrap">
@@ -285,11 +275,22 @@
 		},
 		data() {
 			return {
-				"carData": {},
+				"carData": {
+					numberKind: '',
+					numberFull: [],
+					type: '',
+					timetable: [],
+					bureauName: '',
+					runner: '',
+					carOwner: '',
+					car: '',
+					rundays: [],
+					diagram: []
+				},
 				"colorMap": TRAIN_KIND_COLOR_MAP,
 				"carMap": CAR_PERFORMANCE,
 				"delay": [],
-				"title": this.keyword,
+				"title": '',
 				"date": "",
 				"train": "",
 				"cardColor": "#114598",
@@ -304,9 +305,9 @@
 			}
 		},
 		onLoad(options) {
-			this.train = options.keyword.split("/")[0];
+			this.train = options.keyword ? options.keyword.split("/")[0] : '';
 			this.title = this.train;
-			this.date = options.date;
+			this.date = options.date || '';
 			this.fillInData(); // 调用数据填充方法
 		},
 		onShow() {
@@ -320,11 +321,56 @@
 			},
 			fillInData: async function() {
 				try {
-					this.carData = toRaw(await queryMainKey("trains", this.title)).at(0);
-					this.cardColor = this.colorMap[this.carData.numberKind];
-					//console.log(this.carData);
+					if (!this.title) return;
+					
+					const result = await queryMainKey("trains", this.title);
+					if (result && result.length > 0) {
+						this.carData = {
+							numberKind: '',
+							numberFull: [],
+							type: '',
+							timetable: [],
+							bureauName: '',
+							runner: '',
+							carOwner: '',
+							car: '',
+							rundays: [],
+							diagram: [],
+							...toRaw(result[0])
+						};
+						
+						// 确保 timetable 中的每个项目都有必要字段
+						this.carData.timetable = (this.carData.timetable || []).map(item => ({
+							station: '',
+							stationTelecode: '',
+							trainCode: '',
+							arrive: '',
+							depart: '',
+							stopTime: '-',
+							distance: '-',
+							speed: 0,
+							day: '-',
+							...item
+						}));
+						
+						this.cardColor = this.colorMap[this.carData.numberKind] || '#114598';
+					}
 				} catch (error) {
 					console.error("数据加载失败", error);
+					// 确保有安全的默认值
+					this.carData = {
+						numberKind: '',
+						numberFull: [],
+						type: '',
+						timetable: [],
+						bureauName: '',
+						runner: '',
+						carOwner: '',
+						car: '',
+						rundays: [],
+						diagram: []
+					};
+					this.cardColor = '#114598';
 				}
 			},
 			tabChange: function(e) {

@@ -33,7 +33,7 @@
 </template>
 
 <script>
-	import axios from "axios";
+	import uniGet from "@/scripts/req.js";
 	export default {
 		data() {
 			return {
@@ -63,7 +63,7 @@
 				}
 				this.load=true;
 				try {
-					const Response = await axios.get("https://auth.railgo.zenglingkun.cn/api/check/" + this.ver + "?userid=" + this.qq + "&key=" + this.code);
+					const Response = await uniGet("https://auth.railgo.zenglingkun.cn/api/check/" + this.ver + "?userid=" + this.qq + "&key=" + this.code);
 					this.valid = Response.data.valid;
 					const button = document.getElementById('next');
 					const navigatorControl = document.getElementById('navigator1'); 

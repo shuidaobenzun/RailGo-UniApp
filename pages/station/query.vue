@@ -54,7 +54,7 @@
 			<text class="ux-text-small ux-opacity-4">—— 数据来源: RailGo.Parser ——</text>
 		</view>
 		</view>
-	</view>
+	
 </template>
 
 <script>

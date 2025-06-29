@@ -16,5 +16,8 @@
             "通用组件"
         ]
     },
-    "displayName": "Avatar 头像"
+    "displayName": "Avatar 头像",
+    "dependencies": {
+        "uniapp-axios-adapter": "^0.3.2"
+    }
 }

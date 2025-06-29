@@ -95,8 +95,11 @@
 					this.url = '';
 				} else {
 					this.bgc = '#114598';
-					this.url = "/pages/oobe/auth"; // 测试版
-					//this.url = "/pages/oobe/mode";
+					if (uni.getStorageSync("NeedAuth")){
+						this.url = "/pages/oobe/auth"; 
+					} else {
+						this.url = "/pages/oobe/mode";
+					}
 				}
 			}
 		}

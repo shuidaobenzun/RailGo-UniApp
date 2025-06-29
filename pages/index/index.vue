@@ -92,7 +92,7 @@
 </template>
 
 <script>
-	import axios from "axios";
+	import uniGet from "@/scripts/req.js";
 
 	export default {
 		// Railgo Code
@@ -115,17 +115,17 @@
 		methods: {
 			async fetchData() {
 				try {
-					const titleResponse = await axios.get('https://api.state.railgo.zenglingkun.cn/yiyan');
+					const titleResponse = await uniGet('https://api.state.railgo.zenglingkun.cn/yiyan');
 					this.title = titleResponse.data;
 
-					const statsResponse = await axios.get('https://api.state.railgo.zenglingkun.cn/state');
+					const statsResponse = await uniGet('https://api.state.railgo.zenglingkun.cn/state');
 					this.visit = statsResponse.data.visits;
 					this.query = statsResponse.data.queries;
 
-					const noticeResponse = await axios.get("https://api.state.railgo.zenglingkun.cn/notice");
+					const noticeResponse = await uniGet("https://api.state.railgo.zenglingkun.cn/notice");
 					this.items = noticeResponse.data;
 
-					await axios.get("https://api.state.railgo.zenglingkun.cn/visit");
+					await uniGet("https://api.state.railgo.zenglingkun.cn/visit");
 				} catch (error) {
 					console.error('Error fetching data:', error);
 					this.title = '海内存知己，天涯若比邻。';

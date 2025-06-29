@@ -70,7 +70,7 @@
 </template>
 
 <script>
-	import axios from "axios";
+	import uniGet from "@/scripts/req.js";
 
 	export default {
 		// Railgo Code
@@ -88,7 +88,7 @@
 			},
 			async fetchData() {
 				try {
-					const Response = await axios.get("https://feedback.azteam.cn/api/get_users");
+					const Response = await uniGet("https://feedback.azteam.cn/api/get_users");
 					this.items = Response.data.users;
 				} catch (error) {
 					console.error('Error fetching data:', error);

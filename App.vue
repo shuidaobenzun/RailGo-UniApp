@@ -1,4 +1,7 @@
 <script>
+	const nauth = false;
+	const version = "1.0.0 Pre 1"
+	const version_number = 1
 	// UXUI INIT
 	import {
 		loadDB
@@ -50,11 +53,15 @@
 			if (value) {
 				uni.setStorage({
 					key: 'version',
-					data: 1
+					data: version_number
 				});
 				uni.setStorage({
 					key: 'versionText',
-					data: "1.0.0 Pre 1"
+					data: version
+				});
+				uni.setStorage({
+					key: 'NeedAuth',
+					data: nauth
 				});
 			} else {
 				uni.setStorage({
@@ -68,6 +75,18 @@
 				uni.setStorage({
 					key: 'offlineDataVersionText',
 					data: "未下载"
+				});
+				uni.setStorage({
+					key: 'version',
+					data: 1
+				});
+				uni.setStorage({
+					key: 'versionText',
+					data: "1.0.0 Pre 1"
+				});
+				uni.setStorage({
+					key: 'NeedAuth',
+					data: nauth
 				});
 			}
 			// #ifdef H5
@@ -87,7 +106,9 @@
 			}
 
 			// 鉴权
-			check()
+			if (uni.getStorageSync("NeedAuth")){
+				check()
+			}
 
 		},
 		onShow: function() {},

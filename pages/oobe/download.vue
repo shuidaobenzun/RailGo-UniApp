@@ -11,7 +11,7 @@
 	</view>
 </template>
 <script>
-	import axios from "axios";
+	import uniGet from "@/scripts/req.js";
 	export default {
 		data() {
 			return {
@@ -21,7 +21,7 @@
 		onReady() {
 			// #ifdef APP-PLUS
 			try {
-				const response = axios.get("https://api.state.railgo.zenglingkun.cn/api/v1/url/db");
+				const response = uniGet("https://api.state.railgo.zenglingkun.cn/api/v1/url/db");
 				const downloadTask = uni.downloadFile({
 					url: response.data.url,
 					success: res => {
@@ -29,7 +29,7 @@
 							tempFilePath: res.tempFilePath,
 							success: (r) => {
 								plus.zip.decompress(r.savedFilePath, "_doc/", () => {
-									const response = axios.get(axios.get("https://api.state.railgo.zenglingkun.cn/api/v1/url/info").data.url);
+									const response = uniGet(uniGet("https://api.state.railgo.zenglingkun.cn/api/v1/url/info").data.url);
 									if (response.data.code == 200){
 										uni.setStorageSync("offlineDataVersion", response.data.latest_db)
 										uni.setStorageSync("offlineDataVersionText", response.data.db)
