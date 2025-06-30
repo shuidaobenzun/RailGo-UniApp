@@ -35,24 +35,6 @@
 				<text class="ux-bold">信息仅供参考 请以铁路运营企业实际运用为准</text>
 			</view>
 		</view>
-		<view>
-			<switch class="ux-pb-small" color="#114598" style="transform:scale(0.7);margin-left:-1vh;" @change="vague"/>
-			<text class="va">模糊查询</text>
-		</view><br>
-		<button type="primary" style="background-color:#114598;color:#ffffff;" hover-class="ux-tap"
-			@click="jumpToResult()">查询</button>
-		<br>
-		<view class="ux-padding-small ux-mb ux-h6"
-			style="background-color:#e3edff;border:1px solid #114598;border-radius:10rpx;color:#114598;">
-			<text>本功能支持通过多种关键词离线查询车站。<br></text>
-			<text class="ux-bold">信息仅供参考，由于数据的时效性，可能与实际不符。</text><br/>
-			<text class="ux-bold">请勿输入过于模糊或简短的关键词(例如：1)，否则可能会因为数据过多导致程序卡死。</text>
-		
-		</view>
-		<br>
-		<view class="ux-flex ux-row ux-justify-content-center">
-			<text class="ux-text-small ux-opacity-4">—— 数据来源: RailGo.Parser ——</text>
-		</view>
 		</view>
 	
 </template>

@@ -23,8 +23,7 @@
 						<text class="ux-text-small">{{this.data.pinyin}} Station</text>
 					</view>
 				</view>
-				<view
-					class="ux-flex ux-space-between ux-color-white ux-pt-small ux-pb-small ux-pl ux-pr ux-text-small"
+				<view class="ux-flex ux-space-between ux-color-white ux-pt-small ux-pb-small ux-pl ux-pr ux-text-small"
 					style="border-bottom-left-radius:10rpx;border-bottom-right-radius:10rpx;"
 					:style="'background-color:'+(this.data.type.includes('客')?'#114598':'#eeba67')">
 					<text>{{this.data.pinyinTriple}}/-{{this.data.telecode}}</text>
@@ -47,36 +46,62 @@
 			<view class="ux-pt" v-if="selectIndex==0">
 				<view v-if="this.trains.length!=0">
 					<view class="ux-flex">
-						<button class="ux-flex1 ux-mr-small ux-bg-primary ux-color-white" size="mini">
+						<button class="ux-flex1 ux-mr-small ux-bg-primary ux-color-white" size="mini" @click="openSortMenu()">
 							<view class="ux-flex ux-align-items-center ux-justify-content-center">
 								<text class="icon">&#xe164;</text>&nbsp;排序
 							</view>
 						</button>
-						<button class="ux-flex1 ux-ml-small ux-bg-primary ux-color-white" size="mini">
+						<button class="ux-flex1 ux-ml-small ux-bg-primary ux-color-white" size="mini" @click="openFilterMenu()">
 							<view class="ux-flex ux-align-items-center ux-justify-content-center">
 								<text class="icon">&#xe06d;</text>&nbsp;筛选
 							</view>
 						</button>
 					</view>
 					<br>
-					<uni-table border stripe>
-						<uni-tr>
-							<uni-th align="center" width="70">车次</uni-th>
-							<uni-th align="center">起点</uni-th>
-							<uni-th align="center">终点</uni-th>
-							<uni-th align="center" width="60">到达</uni-th>
-							<uni-th align="center" width="60">出发</uni-th>
-							<uni-th align="center" width="60">停车</uni-th>
-						</uni-tr>
-						<uni-tr v-for="(item,index) in trains" :key="index">
-							<uni-td>{{item.numberKind + item.numberFull.join("/").replace(item.numberKind, "").replace(item.numberKind, "")}}</uni-td>
-							<uni-td>{{item.timetable[0].station}}</uni-td>
-							<uni-td>{{item.timetable[item.timetable.length-1].station}}</uni-td>
-							<uni-td>{{item.timetable[item.indexStopThere].arrive}}</uni-td>
-							<uni-td>{{item.timetable[item.indexStopThere].depart}}</uni-td>
-							<uni-td>{{item.timetable[item.indexStopThere].stopTime}}'</uni-td>
-						</uni-tr>
-					</uni-table>
+					<navigator v-for="(item,index) in showTrains" :key="index"
+						:url="'/pages/train/trainResult?keyword='+item.number+'&date='+new Date().toISOString().slice(0, 10).replaceAll('-', '')">
+						<view class="ux-bg-white ux-border-radius ux-mt-small ux-flex">
+							<view style="border-bottom-left-radius: 10rpx; border-top-left-radius:10rpx;"
+								:style="'background-color:'+colorMap[item.number[0]]">
+								&nbsp;&nbsp;
+							</view>
+							<view class="ux-flex ux-align-items-center ux-space-between ux-pr ux-pt ux-pb ux-pl-small"
+								style="width:100%;">
+								<view style="width:calc(100% - 60rpx);">
+									<view class="ux-flex ux-space-between">
+										<view>
+										<text class="consolas"
+											style="font-size:40rpx;">{{item.numberKind}}{{item.numberFull.join("/").replaceAll(item.numberKind, "")}}</text>
+										<br>
+										<text class="ux-text-small">{{item.timetable[0].station}} ⋙
+											{{item.timetable[item.timetable.length -1].station}}</text>
+										</view>
+										<view class="ux-flex" style="padding-top:8rpx;">
+											<view class="ux-text-center ux-mr-small" style="min-width:80rpx">
+												<text class="ux-text" v-if="item.timetable[0].stationTelecode != this.keyword">{{item.timetable[item.indexStopThere].arrive}}</text>
+												<text class="ux-text" v-if="item.timetable[0].stationTelecode == this.keyword">--:--</text>
+												<br>
+												<text class="ux-text-small ux-opacity-5">到达</text>
+											</view>
+											<view class="ux-text-center ux-mr-small" style="min-width:80rpx">
+												<text class="ux-text" v-if="item.timetable[item.timetable.length - 1].stationTelecode != this.keyword">{{item.timetable[item.indexStopThere].depart}}</text>
+												<text class="ux-text" v-if="item.timetable[item.timetable.length - 1].stationTelecode == this.keyword">--:--</text>
+												<br>
+												<text class="ux-text-small ux-opacity-5">出发</text>
+											</view>
+											<view class="ux-text-center">
+												<text class="ux-text">{{item.timetable[item.indexStopThere].stopTime}}'</text>
+												<br>
+												<text class="ux-text-small ux-opacity-5">停车</text>
+											</view>
+										</view>
+										
+									</view>
+								</view>
+								<text class="ux-text"><text class="icon">&#xe5c8;</text></text>
+							</view>
+						</view>
+					</navigator>
 				</view>
 				<view v-if="this.trains.length==0">
 					<view class="ux-padding ux-text-center">本站不办理客运业务或无列车停靠</view>
@@ -88,16 +113,93 @@
 			</view>
 		</view>
 	</view>
+	<uni-popup ref="menu_sort" border-radius="10rpx 10rpx 0 0">
+		<view class="popup-content">
+			<view class="ux-bg-white ux-padding ux-border-radius" style="width:70vw;">
+				<text class="ux-h4">车次排序</text>
+				<br>
+				<radio-group class="ux-mt-small" @change="radioSortChange">
+					<radio color="#114598" value="departure" class="ux-mr ux-mt-small"
+						:checked="this.sortState=='departure'">
+						<text class="ux-text-small">按发车时间</text>
+					</radio>
+					<br>
+					<radio color="#114598" value="arrival" class="ux-mr ux-mt-small"
+						:checked="this.sortState=='arrival'">
+						<text class="ux-text-small">按到达时间</text>
+					</radio>
+					<br>
+					<radio color="#114598" value="stop" class="ux-mr ux-mt-small" :checked="this.sortState=='stop'">
+						<text class="ux-text-small">按停车时长</text>
+					</radio>
+				</radio-group>
+			</view>
+		</view>
+	</uni-popup>
+	<uni-popup ref="menu_filter" border-radius="10rpx 10rpx 0 0">
+		<view class="popup-content">
+			<view class="ux-bg-white ux-padding ux-border-radius" style="width:70vw;">
+				<text class="ux-h4">车次筛选</text>
+				<br>
+				<checkbox-group class="ux-mt-small" @change="radioFilterChange">
+					<view class="ux-flex ux-space-between">
+						<checkbox color="#114598" value="G" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('G')">
+							<text class="ux-text-small">高速</text>
+						</checkbox>
+						<checkbox color="#114598" value="D" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('D')">
+							<text class="ux-text-small">动车</text>
+						</checkbox>
+						<checkbox color="#114598" value="C" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('C')">
+							<text class="ux-text-small">城际</text>
+						</checkbox>
+					</view>
+					<view class="ux-flex ux-space-between">
+						<checkbox color="#114598" value="Z" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('Z')">
+							<text class="ux-text-small">直达</text>
+						</checkbox>
+						<checkbox color="#114598" value="T" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('T')">
+							<text class="ux-text-small">特快</text>
+						</checkbox>
+						<checkbox color="#114598" value="K" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('K')">
+							<text class="ux-text-small">快速</text>
+						</checkbox>
+					</view>
+					<view class="ux-flex ux-space-between">
+						<checkbox color="#114598" value="12345678" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('1')">
+							<text class="ux-text-small">普客</text>
+						</checkbox>
+						<checkbox color="#114598" value="S" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('S')">
+							<text class="ux-text-small">市域</text>
+						</checkbox>
+						<checkbox color="#114598" value="LY" class="ux-mr ux-mt-small"
+							:checked="this.filterTypeState.includes('L')">
+							<text class="ux-text-small">其他</text>
+						</checkbox>
+					</view>
+				</checkbox-group>
+			</view>
+		</view>
+	</uni-popup>
 </template>
-
-<<<<<<< HEAD
 <script>
 	import {
+		query,
 		queryMainKey
 	} from "@/scripts/jsonDB.js";
 	import {
 		toRaw
 	} from "@vue/reactivity";
+	import {
+		TRAIN_KIND_COLOR_MAP
+	} from '@/scripts/config.js';
 	export default {
 		data() {
 			return {
@@ -118,23 +220,14 @@
 					name: '路线'
 				}],
 				selectIndex: 0,
-				trains: []
+				trains: [],
+				showTrains: [],
+				colorMap: TRAIN_KIND_COLOR_MAP,
+				filterTypeState: "GDCZTK12345678SLY",
+				sortState: "departure"
 			}
 		},
 		onLoad(options) {
-=======
-<script>
-	import json from '~@/static/offline/stations.json'
-	export default {
-		data() {
-			return {
-				"keyword": "",
-				"data": []  ,// 用于存储过滤后的数据,
-				"title": this.keyword
-			}
-		},
-		onLoad(options) {
->>>>>>> ce7d720ee640acdb2851c1f5a0b1c048322fdd2b
 			this.keyword = options.keyword;
 			this.fillInData();
 		},
@@ -145,21 +238,78 @@
 			},
 			fillInData: async function() {
 				this.data = toRaw(await queryMainKey("stations", this.keyword))[0];
-				for (let i of this.data.trainList) {
-					let t = toRaw(await queryMainKey("trains", i))[0];
-					for (var x = 0; x < t.timetable.length; x++) {
-						if (t.timetable[x].stationTelecode == this.keyword) {
-							t.indexStopThere = x;
-							break;
-						}
+				this.trains = toRaw(await query("trains", (i) => {
+					return this.data.trainList.includes(i.number);
+				}));
+				this.trains.forEach((i) => {
+					i.indexStopThere = i.timetable.findIndex((tt) => {
+						return tt.stationTelecode == this.keyword;
+					});
+				});
+				this.radioSortChange({
+					detail: {
+						value: "departure"
 					}
-					if(t.indexStopThere!=undefined){
-						this.trains.push(t);
-					}
-				}
+				});
 			},
 			tabChange: function(e) {
 				this.selectIndex = e.index;
+			},
+			openSortMenu: function() {
+				this.$refs.menu_sort.open();
+			},
+			openFilterMenu: function() {
+				this.$refs.menu_filter.open();
+			},
+			radioSortChange: function(e) {
+				this.sortState = e.detail.value;
+				switch (e.detail.value) {
+					case "stop":
+						this.showTrains = this.trains.sort((a, b) => {
+							if (a.timetable[a.indexStopThere].stopTime > b.timetable[b.indexStopThere].stopTime) {
+								return 1;
+							}
+							if (a.timetable[a.indexStopThere].stopTime < b.timetable[b.indexStopThere].stopTime) {
+								return -1;
+							}
+							return 0;
+						});
+						break;
+			
+					case "departure":
+						this.showTrains = this.trains.sort((a, b) => {
+							if (a.timetable[a.indexStopThere].depart > b.timetable[b.indexStopThere].depart) {
+								return 1;
+							}
+							if (a.timetable[a.indexStopThere].depart < b.timetable[b.indexStopThere].depart) {
+								return -1;
+							}
+							return 0;
+						});
+						break;
+			
+					case "arrival":
+						this.showTrains = this.trains.sort((a, b) => {
+							if (a.timetable[a.indexStopThere].arrive > b.timetable[b.indexStopThere].arrive) {
+								return 1;
+							}
+							if (a.timetable[a.indexStopThere].arrive < b.timetable[b.indexStopThere].arrive) {
+								return -1;
+							}
+							return 0;
+						});
+						break;
+			
+					default:
+						console.log("WHAT THE FUCK R U DOING?");
+				}
+				this.$refs.menu_sort.close();
+			},
+			radioFilterChange: function(e) {
+				this.filterTypeState = e.detail.value.join("");
+				this.showTrains = this.trains.filter((i) => {
+					return e.detail.value.join("").includes(i.number.charAt(0));
+				});
 			}
 		}
 	}

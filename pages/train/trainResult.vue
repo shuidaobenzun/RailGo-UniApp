@@ -24,7 +24,9 @@
 				</view>
 				<view class="ux-flex ux-space-between ux-mt-small ux-pl ux-pr ux-pt-small ux-color-white"
 					:style="'background-color:'+cardColor">
-					<text class="ux-text-small">{{(carData.timetable && carData.timetable[0] ? carData.timetable[0].station : '')}} ⋙
+					<text
+						class="ux-text-small">{{(carData.timetable && carData.timetable[0] ? carData.timetable[0].station : '')}}
+						⋙
 						{{(carData.timetable && carData.timetable.length > 0 ? carData.timetable[carData.timetable.length-1].station : '')}}</text>
 					<text class="ux-text-small">{{carData.bureauName || ''}}{{carData.runner || ''}}&nbsp;&nbsp;</text>
 				</view>
@@ -80,7 +82,8 @@
 								src="@/static/station-mark-unpass.png"></image>
 						</uni-td>
 						<uni-td style="border:none">
-							<navigator :url="'/pages/station/result?keyword='+(item.stationTelecode || '')+'&vague=false'">
+							<navigator
+								:url="'/pages/station/result?keyword='+(item.stationTelecode || '')+'&vague=false'">
 								{{item.station || ''}}
 							</navigator>
 						</uni-td>
@@ -164,7 +167,6 @@
 										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][0] : ''}}节编组</text>
 									</view>
 								</view>
-								<uv-divider></uv-divider>
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe569;</text>
 									<view class="ux-pl-small ux-text-small">
@@ -183,23 +185,24 @@
 										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][2] : ''}}</text>
 									</view>
 								</view>
-								<view class="ux-mt-small">
-									<image v-if="carMap[carData.car.replace('重联','')]" :src="carMap[carData.car.replace('重联','')][4]" mode="aspectFit"
-										style="max-width:220rpx;height:220rpx;"></image>
-								</view>
 							</view>
-							<view v-if="['G','D','C'].includes(carData.numberKind)">
-								<br>
-								<navigator :url="'/pages/emu/result?keyword='+train">
-									<button class="ux-color-white ux-bg-primary" size="mini"
-										style="margin:none;width:100%;">
-										<view class="ux-flex ux-align-items-center ux-justify-content-center">
-											<text class="icon">&#xe570;</text>
-											&nbsp;查询具体担当信息
-										</view>
-									</button>
-								</navigator>
+							<view class="ux-mt-small">
+								<image v-if="carMap[carData.car.replace('重联','')]"
+									:src="carMap[carData.car.replace('重联','')][4]" mode="aspectFit"
+									style="max-width:220rpx;height:220rpx;"></image>
 							</view>
+						</view>
+						<view v-if="['G','D','C'].includes(carData.numberKind)">
+							<br>
+							<navigator :url="'/pages/emu/result?keyword='+train">
+								<button class="ux-color-white ux-bg-primary" size="mini"
+									style="margin:none;width:100%;">
+									<view class="ux-flex ux-align-items-center ux-justify-content-center">
+										<text class="icon">&#xe570;</text>
+										&nbsp;查询具体担当信息
+									</view>
+								</button>
+							</navigator>
 						</view>
 					</view>
 				</view>
@@ -222,7 +225,8 @@
 								<view class="ux-flex ux-align-items-center">
 									<text class="consolas" style="font-size:40rpx;">{{item.train_num || ''}}</text>
 								</view>
-								<text class="ux-text-small">{{item.from ? item.from[0] : ''}} {{item.from ? item.from[1] : ''}} ⋙ {{item.to ? item.to[0] : ''}}
+								<text class="ux-text-small">{{item.from ? item.from[0] : ''}}
+									{{item.from ? item.from[1] : ''}} ⋙ {{item.to ? item.to[0] : ''}}
 									{{item.to ? item.to[1] : ''}}</text>
 							</view>
 							<text class="ux-text"><text class="icon">&#xe5c8;</text></text>
@@ -235,7 +239,8 @@
 				<uni-section title="开行日" type="line" style="background-color: transparent;"
 					title-font-size="25rpx"></uni-section>
 				<calendar class="ux-bg-white ux-border-radius"
-					:highlighted-dates="(()=>{var l=[]; (carData.rundays || []).forEach((i)=>{l.push({date: i.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3'), bgColor: '#114598'});});return l;})()"></calendar>
+					:highlighted-dates="(()=>{var l=[]; (carData.rundays || []).forEach((i)=>{l.push({date: i.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3'), bgColor: '#114598'});});return l;})()">
+				</calendar>
 				<view class="ux-flex ux-space-between ux-pt-small">
 					<text class="ux-text-small ux-opacity-4">*实际开行请以站车公告为准</text>
 					<view class="ux-flex ux-align-items-center ux-nowrap">
@@ -322,7 +327,7 @@
 			fillInData: async function() {
 				try {
 					if (!this.title) return;
-					
+
 					const result = await queryMainKey("trains", this.title);
 					if (result && result.length > 0) {
 						this.carData = {
@@ -338,7 +343,7 @@
 							diagram: [],
 							...toRaw(result[0])
 						};
-						
+
 						// 确保 timetable 中的每个项目都有必要字段
 						this.carData.timetable = (this.carData.timetable || []).map(item => ({
 							station: '',
@@ -352,7 +357,7 @@
 							day: '-',
 							...item
 						}));
-						
+
 						this.cardColor = this.colorMap[this.carData.numberKind] || '#114598';
 					}
 				} catch (error) {
