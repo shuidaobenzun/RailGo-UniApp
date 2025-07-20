@@ -64,11 +64,10 @@
 			<uni-section title="反馈" type="line" style="background-color: transparent;"
 				title-font-size="35rpx"></uni-section>
 			<image mode="scaleToFill" v-for="(nk, index) in items" :src="`https://q1.qlogo.cn/g?b=qq&s=100&nk=${nk}`"
-				style="width:80rpx;height:80rpx;border-radius:50%;" class="ux-ml-small ux-pr-small"></image>
+				style="width:80rpx;height:80rpx;border-radius:50%;" class="ux-ml-small ux-r-small"></image>
 		</view>
 	</view>
 </template>
-
 <script>
 	import uniGet from "@/scripts/req.js";
 

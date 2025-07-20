@@ -21,23 +21,26 @@
 					</view>
 					<view class="checklist-content" :class="{'list-content':mode === 'list' && icon ==='left'}">
 						<text class="checklist-text" :style="item.styleIconText">{{item[map.text]}}</text>
-						<view v-if="mode === 'list' && icon === 'right'" class="checkobx__list" :style="item.styleBackgroud"></view>
+						<view v-if="mode === 'list' && icon === 'right'" class="checkobx__list"
+							:style="item.styleBackgroud"></view>
 					</view>
 				</label>
 			</checkbox-group>
-			<radio-group v-else class="checklist-group" :class="{'is-list':mode==='list','is-wrap':wrap}" @change="change">
+			<radio-group v-else class="checklist-group" :class="{'is-list':mode==='list','is-wrap':wrap}"
+				@change="change">
 				<label class="checklist-box"
 					:class="['is--'+mode,item.selected?'is-checked':'',(disabled || !!item.disabled)?'is-disable':'',index!==0&&mode==='list'?'is-list-border':'']"
 					:style="item.styleBackgroud" v-for="(item,index) in dataList" :key="index">
 					<radio class="hidden" hidden :disabled="disabled || item.disabled" :value="item[map.value]+''"
 						:checked="item.selected" />
-					<view v-if="(mode !=='tag' && mode !== 'list') || ( mode === 'list' && icon === 'left')" class="radio__inner"
-						:style="item.styleBackgroud">
+					<view v-if="(mode !=='tag' && mode !== 'list') || ( mode === 'list' && icon === 'left')"
+						class="radio__inner" :style="item.styleBackgroud">
 						<view class="radio__inner-icon" :style="item.styleIcon"></view>
 					</view>
 					<view class="checklist-content" :class="{'list-content':mode === 'list' && icon ==='left'}">
 						<text class="checklist-text" :style="item.styleIconText">{{item[map.text]}}</text>
-						<view v-if="mode === 'list' && icon === 'right'" :style="item.styleRightIcon" class="checkobx__list"></view>
+						<view v-if="mode === 'list' && icon === 'right'" :style="item.styleRightIcon"
+							class="checkobx__list"></view>
 					</view>
 				</label>
 			</radio-group>
@@ -434,7 +437,8 @@
 					if (this.mode === 'tag') {
 						styles.color = item.selected ? (this.selectedTextColor ? this.selectedTextColor : '#fff') : '#666'
 					} else {
-						styles.color = item.selected ? (this.selectedTextColor ? this.selectedTextColor : selectedColor) : '#666'
+						styles.color = item.selected ? (this.selectedTextColor ? this.selectedTextColor : selectedColor) :
+							'#666'
 					}
 					if (!item.selected && item.disabled) {
 						styles.color = '#999'
@@ -462,7 +466,7 @@
 </script>
 
 <style lang="scss">
-	$uni-primary: #2979ff !default;
+	$uni-primary: #114598 !default;
 	$border-color: #DCDFE6;
 	$disable: 0.4;
 
@@ -527,10 +531,10 @@
 
 					.checkobx__list {
 						border-right-width: 1px;
-						border-right-color: #007aff;
+						border-right-color: #114598;
 						border-right-style: solid;
 						border-bottom-width: 1px;
-						border-bottom-color: #007aff;
+						border-bottom-color: #114598;
 						border-bottom-style: solid;
 						height: 12px;
 						width: 6px;
@@ -818,6 +822,7 @@
 
 						.radio__inner {
 							border-color: $uni-primary;
+
 							.radio__inner-icon {
 								opacity: 1;
 								background-color: $uni-primary;

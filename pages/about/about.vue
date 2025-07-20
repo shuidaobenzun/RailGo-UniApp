@@ -13,7 +13,8 @@
 		<view class="ux-padding">
 			<view class="ux-bg-white ux-border-radius-large ux-padding">
 				<view class="ux-flex ux-align-items-center">
-					<image class="ux-box-shadow ux-border-radius-large" src="~@/static/logo.png" style="width: 140rpx; height: 140rpx;" @click="add"></image><br />
+					<image class="ux-box-shadow ux-border-radius-large" src="~@/static/logo.png"
+						style="width: 140rpx; height: 140rpx;" @click="add"></image><br />
 					<view class="ux-pl">
 						<text class="ux-bold ux-h4">RailGo</text>
 						<br>
@@ -35,6 +36,13 @@
 					<text class="ux-text-left ux-text-small">开源协议</text>
 					<text class="ux-text-right ux-text-small ux-color-grey1">MIT</text>
 				</view>
+				<navigator url="/pages/about/eula"
+					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-padding ux-mt-small">
+					<view class="ux-flex ux-space-between">
+						<text class="ux-text-small">使用协议</text>
+						<text class="ux-text-small ux-color-grey1"><text class="icon">&#xe5c8;</text></text>
+					</view>
+				</navigator>
 				<navigator url="/pages/about/member"
 					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-padding ux-mt-small">
 					<view class="ux-flex ux-space-between">

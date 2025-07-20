@@ -8,6 +8,8 @@
 			</view>
 			<br>
 			<text class="ux-h2">车次查询</text>
+			<br><br>
+			<text class="ux-text-small ux-opacity-5">共查询到 {{this.showData.length}} 个车次</text>
 		</view>
 		<!-- headers end -->
 		<view class="ux-pl ux-pr ux-pb">
@@ -24,7 +26,8 @@
 				</button>
 			</view>
 			<br>
-			<navigator v-for="(item, index) in this.showData" :key="index" :url="'/pages/train/trainResult?keyword='+item.number+'&date='+this.date">
+			<navigator v-for="(item, index) in this.showData" :key="index"
+				:url="'/pages/train/trainResult?keyword='+item.number+'&date='+this.date">
 				<view class="ux-bg-white ux-border-radius ux-mb-small ux-flex">
 					<view style="border-bottom-left-radius: 10rpx; border-top-left-radius:10rpx;"
 						:style="'background-color:'+this.colorMap[item.number[0]]">

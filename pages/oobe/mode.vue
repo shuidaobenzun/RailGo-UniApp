@@ -1,27 +1,43 @@
 <template>
 	<view class="ux-bg-grey6" style="min-height:100vh;">
 		<view class="ux-bg-primary">&nbsp;</view>
-			<uni-popup ref="alertDialog" type="dialog">
-				<uni-popup-dialog type="warn" cancelText="关闭" confirmText="继续" title="提示" content="您已选择离线模式,继续将下载离线数据库" @confirm="dialogConfirm"
-					></uni-popup-dialog>
-			</uni-popup>
-			<uni-popup ref="message" type="message">
-				<uni-popup-message :duration="3000" type="error" message="该模式暂时无法使用"></uni-popup-message>
-			</uni-popup>
+		<uni-popup ref="next_add" type="dialog">
+			<uni-popup-dialog cancelText="取消" confirmText="继续" title="提示" content="需要现在下载离线数据库。"
+				@confirm="confirmDownloadNow"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="error_no_internet" type="dialog">
+			<uni-popup-dialog cancelText="关闭" title="提示" content="您未连接到网络，现在无法下载。"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="next_not_wifi" type="dialog">
+			<uni-popup-dialog cancelText="取消" confirmText="继续" title="提示"
+				content="您现在正在使用数据流量上网。<br>下载数据库大约需要花费200M左右的流量，确定要下载吗？"
+				@confirm="comfirmDownloadNow"></uni-popup-dialog>
+		</uni-popup>
+		<uni-popup ref="message" type="message">
+			<uni-popup-message :duration="3000" type="error" message="该模式暂时无法使用"></uni-popup-message>
+		</uni-popup>
 		<view class="ux-padding-large">
 			<view class="ux-mt-large">
-						<text class=" hm title">使用模式</text><br><br>
-									<text class=" hm subtitle">请选择您的使用模式</text><br><br>
-									<text class="hm subtitle">无需担心，该设置可以在设置中随时修改</text><br><br>
-									<uni-data-checkbox style="margin-left: 60rpx;" class="hm" mode="button" v-model="checked" :localdata="ld"></uni-data-checkbox>
-					</view>
+				<text class="ux-h1">选择使用模式</text><br><br>
+				<text class="ux-h6">您可以决定以什么方式进行查询。</text><br><br>
+				<text class="ux-h6">不用担心，在设置里可以随心修改。</text><br><br>
+				<uni-data-checkbox mode="button" v-model="checked" :localdata="ld"></uni-data-checkbox>
+				<br>
+				<view class="ux-border-radius ux-bg-white ux-padding" v-if="this.checked=='network'">
+					优先请求网络服务器进行查询。速度会慢一些，但是时效性最强。
+				</view>
+				<view class="ux-border-radius ux-bg-white ux-padding" v-if="this.checked=='local'">
+					优先通过本地数据库进行查询。速度最快，没网也能用，但是信息可能滞后。
+				</view>
+			</view>
 			<br>
 			<br>
 			<br>
 			<br>
 			<br>
-			<button class="primary-button ux-mt-large" style="position: fixed; right: 20px; " @click="finish" hover-class="">
-			  <text class="icon">&#xe5c8;</text>
+			<button class="primary-button ux-mt-large" style="position: fixed; right: 20px; " @click="finish"
+				hover-class="">
+				<text class="icon">&#xe5c8;</text>
 			</button>
 		</view>
 	</view>
@@ -29,91 +45,70 @@
 
 
 <script>
-export default {
-	data() {
-		return {
-			"ld": [
-				{
-					text: "优先在线",
-					value: "network"
-				},
-				{
-					text: "优先离线",
-					value: "local"
-				}
-			],
-			"checked": "network",
-			"msgType": "success",
-		}
-	},
-	methods: {
-		finish: function() {
-			if (this.checked == "network"){
-				this.$refs.message.open()
-				return
+	export default {
+		data() {
+			return {
+				"ld": [{
+						text: "优先在线",
+						value: "network"
+					},
+					{
+						text: "优先离线",
+						value: "local"
+					}
+				],
+				"checked": "network",
+				"msgType": "success",
 			}
-			this.$refs.alertDialog.open()
 		},
-		dialogConfirm: function() {
-			uni.setStorageSync("mode", this.checked)
-			uni.setStorageSync("oobe", true)
-			uni.navigateTo({
-				url: '/pages/oobe/download'
-			})
+		methods: {
+			finish: function() {
+				if (this.checked == "network") {
+					this.$refs.message.open();
+					return
+				} else {
+					// #ifdef APP
+					uni.getNetworkType({
+						success: function(res) {
+							if (res.networkType === "none") {
+								this.$refs.error_no_internet.open();
+							} else if (res.networkType === "wifi" || res.networkType === "ethernet") {
+								this.$refs.next_add.open();
+							} else {
+								this.$refs.next_not_wifi.open();
+							}
+						}
+					});
+					// #endif
+					// #ifndef APP
+					this.$refs.next_add.open();
+					// #endif
+				}
+
+			},
+			confirmDownloadNow: function() {
+				uni.setStorageSync("mode", this.checked)
+				uni.setStorageSync("oobe", true)
+				uni.navigateTo({
+					url: '/pages/oobe/download'
+				})
+			}
 		}
 	}
-}
 </script>
 
 <style>
-.welcome-container {
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #f8f8f8; 
-	padding-top: 100rpx; 
-}
+	.primary-button {
+		width: 100rpx;
+		height: 100rpx;
+		border-radius: 50%;
+		text-align: center;
+		line-height: 100rpx;
+		background-color: #114598;
+		color: #fff;
+	}
 
-
-.emoji {
-	height: 180rpx; 
-	width: 180rpx;
-	display: block;
-}
-
-.text-container {
-	text-align: center;
-	margin-top: 60rpx;
-	padding: 0 40rpx; 
-}
-
-.title {
-	font-size: 48rpx;
-	font-weight: bold;
-	color: #333;
-	margin-bottom: 10rpx;
-}
-
-.subtitle {
-	font-size: 28rpx; 
-	color: #666;
-	line-height: 1.6; 
-}
-
-.primary-button {
-	width: 100rpx; 
-	height: 100rpx;
-	border-radius: 50%;
-	text-align: center;
-	line-height: 100rpx;
-	background-color: #007aff; 
-	color: #fff;
-	margin-top: 80rpx; 
-	box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3); 
-}
-
-.icon {
-	font-size: 40rpx; 
-}
+	.icon {
+		font-size: 40rpx;
+	}
 </style>

@@ -73,7 +73,7 @@
 						<uni-th width="50">停车</uni-th>
 						<uni-th width="80">里程</uni-th>
 						<uni-th width="100">区间均速</uni-th>
-						<uni-th width="50">日期</uni-th>
+						<uni-th width="60">日期</uni-th>
 					</uni-tr>
 					<uni-tr v-for="(item,index) in (carData.timetable || [])" :key="index" style="border:none"
 						hover-class="ux-bg-grey5">
@@ -91,9 +91,9 @@
 						<uni-td style="border:none">{{item.arrive || ''}}</uni-td>
 						<uni-td style="border:none">{{item.depart || ''}}</uni-td>
 						<uni-td style="border:none">{{item.stopTime || '-'}}'</uni-td>
-						<uni-td style="border:none">{{item.distance || '-'}} km</uni-td>
+						<uni-td style="border:none">{{item.distance || '0'}} km</uni-td>
 						<uni-td style="border:none">{{item.speed ? item.speed.toFixed(1) : '-'}} km/h</uni-td>
-						<uni-td style="border:none">{{item.day || '-'}} 天</uni-td>
+						<uni-td style="border:none">{{item.day || '当'}}日</uni-td>
 					</uni-tr>
 				</uni-table>
 
@@ -164,31 +164,31 @@
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe642;</text>
 									<view class="ux-pl-small ux-text-small">
-										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][0] : ''}}节编组</text>
+										<text>{{carMap[carData.car.replace(" 重联","")] ? carMap[carData.car.replace(" 重联","")][0] : ''}}节编组</text>
 									</view>
 								</view>
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe569;</text>
 									<view class="ux-pl-small ux-text-small">
-										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][3] : ''}}km/h</text>
+										<text>{{carMap[carData.car.replace(" 重联","")] ? carMap[carData.car.replace(" 重联","")][3] : ''}}km/h</text>
 									</view>
 								</view>
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe5c3;</text>
 									<view class="ux-pl-small ux-text-small">
-										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][1] : ''}}</text>
+										<text>{{carMap[carData.car.replace(" 重联","")] ? carMap[carData.car.replace(" 重联","")][1] : ''}}</text>
 									</view>
 								</view>
 								<view class="ux-pr-small ux-flex ux-align-items-center ux-mt-small">
 									<text class="ux-color-primary icon" style="font-size:50rpx;">&#xe556;</text>
 									<view class="ux-pl-small ux-text-small">
-										<text>{{carMap[carData.car.replace("重联","")] ? carMap[carData.car.replace("重联","")][2] : ''}}</text>
+										<text>{{carMap[carData.car.replace(" 重联","")] ? carMap[carData.car.replace(" 重联","")][2] : ''}}</text>
 									</view>
 								</view>
 							</view>
 							<view class="ux-mt-small">
-								<image v-if="carMap[carData.car.replace('重联','')]"
-									:src="carMap[carData.car.replace('重联','')][4]" mode="aspectFit"
+								<image v-if="carMap[carData.car.replace(' 重联','')]"
+									:src="carMap[carData.car.replace(' 重联','')][4]" mode="aspectFit"
 									style="max-width:220rpx;height:220rpx;"></image>
 							</view>
 						</view>

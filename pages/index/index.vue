@@ -18,8 +18,8 @@
 			</view>
 			<view class="center">
 				<swiper vertical autoplay interval="2500" duration="300" circular>
-					<swiper-item v-for="(item, index) in items" :key="index" style="font-size: 12rpx;"
-						class="ux-pl-small ux-opacity-8">
+					<swiper-item v-for="(item, index) in items" :key="index"
+						class="ux-pl-small ux-opacity-8 ux-text-small">
 						{{ item }}
 					</swiper-item>
 				</swiper>
@@ -87,7 +87,8 @@
 			</view>
 		</view>
 		<br>
-		<image class="ux-border-radius-large" src="/static/overlay/index_banner_1.png" style="width:100%;" mode="widthFix"></image>
+		<image class="ux-border-radius-large" src="/static/overlay/index_banner_1.png" style="width:100%;"
+			mode="widthFix"></image>
 	</view>
 </template>
 
@@ -139,7 +140,6 @@
 </script>
 
 <style lang="scss">
-
 	.section-icon {
 		font-size: 50rpx;
 	}

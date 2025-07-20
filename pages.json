@@ -4,114 +4,105 @@
 			"path": "pages/index/index"
 		},
 		{
-			"path" : "pages/emu/query"
+			"path": "pages/emu/query"
 		},
 		{
-			"path" : "pages/emu/result"
+			"path": "pages/emu/result"
 		},
 		{
-			"path" : "pages/about/about",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/about/about",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/about/member",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/about/member",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/station/query",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/about/eula",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/station/result",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/station/query",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/station/commonSelect",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/station/result",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/train/query",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/station/commonSelect",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/train/stsResult",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/train/query",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/train/trainResult",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/train/stsResult",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/about/egg",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/train/trainResult",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/update/db",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/about/egg",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/oobe/welcome",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/update/db",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/oobe/protocol",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/oobe/welcome",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/oobe/auth",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/oobe/protocol",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/oobe/download",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/oobe/auth",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path" : "pages/oobe/mode",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/oobe/download",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/oobe/mode",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		}
 	],
@@ -120,7 +111,7 @@
 		"navigationBarTitleText": "RailGo",
 		"navigationBarBackgroundColor": "#114598",
 		"backgroundColor": "#F8F8F8",
-		"enablePullDownRefresh" : false,
+		"enablePullDownRefresh": false,
 		"app-plus": {
 			"titleNView": false,
 			"animationType": "pop-in",

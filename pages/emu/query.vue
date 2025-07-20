@@ -56,11 +56,12 @@
 					uni.showToast({
 						icon: "none",
 						title: "不允许输入空值"
-					})
+					});
+					return;
 				}
 				uni.navigateTo({
 					url: "/pages/emu/result?keyword=" + this.keyword + "&future=" + this.future
-				})
+				});
 			},
 			inputData: function(e) {
 				this.keyword = e.detail.value;

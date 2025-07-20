@@ -49,11 +49,11 @@
 				</checkbox-group>
 			</view>
 			<view class="ux-flex ux-justify-content-end">
-			<navigator id="navigator1" :url="url" hover-class="">
-				<button id="next" class="primary-button" :style="'background-color:'+this.bgc">
-					<text class="icon">&#xe5c8;</text>
-				</button>
-			</navigator>
+				<navigator id="navigator1" :url="url" hover-class="">
+					<button id="next" class="primary-button" :style="'background-color:'+this.bgc">
+						<text class="icon">&#xe5c8;</text>
+					</button>
+				</navigator>
 			</view>
 		</view>
 	</view>
@@ -95,10 +95,11 @@
 					this.url = '';
 				} else {
 					this.bgc = '#114598';
-					if (uni.getStorageSync("NeedAuth")){
-						this.url = "/pages/oobe/auth"; 
+					if (uni.getStorageSync("NeedAuth")) {
+						this.url = "/pages/oobe/auth";
 					} else {
-						this.url = "/pages/oobe/mode";
+						//this.url = "/pages/oobe/mode";
+						this.url = "/pages/oobe/_dev_warn";
 					}
 				}
 			}
