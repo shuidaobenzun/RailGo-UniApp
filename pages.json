@@ -111,11 +111,10 @@
 		"navigationBarTitleText": "RailGo",
 		"navigationBarBackgroundColor": "#114598",
 		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "custom",
 		"enablePullDownRefresh": false,
 		"app-plus": {
-			"titleNView": false,
-			"animationType": "pop-in",
-			"animationDuration": 100
+			"titleNView": false
 		}
 	},
 	"uniIdRouter": {}

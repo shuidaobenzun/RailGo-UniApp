@@ -57,6 +57,24 @@ import uniGet from "./scripts/req";
 	let firstBackTime = 0;
 	export default {
 		onLaunch: async function() {
+			
+			
+			if (uni.getStorageSync("mode") == "local") {
+				try {
+					await loadDB();
+					uni.showToast({
+						title: '加载数据库完成',
+						position: 'bottom',
+					})
+				} catch(error){
+					uni.setStorage({
+						key: 'DBerror',
+						data: error
+					});
+				}
+				
+			}
+			
 			const value = uni.getStorageSync('launched');
 			if (value) {
 				uni.setStorage({
@@ -102,7 +120,7 @@ import uniGet from "./scripts/req";
 				});
 				uni.setStorage({
 					key: 'mode',
-					data: 'local'
+					data: ''
 				});
 				
 			}
@@ -119,23 +137,7 @@ import uniGet from "./scripts/req";
 					url: '/pages/oobe/welcome'
 				})
 			}
-			
-			// #ifdef H5
-			await loadDB(); // debug
-			// #endif
-			// #ifdef APP-PLUS
-			if (uni.getStorageSync("mode") == "local") {
-				try {
-					await loadDB();
-				} catch(error){
-					uni.setStorage({
-						key: 'DBerror',
-						data: error
-					});
-				}
-				
-			}
-			// #endif
+
 
 
 		},

@@ -22,8 +22,8 @@
 					</view>
 				</view>
 				<uv-divider></uv-divider>
-				<text style="font-size: 12px; color: grey;">离线数据版本 {{offline}}</text>
-				<text style="font-size: 12px; color: grey;">{{error}}</text>
+				<text style="font-size: 12px; color: grey;">离线数据版本 {{offline}}（{{dbSize}}M {{dbTable}}）</text><br>
+				<text style="font-size: 12px; color: red;">{{error}}</text>
 			</view>
 
 			<view class="ux-bg-grey5">
@@ -81,7 +81,9 @@
 				count: 0,
 				version: uni.getStorageSync("versionText"),
 				offline: uni.getStorageSync("offlineDataVersionText"),
-				error: uni.getStorageSync("DBerror")
+				error: uni.getStorageSync("DBerror"),
+				dbSize: parseInt(uni.getStorageSync("dbSize") / 1024 / 1024),
+				dbTable: uni.getStorageSync("dbTable")
 			};
 		},
 		onShow() {
