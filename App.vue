@@ -57,23 +57,7 @@ import uniGet from "./scripts/req";
 	let firstBackTime = 0;
 	export default {
 		onLaunch: async function() {
-			
-			
-			if (uni.getStorageSync("mode") == "local") {
-				try {
-					await loadDB();
-					uni.showToast({
-						title: '加载数据库完成',
-						position: 'bottom',
-					})
-				} catch(error){
-					uni.setStorage({
-						key: 'DBerror',
-						data: error
-					});
-				}
-				
-			}
+
 			
 			const value = uni.getStorageSync('launched');
 			if (value) {

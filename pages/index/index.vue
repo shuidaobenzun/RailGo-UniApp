@@ -94,7 +94,9 @@
 
 <script>
 	import uniGet from "@/scripts/req.js";
-
+	import {
+		loadDB
+	} from "@/scripts/jsonDB.js";
 	export default {
 		// Railgo Code
 		data() {
@@ -112,6 +114,23 @@
 			// #ifdef APP
 			plus.navigator.setStatusBarBackground('#eeeeee');
 			// #endif
+		},
+		async onLoad() {
+			if (uni.getStorageSync("mode") == "local") {
+				try {
+					await loadDB();
+					uni.showToast({
+						title: '加载数据库完成',
+						position: 'bottom',
+					})
+				} catch(error){
+					uni.setStorage({
+						key: 'DBerror',
+						data: error
+					});
+				}
+				
+			}
 		},
 		methods: {
 			async fetchData() {
