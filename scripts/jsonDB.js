@@ -17,7 +17,7 @@ export async function loadDB() {
 		// #ifdef APP-PLUS
 		// APP端使用plus.io读取本地文件
 		plus.io.requestFileSystem(plus.io.PRIVATE_DOC, (fs) => {
-			fs.root.getFile(`railgo-db.json`, {
+			fs.root.getFile(`railgo.json`, {
 				create: false
 			}, (fileEntry) => {
 				fileEntry.file((file) => {

@@ -195,7 +195,7 @@
 						</checkbox>
 					</view>
 				</checkbox-group>
-				<l-divider></l-divider>
+				<uv-divider></uv-divider>
 				<text class="ux-h4">到发筛选</text>
 				<br>
 				<checkbox-group class="ux-mt-small" @change="radioSourceChange">

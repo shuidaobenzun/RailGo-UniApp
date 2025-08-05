@@ -10,8 +10,8 @@
 		</uni-popup>
 		<uni-popup ref="next_not_wifi" type="dialog">
 			<uni-popup-dialog cancelText="取消" confirmText="继续" title="提示"
-				content="您现在正在使用数据流量上网。<br>下载数据库大约需要花费200M左右的流量，确定要下载吗？"
-				@confirm="comfirmDownloadNow"></uni-popup-dialog>
+				content="您现在正在使用数据流量上网。下载数据库大约需要花费50M左右的流量，确定要下载吗？"
+				@confirm="confirmDownloadNow"></uni-popup-dialog>
 		</uni-popup>
 		<uni-popup ref="message" type="message">
 			<uni-popup-message :duration="3000" type="error" message="该模式暂时无法使用"></uni-popup-message>
@@ -61,7 +61,7 @@
 				"msgType": "success",
 			}
 		},
-		methods: {
+methods: {
 			finish: function() {
 				if (this.checked == "network") {
 					this.$refs.message.open();
@@ -69,7 +69,7 @@
 				} else {
 					// #ifdef APP
 					uni.getNetworkType({
-						success: function(res) {
+						success: (res) => { // <--- 这里改为箭头函数
 							if (res.networkType === "none") {
 								this.$refs.error_no_internet.open();
 							} else if (res.networkType === "wifi" || res.networkType === "ethernet") {

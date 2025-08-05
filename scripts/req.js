@@ -57,5 +57,4 @@ const uniGet = (url, config = {}) => { // 这里可以使用 function 或 const
   });
 };
 
-// **重点：在这里添加 default 导出**
 export default uniGet;

@@ -13,6 +13,7 @@
 						<text class="ux-h6 ux-bold">本品品质无保障，请慎重使用。</text><br><br>
 						<text class=" ux-h6">为避免出现不可预料的后果，需要进行鉴权。</text><br><br>
 						<text class=" ux-h6">公测码免费获取，如有售卖情况，请向我们举报。</text><br><br>
+						
 						<view class="ux-flex" style="align-items: center; margin-bottom: 10px;">
 						  <text style="width: 80px; text-align: right;" class="">公测码：</text>
 						  <uni-easyinput placeholder="请输入公测码" @input="inputCode" style="min-width: 200px; flex-grow: 1;"></uni-easyinput>
@@ -43,7 +44,8 @@
 				"ver": uni.getStorageSync("version"),
 				"valid": false,
 				"msgType": "success",
-				"messageText": ""
+				"messageText": "",
+				"err": ""
 			}
 		},
 		methods: {
@@ -65,16 +67,14 @@
 				try {
 					const Response = await uniGet("https://auth.railgo.zenglingkun.cn/api/check/" + this.ver + "?userid=" + this.qq + "&key=" + this.code);
 					this.valid = Response.data.valid;
-					const button = document.getElementById('next');
-					const navigatorControl = document.getElementById('navigator1'); 
 					if (this.valid) {
 						uni.setStorageSync("qq", this.qq)
 						uni.setStorageSync("key", this.code)
 						uni.setStorageSync("AuthTime", new Date().getTime())
 						this.msgType = "success"
-						this.messageText = "验证成功！1秒后自动跳转下一页"
+						this.messageText = "验证成功！"
 						this.$refs.message.open()
-						setTimeout("uni.navigateTo({url: '/pages/oobe/mode'})", 1000 )
+						uni.navigateTo({url: '/pages/oobe/mode'})
 						
 					} else {
 						this.msgType = "error"
@@ -86,6 +86,7 @@
 					console.error('Error fetching data:', error);
 					this.load=false;
 					this.msgType = "error"
+					this.err = error
 					this.messageText = "请求错误"
 					this.$refs.message.open()
 				}

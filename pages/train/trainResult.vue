@@ -153,7 +153,7 @@
 							</view>
 						</view>
 					</view>
-					<l-divider v-if="(carData.carOwner || '')+(carData.runner || '')!=''" />
+					<uv-divider v-if="(carData.carOwner || '')+(carData.runner || '')!=''" />
 					<view v-if="carData.car">
 						<view class="ux-flex ux-space-between">
 							<text class="ux-text-small ux-opacity-5">车型</text>

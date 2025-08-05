@@ -1,12 +1,12 @@
 <script>
-	const nauth = false;
-	const version = "1.0.0 Pre 1"
+	const nauth = true;
+	const version = "1.0.0 Pre 2"
 	const version_number = 1
+import uniGet from "./scripts/req";
 	// UXUI INIT
 	import {
 		loadDB
 	} from "@/scripts/jsonDB.js";
-	import axios from "axios";
 
 	function checkTime(timestamp1, timestamp2) {
 		const interval = 72 * 60 * 60 * 1000;
@@ -15,18 +15,22 @@
 	}
 	async function check() {
 		try {
-			const Response = await axios.get("https://auth.railgo.zenglingkun.cn/api/check/" + uni.getStorageSync(
+			const Response = await uniGet("https://auth.railgo.zenglingkun.cn/api/check/" + uni.getStorageSync(
 				'version') + "?userid=" + uni.getStorageSync('qq') + "&key=" + uni.getStorageSync('key'));
 			if (Response.data.valid) {
 				uni.setStorageSync("AuthTime", new Date().getTime())
 				console.log("鉴权成功")
+				uni.showToast({
+					title: '鉴权成功',
+					position: 'bottom',
+				})
 			} else {
 				uni.showToast({
 					title: '鉴权无效',
 					position: 'bottom',
 				})
 				uni.setStorageSync("oobe", false)
-				uni.navigateTo({
+				uni.reLaunch({
 					url: '/pages/oobe/welcome'
 				})
 			}
@@ -38,18 +42,22 @@
 					position: 'bottom',
 				})
 				uni.setStorageSync("oobe", false)
-				uni.navigateTo({
+				uni.reLaunch({
 					url: '/pages/oobe/welcome'
 				})
 			} else {
 				console.log("无网络但未超时")
+				uni.showToast({
+					title: '离线鉴权成功',
+					position: 'bottom',
+				})
 			}
 		}
 	}
 	let firstBackTime = 0;
 	export default {
 		onLaunch: async function() {
-			const value = uni.getStorageSync('launchFlag');
+			const value = uni.getStorageSync('launched');
 			if (value) {
 				uni.setStorage({
 					key: 'version',
@@ -65,7 +73,7 @@
 				});
 			} else {
 				uni.setStorage({
-					key: 'launchFlag',
+					key: 'launched',
 					data: true
 				});
 				uni.setStorage({
@@ -78,37 +86,57 @@
 				});
 				uni.setStorage({
 					key: 'version',
-					data: 1
+					data: version_number
 				});
 				uni.setStorage({
 					key: 'versionText',
-					data: "1.0.0 Pre 1"
+					data: version
 				});
 				uni.setStorage({
 					key: 'NeedAuth',
 					data: nauth
 				});
+				uni.setStorage({
+					key: 'oobe',
+					data: false
+				});
+				uni.setStorage({
+					key: 'mode',
+					data: 'local'
+				});
+				
 			}
+			
+			// 鉴权
+			if (uni.getStorageSync("NeedAuth")){
+				check()
+			}
+			
+			if (uni.getStorageSync('oobe')) {
+				//* 不操作 */
+			} else {
+				uni.reLaunch({
+					url: '/pages/oobe/welcome'
+				})
+			}
+			
 			// #ifdef H5
 			await loadDB(); // debug
 			// #endif
 			// #ifdef APP-PLUS
 			if (uni.getStorageSync("mode") == "local") {
-				loadDB();
+				try {
+					await loadDB();
+				} catch(error){
+					uni.setStorage({
+						key: 'DBerror',
+						data: error
+					});
+				}
+				
 			}
 			// #endif
-			if (uni.getStorageSync('oobe')) {
-				//* 不操作 */
-			} else {
-				uni.navigateTo({
-					url: '/pages/oobe/welcome'
-				})
-			}
 
-			// 鉴权
-			if (uni.getStorageSync("NeedAuth")){
-				check()
-			}
 
 		},
 		onShow: function() {},

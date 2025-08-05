@@ -23,6 +23,7 @@
 				</view>
 				<uv-divider></uv-divider>
 				<text style="font-size: 12px; color: grey;">离线数据版本 {{offline}}</text>
+				<text style="font-size: 12px; color: grey;">{{error}}</text>
 			</view>
 
 			<view class="ux-bg-grey5">
@@ -79,7 +80,8 @@
 			return {
 				count: 0,
 				version: uni.getStorageSync("versionText"),
-				offline: uni.getStorageSync("offlineDataVersionText")
+				offline: uni.getStorageSync("offlineDataVersionText"),
+				error: uni.getStorageSync("DBerror")
 			};
 		},
 		onShow() {
