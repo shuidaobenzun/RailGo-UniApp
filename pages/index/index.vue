@@ -97,6 +97,13 @@
 	import {
 		loadDB
 	} from "@/scripts/jsonDB.js";
+	import {
+		doQuery,
+	} from "@/scripts/sqlite.js";
+	import {
+		KEYS_STRUCT_STATIONS,
+		KEYS_STRUCT_TRAINS
+	} from "@/scripts/config.js";
 	export default {
 		// Railgo Code
 		data() {
@@ -112,24 +119,26 @@
 		},
 		onShow() {
 			// #ifdef APP
-			plus.navigator.setStatusBarBackground('#eeeeee');
+			plus.navigator.setStatusBarBackground('#114598');
+			plus.navigator.setFullscreen(false);
+			plus.navigator.showSystemNavigation();
 			// #endif
 		},
 		async onLoad() {
 			if (uni.getStorageSync("mode") == "local") {
 				try {
-					await loadDB();
+					//await loadDB();
 					uni.showToast({
 						title: '加载数据库完成',
 						position: 'bottom',
 					})
-				} catch(error){
+				} catch (error) {
 					uni.setStorage({
 						key: 'DBerror',
 						data: error
 					});
 				}
-				
+
 			}
 		},
 		methods: {

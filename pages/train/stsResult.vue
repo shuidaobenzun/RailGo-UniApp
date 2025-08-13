@@ -13,6 +13,11 @@
 		</view>
 		<!-- headers end -->
 		<view class="ux-pl ux-pr ux-pb">
+			<view class="ux-padding-small ux-h6 ux-text-center"
+				style="background-color:#e9eef5;border:1px solid #114598;border-radius:10rpx;color:#114598;">
+				<text class="ux-bold">信息仅供参考 请以铁路运营企业实际运用为准</text>
+			</view>
+			<br>
 			<view class="ux-flex">
 				<button class="ux-flex1 ux-mr-small ux-bg-primary ux-color-white" size="mini" @click="openSortMenu()">
 					<view class="ux-flex ux-align-items-center ux-justify-content-center">
@@ -163,9 +168,14 @@
 		queryMainKey
 	} from "@/scripts/jsonDB.js";
 	import {
+		doQuery,
+	} from "@/scripts/sqlite.js";
+	import {
 		toRaw
 	} from "@vue/reactivity";
 	import {
+		KEYS_STRUCT_STATIONS,
+		KEYS_STRUCT_TRAINS,
 		TRAIN_KIND_COLOR_MAP
 	} from "@/scripts/config.js";
 	export default {
@@ -203,8 +213,10 @@
 					uni.showLoading({
 						title: "加载中"
 					});
-					let fromStn = toRaw(await queryMainKey("stations", this.from))[0];
-					let toStn = toRaw(await queryMainKey("stations", this.to))[0];
+					let fromStn = toRaw(await doQuery("SELECT * FROM stations WHERE telecode='" + this.from + "'",
+						KEYS_STRUCT_STATIONS))[0];
+					let toStn = toRaw(await doQuery("SELECT * FROM stations WHERE telecode='" + this.to + "'",
+						KEYS_STRUCT_STATIONS))[0];
 					if (fromStn.trainList.length == 0 || toStn.trainList.length == 0) {
 						uni.hideLoading();
 						this.$refs.error_noky.open();
@@ -215,7 +227,8 @@
 							.filter((i) => {
 								return toStn.trainList.includes(i)
 							})) {
-						let k = toRaw(await queryMainKey("trains", item))[0];
+						let k = toRaw(await doQuery("SELECT * FROM trains WHERE number='" + item + "'",
+							KEYS_STRUCT_TRAINS))[0];
 						let fromPos = -1;
 						let toPos = -1;
 						if (!k.rundays.includes(this.date)) {
@@ -234,7 +247,8 @@
 							k.fromPos = fromPos;
 							k.toPos = toPos;
 							k.showFlag = true;
-							k.passTime = this.calculateTimeDifference(k.timetable[k.fromPos].depart, k.timetable[k
+							k.passTime = this.calculateTimeDifference(k.timetable[k.fromPos].depart, k
+								.timetable[k
 									.toPos]
 								.arrive, k.timetable[k.toPos].day - k.timetable[k.fromPos].day);
 							this.data.push(k);

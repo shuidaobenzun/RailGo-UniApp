@@ -15,9 +15,8 @@
 			</view>
 			<view class="ux-border-radius">
 				<uni-list>
-					<uni-list-item v-for="(item,index) in stationsList" :key="index"
-						class="ux-bg-white"
-						clickable @click="clickToSelect(item, $event)">
+					<uni-list-item v-for="(item,index) in stationsList" :key="index" class="ux-bg-white" clickable
+						@click="clickToSelect(item, $event)">
 						<template v-slot:header>
 							<view class="ux-flex ux-align-items-center" style="flex-direction: row;">
 								<view v-for="(tag,i) in item.type" :key="i">
@@ -30,7 +29,8 @@
 							<text class="ux-flex ux-align-items-center ux-flex1">{{item.name}}站</text>
 						</template>
 						<template v-slot:footer>
-							<view class="ux-flex ux-align-items-center ux-justify-content-end" style="flex-direction: row;">
+							<view class="ux-flex ux-align-items-center ux-justify-content-end"
+								style="flex-direction: row;">
 								<text class="ux-text-small ux-opacity-5">{{item.pinyinTriple}}/-{{item.telecode}}</text>
 							</view>
 						</template>
@@ -47,6 +47,13 @@
 	import {
 		query
 	} from "@/scripts/jsonDB.js";
+	import {
+		doQuery,
+	} from "@/scripts/sqlite.js";
+	import {
+		KEYS_STRUCT_STATIONS,
+		KEYS_STRUCT_TRAINS
+	} from "@/scripts/config.js";
 	import {
 		toRaw
 	} from "@vue/reactivity";
@@ -79,12 +86,11 @@
 				this.fillInData();
 			},
 			fillInData: async function() {
-				if(this.keyword == ""){
+				if (this.keyword == "") {
 					return;
 				}
-				this.stationsList = toRaw(await query("stations", (item) => {
-					return item.name.includes(this.keyword);
-				})).sort((a, b) => {
+				this.stationsList = toRaw(await doQuery("SELECT * FROM stations WHERE name LIKE '%" + this.keyword +
+					"%'", KEYS_STRUCT_STATIONS)).sort((a, b) => {
 					// 按拼音排序
 					if (a.pinyin < b.pinyin) {
 						return -1;
@@ -95,7 +101,7 @@
 					return 0;
 				});
 			},
-			clickToSelect: function(item, e){
+			clickToSelect: function(item, e) {
 				uni.setStorageSync(this.resultPlace, item);
 				uni.navigateBack();
 			}

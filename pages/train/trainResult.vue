@@ -79,7 +79,7 @@
 						hover-class="ux-bg-grey5">
 						<uni-td style="border:none">
 							<image style="width:1px;height:1px;transform:translateY(-5px) scale(40)" mode="aspectFit"
-								src="@/static/station-mark-unpass.png"></image>
+								src="@/static/station-mark-stop.png"></image>
 						</uni-td>
 						<uni-td style="border:none">
 							<navigator
@@ -266,14 +266,19 @@
 	import {
 		queryMainKey
 	} from "@/scripts/jsonDB.js";
+	import {
+		doQuery,
+	} from "@/scripts/sqlite.js";
+	import {
+		KEYS_STRUCT_STATIONS,
+		KEYS_STRUCT_TRAINS,
+		TRAIN_KIND_COLOR_MAP,
+		CAR_PERFORMANCE
+	} from "@/scripts/config.js";
 	import calendar from "@/components/diagram-calendar/diagram-calendar.vue";
 	import {
 		toRaw
 	} from "@vue/reactivity";
-	import {
-		TRAIN_KIND_COLOR_MAP,
-		CAR_PERFORMANCE
-	} from "@/scripts/config.js";
 	export default {
 		components: {
 			calendar
@@ -328,7 +333,8 @@
 				try {
 					if (!this.title) return;
 
-					const result = await queryMainKey("trains", this.title);
+					const result = await doQuery("SELECT * FROM trains WHERE numberFull LIKE '%\"" + this.train +
+						"\"%'", KEYS_STRUCT_TRAINS);
 					if (result && result.length > 0) {
 						this.carData = {
 							numberKind: '',

@@ -27,7 +27,7 @@ export const CAR_PERFORMANCE = {
 	"CRH1E": ["16", "10M6T", "9车 有座(旧)/无座(统)", "250", "/static/trainHead/CRH1E.png"],
 	"CRH1E-NG": ["16", "10M6T", "9车 无座", "250", "/static/trainHead/CRH1A-A.png"],
 	"CRH1A-A": ["8", "5M3T", "5车 无座", "250", "/static/trainHead/CRH1A-A.png"],
-	"CRH2A (旧型)" : ["8", "4M4T", '5车 有座', "250", "/static/trainHead/CRH2A.png"],
+	"CRH2A (旧型)": ["8", "4M4T", '5车 有座', "250", "/static/trainHead/CRH2A.png"],
 	"CRH2A (统型)": ["8", "4M4T", '5车 无座', "250", "/static/trainHead/CRH2A.png"],
 	"CRH2B (旧型)": ["16", "8M8T", "8车 有座", "250", "/static/trainHead/CRH2B.png"],
 	"CRH2B (统型)": ["16", "8M8T", "8车 有座", "250", "/static/trainHead/CRH2A.png"],
@@ -94,3 +94,11 @@ export const CAR_PERFORMANCE = {
 	"CR200J3-C (短编)": ["9", "1M8T", "4车 无座", "160", "/static/trainHead/CR200JC.png"],
 	"CR200J3-C (长编)": ["18", "2M16T", "9车 无座", "160", "/static/trainHead/CR200JC.png"]
 }
+
+export const KEYS_STRUCT_TRAINS = ["code", "number", "numberFull", "numberKind", "bureau", "bureauName", "type",
+	"runner", "car", "carOwner", "diagram", "timetable", "spend", "rundays", "route", "isTemp", "isFuxing"
+]
+
+export const KEYS_STRUCT_STATIONS = ["telecode", "pinyin", "pinyinTriple", "tmism", "name", "bureau", "belong", "lines",
+	"type", "trainList"
+]

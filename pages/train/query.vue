@@ -36,10 +36,10 @@
 						<view v-if="shouldShowPlacehold()"
 							style="position:absolute;z-index:114514;margin-top:-0.78125rem;width:100%;"
 							class="ux-bg-white ux-box-shadow ux-text">
-							<scroll-view scroll-y="true" style="max-height:5rem;">
+							<scroll-view scroll-y="true" style="max-height:7rem;">
 								<view v-for="(item,index) in placeholderData" :key="index"
 									class="ux-flex ux-space-between ux-align-items-center"
-									style="padding:0.3rem 0.5rem;" hover-class="ux-bg-grey5"
+									style="padding:0.4rem 0.5rem;" hover-class="ux-bg-grey5"
 									@click='inputPlacehold(item.numberFull.join("/"))'>
 									<view class="ux-flex ux-space-around">
 										<view style="font-size:0.96rem;">
@@ -113,6 +113,13 @@
 		query
 	} from "@/scripts/jsonDB.js";
 	import {
+		doQuery,
+	} from "@/scripts/sqlite.js";
+	import {
+		KEYS_STRUCT_STATIONS,
+		KEYS_STRUCT_TRAINS
+	} from "@/scripts/config.js";
+	import {
 		toRaw
 	} from "@vue/reactivity";
 	import {
@@ -160,7 +167,7 @@
 				uni.navigateBack()
 			},
 			jumpToResult: function() {
-				if(this.selectIndex==0){
+				if (this.selectIndex == 0) {
 					if (this.keyword == "" || this.date == "") {
 						uni.showToast({
 							icon: "none",
@@ -171,32 +178,26 @@
 					uni.navigateTo({
 						url: "/pages/train/trainResult?keyword=" + this.keyword + "&date=" + this.date
 					});
-				}else{
+				} else {
 					uni.navigateTo({
-						url: "/pages/train/stsResult?from=" + uni.getStorageSync("train_sts_fieldA").telecode + "&to=" + uni.getStorageSync("train_sts_fieldB").telecode + "&date=" + this.date
+						url: "/pages/train/stsResult?from=" + uni.getStorageSync("train_sts_fieldA").telecode +
+							"&to=" + uni.getStorageSync("train_sts_fieldB").telecode + "&date=" + this.date
 					});
 				}
 			},
 			inputData: async function(e) {
 				this.keyword = e.detail.value;
 				if (this.keyword.length >= 2) {
-					this.placeholderData = toRaw(await query("trains", (item) => {
-						if (this.keyword[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
-							for (var i = 0; i < item.numberFull.length; i++) {
-								if (item.numberFull[i].replace(item.numberKind, "").startsWith(this
-										.keyword)) {
-									return true;
-								}
-							}
-							return false;
-						}
-						for (var i = 0; i < item.numberFull.length; i++) {
-							if (item.numberFull[i].startsWith(this.keyword)) {
-								return true;
-							}
-						}
-						return false;
-					})).sort((a, b) => parseInt(a.numberFull.join("/").match(/\d+/)[0]) - parseInt(b.numberFull
+					if (this.keyword[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
+						this.placeholderData = toRaw(await doQuery("SELECT * FROM trains WHERE numberFull LIKE '%\"_" +
+							this.keyword + "%\"%' OR numberFull LIKE '%\"" + this.keyword + "%\"'",
+							KEYS_STRUCT_TRAINS))
+					} else {
+						this.placeholderData = toRaw(await doQuery("SELECT * FROM trains WHERE numberFull LIKE '%" +
+							this.keyword + "%'", KEYS_STRUCT_TRAINS));
+					}
+					this.placeholderData = this.placeholderData.sort((a, b) => parseInt(a.numberFull.join("/").match(
+						/\d+/)[0]) - parseInt(b.numberFull
 						.join("/").match(/\d+/)[0]));
 					this.placeholderCollapsed = false;
 				}

@@ -2,7 +2,7 @@
 	const nauth = true;
 	const version = "1.0.0 Pre 2"
 	const version_number = 1
-import uniGet from "./scripts/req";
+	import uniGet from "./scripts/req";
 	// UXUI INIT
 	import {
 		loadDB
@@ -57,8 +57,6 @@ import uniGet from "./scripts/req";
 	let firstBackTime = 0;
 	export default {
 		onLaunch: async function() {
-
-			
 			const value = uni.getStorageSync('launched');
 			if (value) {
 				uni.setStorage({
@@ -106,14 +104,14 @@ import uniGet from "./scripts/req";
 					key: 'mode',
 					data: ''
 				});
-				
+
 			}
-			
+
 			// 鉴权
-			if (uni.getStorageSync("NeedAuth")){
+			if (uni.getStorageSync("NeedAuth")) {
 				check()
 			}
-			
+
 			if (uni.getStorageSync('oobe')) {
 				//* 不操作 */
 			} else {

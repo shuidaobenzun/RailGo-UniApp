@@ -116,7 +116,7 @@
 
 			// #ifdef H5
 			uni.setStorageSync("oobe", true);
-			uni.setStorageSync("mode", "online");
+			uni.setStorageSync("mode", "local");
 			uni.reLaunch({
 				url: '/pages/index/index'
 			});

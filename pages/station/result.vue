@@ -219,14 +219,21 @@
 	</uni-popup>
 </template>
 <script>
+	/*
 	import {
 		query,
 		queryMainKey
 	} from "@/scripts/jsonDB.js";
+	*/
+	import {
+		doQuery
+	} from "@/scripts/sqlite.js";
 	import {
 		toRaw
 	} from "@vue/reactivity";
 	import {
+		KEYS_STRUCT_STATIONS,
+		KEYS_STRUCT_TRAINS,
 		TRAIN_KIND_COLOR_MAP
 	} from '@/scripts/config.js';
 	export default {
@@ -267,14 +274,15 @@
 				uni.navigateBack();
 			},
 			fillInData: async function() {
-				this.data = toRaw(await queryMainKey("stations", this.keyword))[0];
-				this.trains = toRaw(await query("trains", (i) => {
-					return this.data.trainList.includes(i.number);
-				}));
-				this.trains.forEach((i) => {
-					i.indexStopThere = i.timetable.findIndex((tt) => {
+				this.data = toRaw(await doQuery("SELECT * FROM stations WHERE telecode='" + this.keyword + "'",
+					KEYS_STRUCT_STATIONS))[0];
+				this.trains = toRaw(await doQuery("SELECT * FROM trains WHERE number IN ('" + this.data.trainList.join(
+					"','") + "')", KEYS_STRUCT_TRAINS));
+				this.trains.forEach((item, index) => {
+					item.indexStopThere = item.timetable.findIndex((tt) => {
 						return tt.stationTelecode == this.keyword;
 					});
+					this.trains[index] = item;
 				});
 				this.radioSortChange({
 					detail: {
