@@ -279,6 +279,7 @@
 	import {
 		toRaw
 	} from "@vue/reactivity";
+	import uniGet from "@/scripts/req";
 	export default {
 		components: {
 			calendar
@@ -318,6 +319,11 @@
 			this.train = options.keyword ? options.keyword.split("/")[0] : '';
 			this.title = this.train;
 			this.date = options.date || '';
+			const c = uni.getStorageSync("search");
+			uni.setStorage({
+				key: 'search',
+				data: c+1
+			});
 			this.fillInData(); // 调用数据填充方法
 		},
 		onShow() {
@@ -330,59 +336,74 @@
 				uni.navigateBack()
 			},
 			fillInData: async function() {
-				try {
-					if (!this.title) return;
-
-					const result = await doQuery("SELECT * FROM trains WHERE numberFull LIKE '%\"" + this.train +
-						"\"%'", KEYS_STRUCT_TRAINS);
-					if (result && result.length > 0) {
-						this.carData = {
-							numberKind: '',
-							numberFull: [],
-							type: '',
-							timetable: [],
-							bureauName: '',
-							runner: '',
-							carOwner: '',
-							car: '',
-							rundays: [],
-							diagram: [],
-							...toRaw(result[0])
-						};
-
-						// 确保 timetable 中的每个项目都有必要字段
-						this.carData.timetable = (this.carData.timetable || []).map(item => ({
-							station: '',
-							stationTelecode: '',
-							trainCode: '',
-							arrive: '',
-							depart: '',
-							stopTime: '-',
-							distance: '-',
-							speed: 0,
-							day: '-',
-							...item
-						}));
-
-						this.cardColor = this.colorMap[this.carData.numberKind] || '#114598';
-					}
-				} catch (error) {
-					console.error("数据加载失败", error);
-					// 确保有安全的默认值
-					this.carData = {
-						numberKind: '',
-						numberFull: [],
-						type: '',
-						timetable: [],
-						bureauName: '',
-						runner: '',
-						carOwner: '',
-						car: '',
-						rundays: [],
-						diagram: []
-					};
-					this.cardColor = '#114598';
-				}
+				uni.showLoading({
+				    title: "加载中"
+				});
+			    try {
+			        if (!this.train) return;
+			        const resp = await uniGet(`http://127.0.0.1:5000/api/train/query?train=${encodeURIComponent(this.train)}`);
+			        const result = resp.data;
+			        if (resp.error) {
+			            // 确保有安全的默认值
+			            this.carData = {
+			                numberKind: '',
+			                numberFull: [],
+			                type: '',
+			                timetable: [],
+			                bureauName: '',
+			                runner: '',
+			                carOwner: '',
+			                car: '',
+			                rundays: [],
+			                diagram: []
+			            };
+			            this.cardColor = '#114598';
+			            return;
+			        }
+			        // 处理字段，确保安全
+			        this.carData = {
+			            numberKind: result.numberKind || '',
+			            numberFull: Array.isArray(result.numberFull) ? result.numberFull : [],
+			            type: result.type || '',
+			            timetable: (result.timetable || []).map(item => ({
+			                station: '',
+			                stationTelecode: '',
+			                trainCode: '',
+			                arrive: '',
+			                depart: '',
+			                stopTime: '-',
+			                distance: '-',
+			                speed: 0,
+			                day: '-',
+			                ...item
+			            })),
+			            bureauName: result.bureauName || '',
+			            runner: result.runner || '',
+			            carOwner: result.carOwner || '',
+			            car: result.car || '',
+			            rundays: Array.isArray(result.rundays) ? result.rundays : [],
+			            diagram: Array.isArray(result.diagram) ? result.diagram : []
+			        };
+			        this.cardColor = this.colorMap[this.carData.numberKind] || '#114598';
+					uni.hideLoading()
+			    } catch (error) {
+			        console.error("数据加载失败", error);
+					uni.hideLoading()
+			        // 确保有安全的默认值
+			        this.carData = {
+			            numberKind: '',
+			            numberFull: [],
+			            type: '',
+			            timetable: [],
+			            bureauName: '',
+			            runner: '',
+			            carOwner: '',
+			            car: '',
+			            rundays: [],
+			            diagram: []
+			        };
+			        this.cardColor = '#114598';
+			    }
 			},
 			tabChange: function(e) {
 				this.selectIndex = e.index;

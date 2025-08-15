@@ -57,6 +57,7 @@
 	import {
 		toRaw
 	} from "@vue/reactivity";
+	import uniGet from "@/scripts/req";
 	export default {
 		data() {
 			return {
@@ -86,20 +87,12 @@
 				this.fillInData();
 			},
 			fillInData: async function() {
-				if (this.keyword == "") {
-					return;
-				}
-				this.stationsList = toRaw(await doQuery("SELECT * FROM stations WHERE name LIKE '%" + this.keyword +
-					"%'", KEYS_STRUCT_STATIONS)).sort((a, b) => {
-					// 按拼音排序
-					if (a.pinyin < b.pinyin) {
-						return -1;
-					}
-					if (a.pinyin > b.pinyin) {
-						return 1;
-					}
-					return 0;
-				});
+			    if (this.keyword == "" || this.keyword == null) {
+			        return;
+			    }
+			    const resp = await uniGet(`http://127.0.0.1:5000/api/station/preselect?keyword=${encodeURIComponent(this.keyword)}`);
+			    const result = resp.data;
+			    this.stationsList = result;
 			},
 			clickToSelect: function(item, e) {
 				uni.setStorageSync(this.resultPlace, item);

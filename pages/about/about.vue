@@ -22,7 +22,7 @@
 					</view>
 				</view>
 				<uv-divider></uv-divider>
-				<text style="font-size: 12px; color: grey;">离线数据版本 {{offline}}（{{dbSize}}M {{dbTable}}）</text><br>
+				<text style="font-size: 12px; color: grey;">离线数据版本 {{offline}}</text><br>
 				<text style="font-size: 12px; color: red;">{{error}}</text>
 			</view>
 
@@ -49,6 +49,14 @@
 					<view class="ux-flex ux-space-between">
 						<text class="ux-text-small">贡献</text>
 						<text class="ux-text-small ux-color-grey1"><text class="icon">&#xe5c8;</text></text>
+					</view>
+				</navigator>
+				<navigator url="/pages/about/individuation"
+					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-mt-small">
+					<view class="ux-flex ux-space-between">
+						<text class="ux-text-left ux-text-small">个性化</text>
+						<text class="ux-text-right ux-text-small ux-color-grey1"><text
+								class="icon">&#xe5c8;</text></text>
 					</view>
 				</navigator>
 				<navigator url="/pages/about/update/db"
@@ -81,9 +89,7 @@
 				count: 0,
 				version: uni.getStorageSync("versionText"),
 				offline: uni.getStorageSync("offlineDataVersionText"),
-				error: uni.getStorageSync("DBerror"),
-				dbSize: parseInt(uni.getStorageSync("dbSize") / 1024 / 1024),
-				dbTable: uni.getStorageSync("dbTable")
+				error: uni.getStorageSync("DBerror")
 			};
 		},
 		onShow() {

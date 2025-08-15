@@ -87,7 +87,7 @@
 			},
 			async fetchData() {
 				try {
-					const Response = await uniGet("https://feedback.azteam.cn/api/get_users");
+					const Response = await uniGet("https://feedback.railgo.dev/api/get_users");
 					this.items = Response.data.users;
 				} catch (error) {
 					console.error('Error fetching data:', error);

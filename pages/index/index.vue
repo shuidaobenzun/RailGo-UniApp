@@ -18,8 +18,8 @@
 			</view>
 			<view class="center">
 				<swiper vertical autoplay interval="2500" duration="300" circular>
-					<swiper-item v-for="(item, index) in items" :key="index"
-						class="ux-pl-small ux-opacity-8 ux-text-small">
+					<swiper-item v-for="(item, index) in items" :key="index" style="font-size: 12rpx;"
+						class="ux-pl-small ux-opacity-8">
 						{{ item }}
 					</swiper-item>
 				</swiper>
@@ -96,7 +96,7 @@
 	import uniGet from "@/scripts/req.js";
 	import {
 		loadDB
-	} from "@/scripts/jsonDB.js";
+	} from "@/scripts/sqlite.js";
 	import {
 		doQuery,
 	} from "@/scripts/sqlite.js";
@@ -123,23 +123,6 @@
 			plus.navigator.setFullscreen(false);
 			plus.navigator.showSystemNavigation();
 			// #endif
-		},
-		async onLoad() {
-			if (uni.getStorageSync("mode") == "local") {
-				try {
-					//await loadDB();
-					uni.showToast({
-						title: '加载数据库完成',
-						position: 'bottom',
-					})
-				} catch (error) {
-					uni.setStorage({
-						key: 'DBerror',
-						data: error
-					});
-				}
-
-			}
 		},
 		methods: {
 			async fetchData() {

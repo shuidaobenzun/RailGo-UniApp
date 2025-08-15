@@ -1,0 +1,12 @@
+export type IData = any
+
+export type IReturn = any
+
+// 切换图标（图标 + 名称）
+export type switchIcons = (aliasName : String) => Promise<IReturn>
+
+// 恢复默认
+export type restoreIcons = () => Promise<IReturn>
+
+// 返回可切换列表
+export type getSwitchList = () => Promise<IReturn>

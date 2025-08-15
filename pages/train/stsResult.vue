@@ -178,6 +178,8 @@
 		KEYS_STRUCT_TRAINS,
 		TRAIN_KIND_COLOR_MAP
 	} from "@/scripts/config.js";
+import uniGet from "@/scripts/req";
+
 	export default {
 		data() {
 			return {
@@ -197,7 +199,20 @@
 			this.to = options.to;
 			this.error = "";
 			this.date = options.date;
-			this.fillInData();
+			const c = uni.getStorageSync("search");
+			uni.setStorage({
+				key: 'search',
+				data: c+1
+			});
+			try{
+				this.fillInData();
+			} catch(error){
+				uni.setStorage({
+				"key": "DBerror",
+				"data": error.message
+				})
+			}
+			
 		},
 		onShow() {
 			// #ifdef APP
@@ -209,70 +224,37 @@
 				uni.navigateBack()
 			},
 			fillInData: async function() {
-				try {
-					uni.showLoading({
-						title: "加载中"
-					});
-					let fromStn = toRaw(await doQuery("SELECT * FROM stations WHERE telecode='" + this.from + "'",
-						KEYS_STRUCT_STATIONS))[0];
-					let toStn = toRaw(await doQuery("SELECT * FROM stations WHERE telecode='" + this.to + "'",
-						KEYS_STRUCT_STATIONS))[0];
-					if (fromStn.trainList.length == 0 || toStn.trainList.length == 0) {
-						uni.hideLoading();
-						this.$refs.error_noky.open();
-						return;
-					}
-					let d = [];
-					for (let item of fromStn.trainList
-							.filter((i) => {
-								return toStn.trainList.includes(i)
-							})) {
-						let k = toRaw(await doQuery("SELECT * FROM trains WHERE number='" + item + "'",
-							KEYS_STRUCT_TRAINS))[0];
-						let fromPos = -1;
-						let toPos = -1;
-						if (!k.rundays.includes(this.date)) {
-							continue;
-						}
-						for (var i = 0; i < k.timetable.length; i++) {
-							if (k.timetable[i].stationTelecode == this.from) {
-								fromPos = i;
-							}
-							if (k.timetable[i].stationTelecode == this.to) {
-								toPos = i;
-								break;
-							}
-						}
-						if (fromPos != -1) {
-							k.fromPos = fromPos;
-							k.toPos = toPos;
-							k.showFlag = true;
-							k.passTime = this.calculateTimeDifference(k.timetable[k.fromPos].depart, k
-								.timetable[k
-									.toPos]
-								.arrive, k.timetable[k.toPos].day - k.timetable[k.fromPos].day);
-							this.data.push(k);
-						}
-					}
-					this.showData = this.data;
-					this.radioSortChange({
-						detail: {
-							value: "departure"
-						}
-					});
-					if (toRaw(this.data).length == 0) {
-						uni.hideLoading();
-						this.$refs.error_nosuch.open();
-						return;
-					}
-				} catch (error) {
-					console.error("数据加载失败", error);
-					uni.showToast({
-						title: "加载失败",
-						duration: 1000
-					});
-				}
-				uni.hideLoading();
+			    try {
+			        uni.showLoading({
+			            title: "加载中"
+			        });
+			        const resp = await uniGet(`http://127.0.0.1:5000/api/train/sts_query?from=${this.from}&to=${this.to}&date=${this.date}`);
+			        const result = resp.data;
+			        if (resp.error) {
+			            uni.hideLoading();
+			            this.$refs.error_noky.open();
+			            return;
+			        }
+			        this.data = result;
+			        this.showData = this.data;
+			        this.radioSortChange({
+			            detail: {
+			                value: "departure"
+			            }
+			        });
+			        if (toRaw(this.data).length == 0) {
+			            uni.hideLoading();
+			            this.$refs.error_nosuch.open();
+			            return;
+			        }
+			    } catch (error) {
+			        console.error("数据加载失败", error);
+			        uni.showToast({
+			            title: "加载失败",
+			            duration: 1000
+			        });
+			    }
+			    uni.hideLoading();
 			},
 			calculateTimeDifference: function(startTime, endTime, daysLater) {
 				const parseTime = (timeStr) => {

@@ -236,6 +236,7 @@
 		KEYS_STRUCT_TRAINS,
 		TRAIN_KIND_COLOR_MAP
 	} from '@/scripts/config.js';
+import uniGet from "../../scripts/req";
 	export default {
 		data() {
 			return {
@@ -266,6 +267,11 @@
 		},
 		onLoad(options) {
 			this.keyword = options.keyword;
+			const c = uni.getStorageSync("search");
+			uni.setStorage({
+				key: 'search',
+				data: c+1
+			});
 			this.fillInData();
 		},
 		methods: {
@@ -274,21 +280,21 @@
 				uni.navigateBack();
 			},
 			fillInData: async function() {
-				this.data = toRaw(await doQuery("SELECT * FROM stations WHERE telecode='" + this.keyword + "'",
-					KEYS_STRUCT_STATIONS))[0];
-				this.trains = toRaw(await doQuery("SELECT * FROM trains WHERE number IN ('" + this.data.trainList.join(
-					"','") + "')", KEYS_STRUCT_TRAINS));
-				this.trains.forEach((item, index) => {
-					item.indexStopThere = item.timetable.findIndex((tt) => {
-						return tt.stationTelecode == this.keyword;
-					});
-					this.trains[index] = item;
+				uni.showLoading({
+					title:"加载中"
 				});
-				this.radioSortChange({
-					detail: {
-						value: "departure"
-					}
-				});
+			    // 远程API请求
+			    const resp = await uniGet(`http://127.0.0.1:5000/api/station/query?telecode=${this.keyword}`);
+			    const result = resp.data;
+			    this.data = result.data || {};
+			    this.trains = result.trains || [];
+	
+			    this.radioSortChange({
+			        detail: {
+			            value: "departure"
+			        }
+			    });
+				uni.hideLoading()
 			},
 			tabChange: function(e) {
 				this.selectIndex = e.index;

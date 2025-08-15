@@ -20,6 +20,10 @@
 </template>
 
 <script>
+	uni.setStorage({
+		"key": "Funnyegg",
+		"data": true
+	})
 	export default {
 		methods: {
 			back: function() {

@@ -1,0 +1,27 @@
+## 1.0.1（2025-06-18）
+> 新增功能
+
+- 无
+
+> 问题修复
+
+- 修复`使用 HBuilderX 导入示例项目`	、	`下载示例项目ZIP`时无法使用的问题
+
+> 功能优化
+
+- 将方法改成 Promise 方式，返格式为 Promise<IReturn>
+- `getSwitchList`不再需要配置，程序自己动态解析 AndroidManifest.xml 获取
+## 1.0.0（2025-05-28）
+
+> 新增功能
+
+- 新增了`switchIcons`(切换图标), `restoreIcons`(恢复默认), `getSwitchList`(可切换列表)的方法
+- 初始版本
+
+> 问题修复
+
+- 无
+
+> 功能优化
+
+- 无

@@ -1,12 +1,12 @@
 <script>
-	const nauth = true;
+	const nauth = false;
 	const version = "1.0.0 Pre 2"
 	const version_number = 1
 	import uniGet from "./scripts/req";
 	// UXUI INIT
 	import {
 		loadDB
-	} from "@/scripts/jsonDB.js";
+	} from "@/scripts/sqlite.js";
 
 	function checkTime(timestamp1, timestamp2) {
 		const interval = 72 * 60 * 60 * 1000;
@@ -57,7 +57,15 @@
 	let firstBackTime = 0;
 	export default {
 		onLaunch: async function() {
-			const value = uni.getStorageSync('launched');
+			const value = uni.getStorageSync('islaunched');
+			uni.setStorage({
+				key: 'DBerror',
+				data: ""
+			});
+			uni.setStorage({
+				key: 'beta',
+				data: true
+			});
 			if (value) {
 				uni.setStorage({
 					key: 'version',
@@ -73,7 +81,7 @@
 				});
 			} else {
 				uni.setStorage({
-					key: 'launched',
+					key: 'islaunched',
 					data: true
 				});
 				uni.setStorage({
@@ -104,6 +112,14 @@
 					key: 'mode',
 					data: ''
 				});
+				uni.setStorage({
+					key: 'nowIcon',
+					data: 'crh'
+				});
+				uni.setStorage({
+					key: 'search',
+					data: 0
+				});
 
 			}
 
@@ -119,6 +135,11 @@
 					url: '/pages/oobe/welcome'
 				})
 			}
+			// #ifdef APP
+			if (uni.getStorageSync('mode') == "local") {
+				await loadDB()
+			}
+			// #endif
 
 
 

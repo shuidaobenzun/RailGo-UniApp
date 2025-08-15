@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.azstudio.railgo">
+    <application>
+		<activity-alias
+			android:name="crh"
+			android:enabled="false"
+			android:exported="true"
+			android:icon="@mipmap/rg_crh"
+			android:targetActivity="io.dcloud.PandoraEntry">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity-alias>
+		<activity-alias
+			android:name="gold"
+			android:enabled="false"
+			android:exported="true"
+			android:icon="@mipmap/rg_gold"
+			android:targetActivity="io.dcloud.PandoraEntry">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity-alias>
+		<activity-alias
+			android:name="green"
+			android:enabled="false"
+			android:exported="true"
+			android:icon="@mipmap/rg_green"
+			android:targetActivity="io.dcloud.PandoraEntry">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity-alias>
+		<activity-alias
+			android:name="passion"
+			android:enabled="false"
+			android:exported="true"
+			android:icon="@mipmap/rg_passion"
+			android:targetActivity="io.dcloud.PandoraEntry">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity-alias>
+		<activity-alias
+			android:name="purple"
+			android:enabled="false"
+			android:exported="true"
+			android:icon="@mipmap/rg_purple"
+			android:targetActivity="io.dcloud.PandoraEntry">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity-alias>
+		<activity-alias
+			android:name="red"
+			android:enabled="false"
+			android:exported="true"
+			android:icon="@mipmap/rg_red"
+			android:targetActivity="io.dcloud.PandoraEntry">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity-alias>
+    </application>
+</manifest>
