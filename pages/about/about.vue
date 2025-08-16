@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="height: 100vh; position: relative;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -14,11 +15,11 @@
 			<view class="ux-bg-white ux-border-radius-large ux-padding">
 				<view class="ux-flex ux-align-items-center">
 					<image class="ux-box-shadow ux-border-radius-large" src="~@/static/logo.png"
-						style="width: 140rpx; height: 140rpx;" @click="add"></image><br />
+						style="width: 140rpx; height: 140rpx;"></image><br />
 					<view class="ux-pl">
 						<text class="ux-bold ux-h4">RailGo</text>
 						<br>
-						<text style="font-size: 12px; color: grey;">Version {{version}}</text><br>
+						<text style="font-size: 12px; color: grey;" @click="add">Version {{version}}</text><br>
 					</view>
 				</view>
 				<uv-divider></uv-divider>
@@ -47,7 +48,7 @@
 				<navigator url="/pages/about/member"
 					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-padding ux-mt-small">
 					<view class="ux-flex ux-space-between">
-						<text class="ux-text-small">贡献</text>
+						<text class="ux-text-small">鸣谢</text>
 						<text class="ux-text-small ux-color-grey1"><text class="icon">&#xe5c8;</text></text>
 					</view>
 				</navigator>
@@ -59,13 +60,13 @@
 								class="icon">&#xe5c8;</text></text>
 					</view>
 				</navigator>
-				<navigator url="/pages/about/update/db"
+				<!-- <navigator url="/pages/about/update/db"
 					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-padding ux-mt-small">
 					<view class="ux-flex ux-space-between">
 						<text class="ux-text-small">更新</text>
 						<text class="ux-text-small ux-color-grey1"><text class="icon">&#xe5c8;</text></text>
 					</view>
-				</navigator>
+				</navigator> -->
 				<navigator v-if="count >= 10" url="/pages/about/egg"
 					class="ux-th ux-bg-white ux-border-radius-large ux-padding ux-mt-small">
 					<view class="ux-flex ux-space-between">

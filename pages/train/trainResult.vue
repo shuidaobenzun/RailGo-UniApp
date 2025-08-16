@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -341,9 +342,9 @@
 				});
 			    try {
 			        if (!this.train) return;
-			        const resp = await uniGet(`http://127.0.0.1:5000/api/train/query?train=${encodeURIComponent(this.train)}`);
+			        const resp = await uniGet(`https://data.railgo.zenglingkun.cn/api/train/query?train=${encodeURIComponent(this.train)}`);
 			        const result = resp.data;
-			        if (resp.error) {
+			        if (result.error) {
 			            // 确保有安全的默认值
 			            this.carData = {
 			                numberKind: '',
@@ -358,6 +359,17 @@
 			                diagram: []
 			            };
 			            this.cardColor = '#114598';
+						uni.hideLoading()
+						uni.showToast({
+							title: '车次不存在',
+							icon: 'error'
+						})
+						const c = uni.getStorageSync("search");
+						uni.setStorage({
+							key: 'search',
+							data: c-1
+						});
+						uni.navigateBack()
 			            return;
 			        }
 			        // 处理字段，确保安全
@@ -389,6 +401,11 @@
 			    } catch (error) {
 			        console.error("数据加载失败", error);
 					uni.hideLoading()
+					const c = uni.getStorageSync("search");
+					uni.setStorage({
+						key: 'search',
+						data: c-1
+					});
 			        // 确保有安全的默认值
 			        this.carData = {
 			            numberKind: '',

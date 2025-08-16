@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -70,7 +71,7 @@
 					})
 				}
 				uni.navigateTo({
-					url: "/pages/station/result?keyword=" + this.callbackItem.telecode + "&vague=" + this.vagueData
+					url: "/pages/station/result?keyword=" + String(this.callbackItem.telecode)
 				})
 			},
 			vague: function(e) {

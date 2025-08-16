@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -90,7 +91,7 @@
 			    if (this.keyword == "" || this.keyword == null) {
 			        return;
 			    }
-			    const resp = await uniGet(`http://127.0.0.1:5000/api/station/preselect?keyword=${encodeURIComponent(this.keyword)}`);
+			    const resp = await uniGet(`https://data.railgo.zenglingkun.cn/api/station/preselect?keyword=${encodeURIComponent(this.keyword)}`);
 			    const result = resp.data;
 			    this.stationsList = result;
 			},

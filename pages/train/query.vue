@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-pl ux-pr ux-pt">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -46,10 +47,10 @@
 											{{item.numberFull.join("/")}}
 										</view>
 									</view>
-									<view class="ux-opacity-5 ux-text-small">
+<!-- 									<view class="ux-opacity-5 ux-text-small">
 										{{item.timetable[0].station}} ⋙
 										{{item.timetable[item.timetable.length-1].station}}
-									</view>
+									</view> -->
 								</view>
 							</scroll-view>
 						</view>
@@ -125,6 +126,7 @@
 	import {
 		TRAIN_KIND_COLOR_MAP
 	} from "@/scripts/config.js";
+import uniGet from "../../scripts/req";
 	export default {
 		data() {
 			return {
@@ -185,22 +187,25 @@
 					});
 				}
 			},
-			inputData: async function(e) {
-				this.keyword = e.detail.value;
-				if (this.keyword.length >= 2) {
-					if (this.keyword[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]) {
-						this.placeholderData = toRaw(await doQuery("SELECT * FROM trains WHERE numberFull LIKE '%\"_" +
-							this.keyword + "%\"%' OR numberFull LIKE '%\"" + this.keyword + "%\"'",
-							KEYS_STRUCT_TRAINS))
-					} else {
-						this.placeholderData = toRaw(await doQuery("SELECT * FROM trains WHERE numberFull LIKE '%" +
-							this.keyword + "%'", KEYS_STRUCT_TRAINS));
-					}
-					this.placeholderData = this.placeholderData.sort((a, b) => parseInt(a.numberFull.join("/").match(
-						/\d+/)[0]) - parseInt(b.numberFull
-						.join("/").match(/\d+/)[0]));
-					this.placeholderCollapsed = false;
-				}
+			inputData: function(e) {
+			    this.keyword = e.detail.value;
+			    if (this._debounceTimer) clearTimeout(this._debounceTimer);
+			    if (this.keyword.length >= 2) {
+			        this._debounceTimer = setTimeout(async () => {
+			            try {
+			                const resp = await uniGet(`https://data.railgo.zenglingkun.cn/api/train/preselect?keyword=${encodeURIComponent(this.keyword)}`);
+			                const result = resp.data;
+			                this.placeholderData = result.map(item => ({
+			                    numberFull: typeof item === 'string' ? item.split('/') : [],
+			                    fromStation: item.fromStation || {},
+			                    toStation: item.toStation || {}
+			                }));
+			                this.placeholderCollapsed = false;
+			            } catch (error) {
+			                console.error("预选词加载失败", error);
+			            }
+			        }, 200); // 200ms防抖
+			    }
 			},
 			inputDate: function(e) {
 				// replace不用RegExp只会替换一次

@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -17,7 +18,7 @@
 					@input="inputData" />
 			</view>
 			<view>
-				<switch checked class="ux-pb-small" color="#114598" style="transform:scale(0.7);margin-left:-1vh;" @change="futureData"/>
+				<switch disabled class="ux-pb-small" color="#114598" style="transform:scale(0.7);margin-left:-1vh;" @change="futureData"/>
 				<text class="va">查询未来车次信息</text>
 			</view>
 			<button type="primary" style="background-color:#114598;color:#ffffff;" hover-class="ux-tap"
@@ -30,7 +31,7 @@
 			</view>
 			<br>
 			<view class="ux-flex ux-row ux-justify-content-center">
-				<text class="ux-text-small ux-opacity-4">—— 数据来源: CR-EMU-Tracker ——</text>
+				<text class="ux-text-small ux-opacity-4">—— 数据来源: RAIL.RE（临时） ——</text>
 			</view>
 		</view>
 	</view>

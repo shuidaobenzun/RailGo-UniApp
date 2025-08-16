@@ -1,4 +1,5 @@
 <template>
+	<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
 	<view class="ux-padding ux-bg-grey5" style="min-height: 100vh;">
 		<view class="ux-flex ux-space-between ux-align-items-center">
 			<view>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</view>
@@ -93,6 +94,54 @@
 </template>
 
 <script>
+async function check() {
+		if (uni.getStorageSync("jqok")){
+			return
+		}
+		try {
+			const Response = await uniGet("https://auth.railgo.zenglingkun.cn/api/check/" + uni.getStorageSync(
+				'version') + "?userid=" + uni.getStorageSync('qq') + "&key=" + uni.getStorageSync('key'));
+			if (Response.data.valid) {
+				uni.setStorageSync("AuthTime", new Date().getTime())
+				console.log("鉴权成功")
+				uni.showToast({
+					title: '鉴权成功',
+					position: 'bottom',
+				})
+				uni.setStorage({
+					key: 'jqok',
+					data: true
+				});
+			} else {
+				uni.showToast({
+					title: '鉴权无效',
+					position: 'bottom',
+				})
+				uni.setStorageSync("oobe", false)
+				uni.reLaunch({
+					url: '/pages/oobe/welcome'
+				})
+			}
+
+		} catch (error) {
+			if (checkTime(uni.getStorageSync("AuthTime"), new Date().getTime())) {
+				uni.showToast({
+					title: '鉴权超时，请重新鉴权',
+					position: 'bottom',
+				})
+				uni.setStorageSync("oobe", false)
+				uni.reLaunch({
+					url: '/pages/oobe/welcome'
+				})
+			} else {
+				console.log("无网络但未超时")
+				uni.showToast({
+					title: '离线鉴权成功',
+					position: 'bottom',
+				})
+			}
+		}
+	}
 	import uniGet from "@/scripts/req.js";
 	import {
 		loadDB
@@ -123,6 +172,10 @@
 			plus.navigator.setFullscreen(false);
 			plus.navigator.showSystemNavigation();
 			// #endif
+			// 鉴权
+			if (uni.getStorageSync("NeedAuth")) {
+				check()
+			}
 		},
 		methods: {
 			async fetchData() {

@@ -1,6 +1,7 @@
 <template>
 	<view class="ux-bg-grey6" style="min-height:100vh;">
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<uni-popup ref="next_add" type="dialog">
 			<uni-popup-dialog cancelText="取消" confirmText="继续" title="提示" content="需要现在下载离线数据库。"
 				@confirm="confirmDownloadNow"></uni-popup-dialog>
@@ -63,26 +64,32 @@
 		},
 methods: {
 			finish: function() {
-				if (this.checked == "network") {
+				if (this.checked == "local") {
 					this.$refs.message.open();
 					return
 				} else {
-					// #ifdef APP
-					uni.getNetworkType({
-						success: (res) => { // <--- 这里改为箭头函数
-							if (res.networkType === "none") {
-								this.$refs.error_no_internet.open();
-							} else if (res.networkType === "wifi" || res.networkType === "ethernet") {
-								this.$refs.next_add.open();
-							} else {
-								this.$refs.next_not_wifi.open();
-							}
-						}
-					});
-					// #endif
-					// #ifndef APP
-					this.$refs.next_add.open();
-					// #endif
+					uni.setStorageSync("mode", this.checked)
+					uni.setStorageSync("oobe", true)
+					uni.navigateTo({
+						url: '/pages/index/index'
+					})
+					
+					// // #ifdef APP
+					// uni.getNetworkType({
+					// 	success: (res) => { // <--- 这里改为箭头函数
+					// 		if (res.networkType === "none") {
+					// 			this.$refs.error_no_internet.open();
+					// 		} else if (res.networkType === "wifi" || res.networkType === "ethernet") {
+					// 			this.$refs.next_add.open();
+					// 		} else {
+					// 			this.$refs.next_not_wifi.open();
+					// 		}
+					// 	}
+					// });
+					// // #endif
+					// // #ifndef APP
+					// this.$refs.next_add.open();
+					// // #endif
 				}
 
 			},

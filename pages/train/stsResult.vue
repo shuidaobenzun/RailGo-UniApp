@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -228,10 +229,16 @@ import uniGet from "@/scripts/req";
 			        uni.showLoading({
 			            title: "加载中"
 			        });
-			        const resp = await uniGet(`http://127.0.0.1:5000/api/train/sts_query?from=${this.from}&to=${this.to}&date=${this.date}`);
+			        const resp = await uniGet(`https://data.railgo.zenglingkun.cn/api/train/sts_query?from=${this.from}&to=${this.to}&date=${this.date}`);
 			        const result = resp.data;
-			        if (resp.error) {
+					console.log(result)
+			        if (result.error) {
 			            uni.hideLoading();
+						const c = uni.getStorageSync("search");
+						uni.setStorage({
+							key: 'search',
+							data: c-1
+						});
 			            this.$refs.error_noky.open();
 			            return;
 			        }
@@ -244,17 +251,29 @@ import uniGet from "@/scripts/req";
 			        });
 			        if (toRaw(this.data).length == 0) {
 			            uni.hideLoading();
+						const c = uni.getStorageSync("search");
+						uni.setStorage({
+							key: 'search',
+							data: c-1
+						});
+						uni.hideLoading()
 			            this.$refs.error_nosuch.open();
 			            return;
 			        }
+					uni.hideLoading()
 			    } catch (error) {
+					uni.hideLoading()
 			        console.error("数据加载失败", error);
+					const c = uni.getStorageSync("search");
+					uni.setStorage({
+						key: 'search',
+						data: c-1
+					});
 			        uni.showToast({
 			            title: "加载失败",
 			            duration: 1000
 			        });
 			    }
-			    uni.hideLoading();
 			},
 			calculateTimeDifference: function(startTime, endTime, daysLater) {
 				const parseTime = (timeStr) => {

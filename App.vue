@@ -1,7 +1,7 @@
 <script>
-	const nauth = false;
-	const version = "1.0.0 Pre 2"
-	const version_number = 1
+	const nauth = true;
+	const version = "1.0.0 Pre 2 Online"
+	const version_number = 2
 	import uniGet from "./scripts/req";
 	// UXUI INIT
 	import {
@@ -14,6 +14,9 @@
 		return difference > interval;
 	}
 	async function check() {
+		if (uni.getStorageSync("jqok")){
+			return
+		}
 		try {
 			const Response = await uniGet("https://auth.railgo.zenglingkun.cn/api/check/" + uni.getStorageSync(
 				'version') + "?userid=" + uni.getStorageSync('qq') + "&key=" + uni.getStorageSync('key'));
@@ -24,6 +27,10 @@
 					title: '鉴权成功',
 					position: 'bottom',
 				})
+				uni.setStorage({
+					key: 'jqok',
+					data: true
+				});
 			} else {
 				uni.showToast({
 					title: '鉴权无效',
@@ -65,6 +72,10 @@
 			uni.setStorage({
 				key: 'beta',
 				data: true
+			});
+			uni.setStorage({
+				key: 'jqok',
+				data: false
 			});
 			if (value) {
 				uni.setStorage({
@@ -119,6 +130,10 @@
 				uni.setStorage({
 					key: 'search',
 					data: 0
+				});
+				uni.setStorage({
+					key: 'Funnyegg',
+					data: false
 				});
 
 			}

@@ -1,13 +1,14 @@
 <template>
 	<view class="ux-bg-grey5" style="height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
 			</view>
 			<br>
-			<text class="ux-h2">贡献</text>
+			<text class="ux-h2">鸣谢</text>
 		</view>
 		<!-- headers end -->
 
@@ -57,6 +58,17 @@
 						style="width:100rpx;height:100rpx;border-radius:50%;"></image>
 					<br>
 					<text class="ux-text-small">bcdt</text>
+				</view>
+			</view>
+		</view>
+		<view class="ux-pl ux-pr">
+			<uni-section title="其他" type="line" style="background-color: transparent;"
+				title-font-size="35rpx"></uni-section>
+			<view class="ux-flex ux-space-around ux-justify-content-center">
+				<view class="ux-text-center ux-pl ux-pr">China EMU <br> 动车组萌化车头图
+				</view>
+				<view class="ux-text-center ux-pl ux-pr">
+					慈云数据 <br> 提供云计算支持
 				</view>
 			</view>
 		</view>

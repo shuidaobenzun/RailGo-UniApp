@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 50rpx;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -23,27 +24,27 @@
 						<uni-th align="left">车组</uni-th>
 				</uni-tr>
 					<uni-tr v-for="(item,index) in data" :key="index">
-						<uni-td>{{item.runDate}}</uni-td>
+						<uni-td>{{item.date}}</uni-td>
 						<uni-td>
 							<navigator :url="getTrainNavigatorURL(item)">
-								{{item.trainNum.join("/")}}
+								{{item.train_no}}
 							</navigator>
 						</uni-td>
 						<uni-td>
 							<navigator :url="getCarNavigatorURL(item, 0)">
-								{{item.trainCode[0]}}
+								{{item.emu_no}}
 							</navigator>
-							<view v-if="item.trainCode[1]!=undefined">
+<!-- 							<view v-if="item.emu_no!=undefined">
 								<navigator :url="getCarNavigatorURL(item, 1)">
-									{{item.trainCode[1]}}
+									{{item.emu_no}}
 								</navigator>
-							</view>
+							</view> -->
 						</uni-td>
 					</uni-tr>
 			</uni-table>
 			<br>
 			<view class="ux-flex ux-row ux-justify-content-center">
-				<text class="ux-text-small ux-opacity-4">—— 数据来源: CR-EMU-Tracker ——</text>
+				<text class="ux-text-small ux-opacity-4">—— 数据来源: RAIL.RE（临时） ——</text>
 			</view>
 		</view>
 	</view>
@@ -63,6 +64,11 @@
 			this.keyword = options.keyword;
 			this.future = options.future;
 			this.fillInData();
+			const c = uni.getStorageSync("search");
+			uni.setStorage({
+				key: 'search',
+				data: c+1
+			});
 			uni.showLoading({
 				title:"加载中"
 			});
@@ -75,24 +81,38 @@
 				uni.navigateBack()
 			},
 			fillInData: async function() {
-				try {
-					const response = await uniGet("https://crtracker.azteam.cn/api/query?keyword=" + this.keyword +
-						"&future=" + this.future);
-					this.data=response.data.data;
-					uni.hideLoading();
-				} catch (error) {
-					console.error("数据加载失败", error);
-					uni.showToast({
-						title:"加载失败",
-						duration:1000
-					});
-				}
+			    try {
+			        uni.showLoading({ title: '加载中...' }); // 建议添加加载状态
+			        
+			        // 安全获取keyword，默认为空字符串
+			        const keyword = this.keyword || "";
+			        
+			        // 使用三元运算符确定t的值
+			        const t = keyword.includes("CR") ? "emu" : "train";
+			        
+			        // 确保URL有效
+			        const apiUrl = `https://api.rail.re/${t}/${encodeURIComponent(keyword)}`;
+			        
+			        const response = await uniGet(apiUrl);
+			        this.data = response.data;
+			        console.log("数据加载成功", this.data);
+			        
+			    } catch (error) {
+			        console.error("数据加载失败", error);
+			        uni.showToast({
+			            title: "加载失败",
+			            icon: "none",
+			            duration: 1000
+			        });
+			    } finally {
+			        uni.hideLoading(); // 确保无论成功失败都隐藏loading
+			    }
 			},
 			getTrainNavigatorURL: function(item){
-				return '/pages/emu/result?keyword='+item.trainNum[0]+'&future='+this.future;
+				return '/pages/emu/result?keyword='+item.train_no+'&future='+this.future;
 			},
 			getCarNavigatorURL: function(item, index){
-				return '/pages/emu/result?keyword='+item.trainCode[index]+'&future='+this.future;
+				return '/pages/emu/result?keyword='+item.emu_no+'&future='+this.future;
 			}
 		}
 	}

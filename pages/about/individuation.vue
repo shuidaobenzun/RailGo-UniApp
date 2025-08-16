@@ -10,7 +10,6 @@
 		</view>
 		<view class="ux-pl ux-pr">
 			<uni-section type="line" style="background-color: transparent;" title-font-size="35rpx" title="图标"></uni-section>
-			<uni-icons type="help" size="25" color="black" @click="showIconHelp"></uni-icons>
 			<view class="icon-flex-container">
 				<view class="icon-item">
 					<image mode="scaleToFill" src="/static/icons/rg-crh.png"></image>
@@ -53,7 +52,6 @@
 						{{ nowIcon === 'purple' ? '已使用' : (searchUnlock1 ? '使用' : '未解锁') }}
 					</button>
 				</view>
-
 				<view class="icon-item">
 					<image mode="scaleToFill" :src="'/static/icons/rg-passion.png'"
 						:class="{'grayscale': !searchUnlock2}"></image>
@@ -72,10 +70,8 @@
 	import { getSwitchList, switchIcons, restoreIcons } from "@/uni_modules/ima-icons";
 	// #endif
 	import uniGet from "@/scripts/req.js";
-	// 移除 uni-icons 的显式导入
 
 	export default {
-		// 移除 components 注册
 		data() {
 			return {
 				items: [],
@@ -100,6 +96,7 @@
 				this.searchUnlock2 = this.search >= 100;
 			},
 			selectIcon(iconName) {
+				
 				console.log('你选择了图标：' + iconName);
 				uni.setStorage({
 					"key": "nowIcon",
@@ -109,7 +106,7 @@
 				// #ifdef APP
 				d = switchIcons(iconName);
 				uni.showToast({
-					title: d.message,
+					title: "切换成功！",
 					icon: 'none'
 				});
 				// #endif

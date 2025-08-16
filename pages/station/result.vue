@@ -1,7 +1,8 @@
 <template>
 	<view class="ux-bg-grey5" style="min-height:100vh;">
 		<!-- headers begin -->
-		<view class="ux-bg-primary">&nbsp;</view>
+		<view class="ux-bg-primary" style="height: 25px;">&nbsp;</view>
+
 		<view class="ux-padding">
 			<view hover-class="ux-bg-grey8" @click="back">
 				<text class="icon" style="font-size: 45rpx;">&#xe5c4;</text>
@@ -25,7 +26,7 @@
 				</view>
 				<view class="ux-flex ux-space-between ux-color-white ux-pt-small ux-pb-small ux-pl ux-pr ux-text-small"
 					style="border-bottom-left-radius:10rpx;border-bottom-right-radius:10rpx;"
-					:style="'background-color:'+(this.data.type.includes('客')?'#114598':'#eeba67')">
+					:style="'background-color:'+(Array.isArray(this.data.type) && this.data.type.includes('客') ? '#114598' : '#eeba67')">
 					<text>{{this.data.pinyinTriple}}/-{{this.data.telecode}}</text>
 					<text>{{this.data.bureau}} {{this.data.belong}}辖</text>
 				</view>
@@ -78,29 +79,21 @@
 											<text class="consolas"
 												style="font-size:40rpx;">{{item.numberKind}}{{item.numberFull.join("/").replaceAll(item.numberKind, "")}}</text>
 											<br>
-											<text class="ux-text-small">{{item.timetable[0].station}} ⋙
-												{{item.timetable[item.timetable.length -1].station}}</text>
+											<text class="ux-text-small">{{item.fromStation.station}} ⋙ {{item.toStation.station}}</text>
 										</view>
 										<view class="ux-flex" style="padding-top:8rpx;">
 											<view class="ux-text-center ux-mr-small" style="min-width:80rpx">
-												<text class="ux-text"
-													v-if="item.timetable[0].stationTelecode != this.keyword">{{item.timetable[item.indexStopThere].arrive}}</text>
-												<text class="ux-text"
-													v-if="item.timetable[0].stationTelecode == this.keyword">--:--</text>
+												<text class="ux-text">{{item.arrive || '--:--'}}</text>
 												<br>
 												<text class="ux-text-small ux-opacity-5">到达</text>
 											</view>
 											<view class="ux-text-center ux-mr-small" style="min-width:80rpx">
-												<text class="ux-text"
-													v-if="item.timetable[item.timetable.length - 1].stationTelecode != this.keyword">{{item.timetable[item.indexStopThere].depart}}</text>
-												<text class="ux-text"
-													v-if="item.timetable[item.timetable.length - 1].stationTelecode == this.keyword">--:--</text>
+												<text class="ux-text">{{item.depart || '--:--'}}</text>
 												<br>
 												<text class="ux-text-small ux-opacity-5">出发</text>
 											</view>
 											<view class="ux-text-center">
-												<text
-													class="ux-text">{{item.timetable[item.indexStopThere].stopTime}}'</text>
+												<text class="ux-text">{{item.stopTime || '-'}}</text>
 												<br>
 												<text class="ux-text-small ux-opacity-5">停车</text>
 											</view>
@@ -283,18 +276,38 @@ import uniGet from "../../scripts/req";
 				uni.showLoading({
 					title:"加载中"
 				});
-			    // 远程API请求
-			    const resp = await uniGet(`http://127.0.0.1:5000/api/station/query?telecode=${this.keyword}`);
-			    const result = resp.data;
-			    this.data = result.data || {};
-			    this.trains = result.trains || [];
-	
-			    this.radioSortChange({
-			        detail: {
-			            value: "departure"
-			        }
-			    });
-				uni.hideLoading()
+				try {
+					const resp = await uniGet(`http://127.0.0.1:5000/api/station/query?telecode=${this.keyword}`);
+					const result = resp.data;
+					if (result.error) {
+						uni.showToast({
+							title: '车站不存在',
+							icon: 'error'
+						});
+						const c = uni.getStorageSync("search");
+						uni.setStorage({
+							key: 'search',
+							data: c-1
+						});
+						uni.hideLoading();
+						uni.navigateBack();
+						return;
+					}
+					this.data = result.data || {};
+					this.trains = result.trains || [];
+					this.radioSortChange({
+						detail: {
+							value: "departure"
+						}
+					});
+				} catch (error) {
+					uni.showToast({
+						title: '加载失败',
+						icon: 'error'
+					});
+					console.error("车站数据加载失败", error);
+				}
+				uni.hideLoading();
 			},
 			tabChange: function(e) {
 				this.selectIndex = e.index;
@@ -310,42 +323,19 @@ import uniGet from "../../scripts/req";
 				switch (e.detail.value) {
 					case "stop":
 						this.showTrains = this.trains.sort((a, b) => {
-							if (a.timetable[a.indexStopThere].stopTime > b.timetable[b.indexStopThere]
-								.stopTime) {
-								return 1;
-							}
-							if (a.timetable[a.indexStopThere].stopTime < b.timetable[b.indexStopThere]
-								.stopTime) {
-								return -1;
-							}
-							return 0;
+							return (parseInt(a.stopTime) || 0) - (parseInt(b.stopTime) || 0);
 						});
 						break;
-
 					case "departure":
 						this.showTrains = this.trains.sort((a, b) => {
-							if (a.timetable[a.indexStopThere].depart > b.timetable[b.indexStopThere].depart) {
-								return 1;
-							}
-							if (a.timetable[a.indexStopThere].depart < b.timetable[b.indexStopThere].depart) {
-								return -1;
-							}
-							return 0;
+							return (a.depart || '').localeCompare(b.depart || '');
 						});
 						break;
-
 					case "arrival":
 						this.showTrains = this.trains.sort((a, b) => {
-							if (a.timetable[a.indexStopThere].arrive > b.timetable[b.indexStopThere].arrive) {
-								return 1;
-							}
-							if (a.timetable[a.indexStopThere].arrive < b.timetable[b.indexStopThere].arrive) {
-								return -1;
-							}
-							return 0;
+							return (a.arrive || '').localeCompare(b.arrive || '');
 						});
 						break;
-
 					default:
 						console.log("WHAT THE FUCK R U DOING?");
 				}
@@ -360,16 +350,21 @@ import uniGet from "../../scripts/req";
 			radioSourceChange: function(e) {
 				this.filterSourceState = e.detail.value.join("");
 				this.showTrains = this.trains.filter((i) => {
+					const fromCode = i.fromStation?.stationTelecode || '';
+					const toCode = i.toStation?.stationTelecode || '';
+					// P: 过路（既不是始发也不是终到）
+					// D: 本站始发
+					// A: 本站终到
 					return (
-						(i.timetable[0].stationTelecode != this.keyword && i.timetable[i.timetable.length -
-							1].stationTelecode != this.keyword && this.filterSourceState.includes("P")) ||
-						(i.timetable[0].stationTelecode == this.keyword && this.filterSourceState.includes(
-							"D")) ||
-						(i.timetable[i.timetable.length - 1].stationTelecode == this.keyword && this
-							.filterSourceState.includes("A"))
+						(fromCode !== this.keyword && toCode !== this.keyword && this.filterSourceState.includes("P")) ||
+						(fromCode === this.keyword && this.filterSourceState.includes("D")) ||
+						(toCode === this.keyword && this.filterSourceState.includes("A"))
 					);
 				});
 			}
 		}
 	}
 </script>
+<!-- 只需确保页面组件没有 props 未声明的属性，且路由参数只在 onLoad(options) 里用，不在模板或组件标签上传递 -->
+<!-- 不需要任何 <Result keyword="xxx"> 这样的标签，也不要在 <navigator> 或其它标签上传递 keyword 属性 -->
+<!-- 保持如下写法即可，无需 keyword 属性 -->
