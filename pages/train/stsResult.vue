@@ -77,6 +77,10 @@
 					</view>
 				</view>
 			</navigator>
+			<br>
+			<view class="ux-flex ux-row ux-justify-content-center">
+				<text class="ux-text-small ux-opacity-4">—— 数据来源: RailGo.Parser ——</text>
+			</view>
 		</view>
 	</view>
 	<uni-popup ref="error_noky" border-radius="10rpx 10rpx 0 0">
@@ -231,7 +235,6 @@ import uniGet from "@/scripts/req";
 			        });
 			        const resp = await uniGet(`https://data.railgo.zenglingkun.cn/api/train/sts_query?from=${this.from}&to=${this.to}&date=${this.date}`);
 			        const result = resp.data;
-					console.log(result)
 			        if (result.error) {
 			            uni.hideLoading();
 						const c = uni.getStorageSync("search");

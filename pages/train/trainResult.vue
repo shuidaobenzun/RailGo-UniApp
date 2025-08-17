@@ -243,14 +243,15 @@
 					:highlighted-dates="(()=>{var l=[]; (carData.rundays || []).forEach((i)=>{l.push({date: i.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3'), bgColor: '#114598'});});return l;})()">
 				</calendar>
 				<view class="ux-flex ux-space-between ux-pt-small">
-					<text class="ux-text-small ux-opacity-4">*实际开行请以站车公告为准</text>
+					<text class="ux-text-small ux-opacity-4">*实际开行请以车站公告为准</text>
 					<view class="ux-flex ux-align-items-center ux-nowrap">
 						<view class="ux-bg-primary ux-padding-small" style="width:0.2vh;height:0.2vh;"></view>
 						<text>&nbsp;当日开行</text>
 					</view>
 				</view>
+				
 			</view>
-
+			
 			<view class="ux-padding ux-text-center" v-if="selectIndex==2">
 				<text>暂未开放，敬请期待</text>
 			</view>

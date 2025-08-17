@@ -105,6 +105,10 @@
 				style="background-color:#e9eef5;border:1px solid #114598;border-radius:10rpx;color:#114598;">
 				<text class="ux-bold">信息仅供参考 请以铁路运营企业实际运用为准</text>
 			</view>
+			<br>
+			<view class="ux-flex ux-row ux-justify-content-center">
+				<text class="ux-text-small ux-opacity-4">—— 数据来源: RailGo.Parser ——</text>
+			</view>
 		</view>
 	</view>
 </template>

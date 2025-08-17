@@ -65,7 +65,7 @@
 						<br>
 					</view>
 					<navigator v-for="(item,index) in showTrains" :key="index"
-						:url="'/pages/train/trainResult?keyword='+item.number+'&date='+new Date().toISOString().slice(0, 10).replaceAll('-', '')">
+											:url="'/pages/train/trainResult?keyword='+item.number+'&date='+new Date().toISOString().slice(0, 10).replace(/-/g, '')">
 						<view class="ux-bg-white ux-border-radius ux-mt-small ux-flex">
 							<view style="border-bottom-left-radius: 10rpx; border-top-left-radius:10rpx;"
 								:style="'background-color:'+colorMap[item.number[0]]">
@@ -76,8 +76,9 @@
 								<view style="width:calc(100% - 60rpx);">
 									<view class="ux-flex ux-space-between">
 										<view>
-											<text class="consolas"
-												style="font-size:40rpx;">{{item.numberKind}}{{item.numberFull.join("/").replaceAll(item.numberKind, "")}}</text>
+											<text class="consolas" style="font-size:40rpx;">
+												{{item.numberKind}}{{item.numberFull.join("/").replace(new RegExp(item.numberKind, 'g'), "")}}
+											</text>
 											<br>
 											<text class="ux-text-small">{{item.fromStation.station}} ⋙ {{item.toStation.station}}</text>
 										</view>
@@ -108,6 +109,10 @@
 				</view>
 				<view v-if="this.trains.length==0">
 					<view class="ux-padding ux-text-center">本站不办理客运业务或无列车停靠</view>
+				</view>
+				<br>
+				<view class="ux-flex ux-row ux-justify-content-center">
+					<text class="ux-text-small ux-opacity-4">—— 数据来源: RailGo.Parser ——</text>
 				</view>
 			</view>
 
@@ -277,7 +282,7 @@ import uniGet from "../../scripts/req";
 					title:"加载中"
 				});
 				try {
-					const resp = await uniGet(`http://127.0.0.1:5000/api/station/query?telecode=${this.keyword}`);
+					const resp = await uniGet(`https://data.railgo.zenglingkun.cn/api/station/query?telecode=${this.keyword}`);
 					const result = resp.data;
 					if (result.error) {
 						uni.showToast({
@@ -306,6 +311,9 @@ import uniGet from "../../scripts/req";
 						icon: 'error'
 					});
 					console.error("车站数据加载失败", error);
+					// #ifdef APP-PLUS
+					plus.nativeUI.alert("调试错误：" + error);
+					// #endif
 				}
 				uni.hideLoading();
 			},
@@ -365,6 +373,3 @@ import uniGet from "../../scripts/req";
 		}
 	}
 </script>
-<!-- 只需确保页面组件没有 props 未声明的属性，且路由参数只在 onLoad(options) 里用，不在模板或组件标签上传递 -->
-<!-- 不需要任何 <Result keyword="xxx"> 这样的标签，也不要在 <navigator> 或其它标签上传递 keyword 属性 -->
-<!-- 保持如下写法即可，无需 keyword 属性 -->

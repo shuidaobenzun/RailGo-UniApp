@@ -19,7 +19,7 @@
 			</view>
 			<view class="center">
 				<swiper vertical autoplay interval="2500" duration="300" circular>
-					<swiper-item v-for="(item, index) in items" :key="index" style="font-size: 12rpx;"
+					<swiper-item v-for="(item, index) in items" :key="index" style="font-size: 24rpx;"
 						class="ux-pl-small ux-opacity-8">
 						{{ item }}
 					</swiper-item>
